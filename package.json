@@ -7,9 +7,13 @@
     "dump": "dump-stlite-desktop-artifacts",
     "serve": "cross-env NODE_ENV=development electron ./build/electron/main.js",
     "app:dir": "electron-builder --dir",
-    "app:dist": "electron-builder --publish=never"
+    "app:dist": "electron-builder --publish=never",
+    "app:dist:mac": "electron-builder --mac --publish=never",
+    "app:dist:win": "electron-builder --win --publish=never",
+    "app:dist:all": "electron-builder -mwl --publish=never"
   },
   "devDependencies": {
+    "@electron/notarize": "^2.5.0",
     "@stlite/desktop": "^0.75.0",
     "cross-env": "^7.0.3",
     "electron": "^33.0.0",
@@ -41,9 +45,13 @@
     "directories": {
       "buildResources": "assets"
     },
+    "afterSign": "./scripts/notarize.js",
     "mac": {
       "target": ["dmg", "zip"],
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist"
     },
     "win": {
       "target": ["nsis", "portable"],
