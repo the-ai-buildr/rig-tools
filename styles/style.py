@@ -3,43 +3,40 @@ import streamlit as st
 def apply_custom_css():
     return st.markdown("""
         <style>
+        /* Main block container padding */
         div[data-testid="stMainBlockContainer"].block-container {
-            padding-top: 40px !important;
+            padding-top: 20px !important;
             padding-right: 20px !important;
             padding-left: 20px !important;
             padding-bottom: 40px !important;
         }
+
+        /* Sidebar content padding */
+        div[data-testid="stSidebarContent"] {
+            padding-top: 0px !important;
+            padding-right: 10px !important;
+            padding-left: 10px !important;
+            padding-bottom: 10px !important;
+        }
+
+        /* Sidebar header padding */
         div[data-testid="stSidebarHeader"] {
             height: 20px !important;
             min-height: 20px !important;
-            padding-top: 8px !important;
-            padding-right: 8px !important;
-            padding-left: 8px !important;
-            padding-bottom: 8px !important;
+            padding-top: 10px !important;
+            padding-right: 10px !important;
+            padding-left: 10px !important;
+            padding-bottom: 10px !important;
         }
-        div[data-testid="stSidebarHeader"] > div {
-            transform: translateY(10px) !important;
-        }
-        div[data-testid="stSidebarHeader"] span[data-testid="stIconMaterial"] {
-            transform: translateY(10px) !important;
-        }
-        div[data-testid="stSidebarCollapseButton"] {
-            transform: translateY(10px) !important;
-            margin-top: 5px !important;
-            margin-right: 10px !important;
-        }
-        div[data-testid="stSidebarCollapseButton"] button,
-        div[data-testid="stSidebarCollapseButton"] span[data-testid="stIconMaterial"] {
-            transform: translateY(-10px) !important;
-        }
+
+        /* Main block container */
         div[data-testid="stMainBlockContainer"] {
             padding: 20px !important;
         }
+
+        /* Main section block container */
         section[data-testid="stMain"] .block-container {
             padding: 30px !important;
-        }
-        .stFileUploader {
-            margin-top: -10px !important;
         }
         </style>
         """, unsafe_allow_html=True)
