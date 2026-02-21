@@ -1,31 +1,40 @@
 """
 Template page — copy this file to build new calculator pages.
 
-Rename the file (e.g., 02_mud_weight.py) and update the title,
-inputs, and calculation logic below.
+Rename the file (e.g., 02_mud_weight.py), update the title,
+inputs, and calculation logic. Add the new page to app.py and
+to the NAV_PAGES list below.
 """
+
+import sys
+from pathlib import Path
+
+_project_root = Path(__file__).resolve().parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
 
 import streamlit as st
 import numpy as np
-from styles.style import apply_custom_css
+from styles.style import nav_bar
 
-apply_custom_css()
+# ---------------------------------------------------------------------------
+# Navigation — keep in sync with app.py and other pages
+# ---------------------------------------------------------------------------
+NAV_PAGES = [
+    ("🏠 Home", "pages/01_home.py"),
+    ("📐 Template", "pages/00_template.py"),
+]
+nav_bar(NAV_PAGES)
 
-# Page config
-# st.set_page_config(
-#     page_title="Template | Rig Tools", 
-#     page_icon="🛢️", 
-#     layout="wide"
-# )
-
+# ---------------------------------------------------------------------------
+# Page content
+# ---------------------------------------------------------------------------
 st.title("Template Calculator")
 st.caption("Copy this page as a starting point for new calculators.")
 
 st.divider()
 
-# ---------------------------------------------------------------------------
-# Sidebar — inputs
-# ---------------------------------------------------------------------------
+# ── Sidebar — inputs ────────────────────────────────────────────────────────
 with st.sidebar:
     st.header("Inputs")
 
@@ -49,35 +58,26 @@ with st.sidebar:
 
     calculate = st.button("Calculate", type="primary", use_container_width=True)
 
-# ---------------------------------------------------------------------------
-# Main area — results
-# ---------------------------------------------------------------------------
+# ── Main area — results ─────────────────────────────────────────────────────
 if calculate:
-    # Replace this block with real calculation logic
     result = value_a * value_b
 
     st.subheader("Results")
     col1, col2, col3 = st.columns(3)
-
     with col1:
         st.metric("Result", f"{result:.2f}", help="Value A × Value B")
-
     with col2:
         st.metric("Value A", f"{value_a:.2f}")
-
     with col3:
         st.metric("Value B", f"{value_b:.2f}")
 
     st.divider()
 
-    # Example chart — replace with something meaningful
     st.subheader("Chart")
     x = np.linspace(0, value_a, 100)
     y = x * value_b
-    chart_data = {"x": x, "y": y}
-    st.line_chart(chart_data, x="x", y="y")
+    st.line_chart({"x": x, "y": y}, x="x", y="y")
 
-    # Notes / formula reference
     with st.expander("Formula Reference"):
         st.markdown(
             """

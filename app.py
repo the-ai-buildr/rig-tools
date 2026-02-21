@@ -1,5 +1,4 @@
 import streamlit as st
-from styles.style import apply_custom_css
 
 st.set_page_config(
     page_title="Rig Tools",
@@ -8,20 +7,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-apply_custom_css()
+# Define all pages — position="hidden" suppresses the default sidebar nav list.
+# Each st.Page maps a label to a file in pages/.
+home_page = st.Page("pages/01_home.py", title="Home", icon="🏠", default=True)
+template_page = st.Page("pages/00_template.py", title="Template", icon="📐")
 
-st.title("🛢️ Rig Tools")
-st.markdown("Oilfield drilling calculators — select a tool from the sidebar.")
+pg = st.navigation(
+    [home_page, template_page],
+    position="hidden",
+)
 
-st.divider()
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.info("**Mud Weight & Pressure**\nHydrostatic pressure, ECD, ESD, surge & swab.")
-
-with col2:
-    st.info("**Hydraulics**\nPump output, annular velocity, pressure drop.")
-
-with col3:
-    st.info("**More tools coming soon...**\nDrill string, hole geometry, cementing.")
+pg.run()
