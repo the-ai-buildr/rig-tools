@@ -21,8 +21,8 @@ from styles.style import nav_bar
 # Navigation — keep in sync with app.py and other pages
 # ---------------------------------------------------------------------------
 NAV_PAGES = [
-    ("🏠 Home", "pages/01_home.py"),
-    ("📐 Template", "pages/00_template.py"),
+    ("🏠 Home", "page/01_home.py"),
+    ("📐 Template", "page/00_template.py"),
 ]
 nav_bar(NAV_PAGES)
 

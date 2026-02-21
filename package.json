@@ -25,8 +25,9 @@
       "files": [
         "app.py",
         "styles/*.py",
-        "pages/*.py",
+        "page/*.py",
         "calcs/*.py",
+        "utils/*.py",
         "data/*"
       ],
       "dependencies": [
