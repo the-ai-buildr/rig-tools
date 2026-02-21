@@ -1,4 +1,5 @@
 import streamlit as st
+from styles.style import apply_custom_css
 
 st.set_page_config(
     page_title="Rig Tools",
@@ -6,6 +7,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+apply_custom_css()
 
 st.title("🛢️ Rig Tools")
 st.markdown("Oilfield drilling calculators — select a tool from the sidebar.")

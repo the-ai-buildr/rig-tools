@@ -7,13 +7,16 @@ inputs, and calculation logic below.
 
 import streamlit as st
 import numpy as np
+from styles.style import apply_custom_css
+
+apply_custom_css()
 
 # Page config
-st.set_page_config(
-    page_title="Template | Rig Tools", 
-    page_icon="🛢️", 
-    layout="wide"
-)
+# st.set_page_config(
+#     page_title="Template | Rig Tools", 
+#     page_icon="🛢️", 
+#     layout="wide"
+# )
 
 st.title("Template Calculator")
 st.caption("Copy this page as a starting point for new calculators.")

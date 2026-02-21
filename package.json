@@ -24,6 +24,7 @@
       "entrypoint": "app.py",
       "files": [
         "app.py",
+        "styles/*.py",
         "pages/*.py",
         "calcs/*.py",
         "data/*"
