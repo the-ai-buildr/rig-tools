@@ -1,0 +1,53 @@
+{
+  "name": "rig-tools",
+  "version": "0.1.0",
+  "description": "Oilfield drilling calculators — desktop app powered by stlite",
+  "main": "./build/electron/main.js",
+  "scripts": {
+    "dump": "dump-stlite-desktop-artifacts",
+    "serve": "cross-env NODE_ENV=development electron ./build/electron/main.js",
+    "app:dir": "electron-builder --dir",
+    "app:dist": "electron-builder --publish=never"
+  },
+  "devDependencies": {
+    "@stlite/desktop": "^0.75.0",
+    "cross-env": "^7.0.3",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "stlite": {
+    "desktop": {
+      "entrypoint": "app.py",
+      "files": [
+        "app.py",
+        "pages/*.py",
+        "calcs/*.py",
+        "data/*"
+      ],
+      "dependencies": [
+        "numpy",
+        "pandas",
+        "plotly",
+        "plotly-express"
+      ],
+      "embed": false,
+      "nodeJsWorker": true
+    }
+  },
+  "build": {
+    "appId": "com.theaibuildr.rig-tools",
+    "productName": "Rig Tools",
+    "files": ["build/**/*"],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "assets/icon.ico"
+    }
+  }
+}
