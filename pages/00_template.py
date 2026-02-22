@@ -1,33 +1,25 @@
-"""
-Template page — copy this file to build new calculator pages.
-
-Rename the file (e.g., 02_mud_weight.py) and update the title,
-inputs, and calculation logic below.
-"""
-
 import streamlit as st
 import numpy as np
 from styles.style import apply_custom_css
+from components.comp_page_header import page_header
+
+# Set page config
+st.set_page_config(
+    page_title="Template",
+    page_icon="material/draft",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 apply_custom_css()
-
-# Page config
-# st.set_page_config(
-#     page_title="Template | Rig Tools", 
-#     page_icon="🛢️", 
-#     layout="wide"
-# )
-
-st.title("Template Calculator")
-st.caption("Copy this page as a starting point for new calculators.")
-
-st.divider()
+page_header("Template", ":material/draft:")
 
 # ---------------------------------------------------------------------------
 # Sidebar — inputs
 # ---------------------------------------------------------------------------
 with st.sidebar:
     st.header("Inputs")
+    st.markdown("---")
 
     unit_system = st.radio("Unit System", ["Oilfield", "SI"], horizontal=True)
 

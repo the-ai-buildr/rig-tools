@@ -1,35 +1,24 @@
-"""
-Template page — copy this file to build new calculator pages.
-
-Rename the file (e.g., 02_mud_weight.py) and update the title,
-inputs, and calculation logic below.
-"""
-
 import sys
 from pathlib import Path
+import streamlit as st
+import numpy as np
+from styles.style import apply_custom_css
+from components.comp_page_header import page_header
+
+# Set page config
+st.set_page_config(
+    page_title="Home",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 # Add project root so styles can be imported (needed for Streamlit multipage / Pyodide)
 _project_root = Path(__file__).resolve().parent.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
-import streamlit as st
-import numpy as np
-from styles.style import apply_custom_css
-
 apply_custom_css()
-
-# Page config
-# st.set_page_config(
-#     page_title="Template | Rig Tools", 
-#     page_icon="🛢️", 
-#     layout="wide"
-# )
-
-st.title("Template Calculator")
-st.caption("Copy this page as a starting point for new calculators.")
-
-st.divider()
+page_header("Home", ":material/home:")
 
 # ---------------------------------------------------------------------------
 # Sidebar — inputs

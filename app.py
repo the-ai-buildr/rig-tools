@@ -1,19 +1,17 @@
 import streamlit as st
 from styles.style import apply_custom_css
+from components.comp_page_header import page_header
 
+# Set page config
 st.set_page_config(
     page_title="Rig Tools",
-    page_icon="🛢️",
+    page_icon="assets/eng_man.png",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 apply_custom_css()
-
-st.title("🛢️ Rig Tools")
-st.markdown("Oilfield drilling calculators — select a tool from the sidebar.")
-
-st.divider()
+page_header("Rig Tools", ":material/handyman:")
 
 col1, col2, col3 = st.columns(3)
 
