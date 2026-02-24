@@ -13,7 +13,6 @@ st.set_page_config(
     page_title="Digital Stamp",
     page_icon="material/approval",
     layout="wide",
-    # initial_sidebar_state="collapsed",
 )
 
 

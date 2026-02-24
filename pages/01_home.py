@@ -7,14 +7,14 @@ from components.comp_page_layout import (
     sidebar_header, sidebar_content,
     horizontal_rule 
     )
+from sections.home.cards import home_page_cards
 
 # ---------------------------------------------------------------------------
 # Page - config
 # ---------------------------------------------------------------------------
 st.set_page_config(
         page_title="Home",
-        layout="wide",
-        initial_sidebar_state="collapsed",
+        layout="wide"
     )
 
 # ---------------------------------------------------------------------------
@@ -60,5 +60,11 @@ cont = st.container()
 
 
 page_header("Home", ":material/home:")
+
+home_page_cards()
+
+
+
+
 
 # page_content(cont) # Use if build components in another file or section
