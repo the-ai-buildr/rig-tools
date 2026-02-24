@@ -1,10 +1,14 @@
 import streamlit as st
+import pandas as pd
 import numpy as np
-from styles.style import apply_custom_css
-from components.comp_page_header import page_header
-from components.comp_sidebar_header import sidebar_header 
+from textwrap import dedent 
+from components.comp_page_layout import (
+    page_header, page_content, nav_menu,
+    sidebar_header, sidebar_content )
 
-# Set page config
+# ---------------------------------------------------------------------------
+# Page - config
+# ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Digital Stamp",
     page_icon="material/approval",
@@ -12,14 +16,12 @@ st.set_page_config(
     # initial_sidebar_state="collapsed",
 )
 
-apply_custom_css()
-page_header("Digital Stamp", ":material/approval:")
 
 # ---------------------------------------------------------------------------
 # Sidebar — inputs
 # ---------------------------------------------------------------------------
 with st.sidebar:
-    sidebar_header("Input Fields")
+    sidebar_header("Rig Tools", icon=":material/handyman:")
 
     rigs = ["HP 643","HP 637","HP 604"]
     wells = ["Example Well 1", "Example Well 2", "Example Well 3"]
@@ -30,6 +32,9 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Main area — results
 # ---------------------------------------------------------------------------
+cont = st.container()
 
-    # Example chart — replace with something meaningful
-   
+
+page_header("Digital Stamp", ":material/approval:")
+
+# page_content(cont) # Use if build components in another file or section

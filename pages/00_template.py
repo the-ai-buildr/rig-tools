@@ -1,7 +1,11 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-from components.comp_page_header import page_header
+import numpy as np
+from textwrap import dedent 
+from components.comp_page_layout import (
+    page_header, page_content, 
+    sidebar_header, sidebar_content )
+
 
 # Set page config
 st.set_page_config(
@@ -11,12 +15,14 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-page_header("Template", ":material/draft:")
 
 # ---------------------------------------------------------------------------
 # Sidebar — inputs
 # ---------------------------------------------------------------------------
-
+with st.sidebar:
+    sidebar_header("Input Fields")
 # ---------------------------------------------------------------------------
 # Main area — results
 # ---------------------------------------------------------------------------
+
+page_header("Page Template", ":material/draft:")
