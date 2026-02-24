@@ -1,17 +1,18 @@
 import streamlit as st
-from styles.style import apply_custom_css
+from utils.global_init import global_init
 from components.comp_page_header import page_header
 
-# Set page config
 st.set_page_config(
-    page_title="Rig Tools",
-    page_icon="assets/eng_man.png",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-)
+        page_title="Rig Tools",
+        layout="wide",
+        initial_sidebar_state="collapsed",
+    )
 
-apply_custom_css()
-page_header("Rig Tools", ":material/handyman:")
+# Global init
+global_init()
+
+# Page Setup
+page_header("Welcome to the Rig Tools App! 🛠️")
 
 col1, col2, col3 = st.columns(3)
 
