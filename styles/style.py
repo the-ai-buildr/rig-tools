@@ -82,8 +82,13 @@ def render_top_bar():
             
         }
         
-        h1.approval-digital-stamp{
+        h1#approval-digital-stamp {
             padding-bottom: 8px !important;
+        }
+
+        button[data-testid="stPopoverButton"] {
+            min-width: 200px !important;
+            max-width: 200px !important;
         }
         
         /* Our bar must beat Streamlit's internal z-indexes (~300-400 range) */
