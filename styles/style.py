@@ -3,84 +3,87 @@ import streamlit as st
 def apply_custom_css():
     return st.markdown("""
         <style>
-        
-        /* Main block container — single source of truth for padding */
+
+        /* Main block container */
         div[data-testid="stMainBlockContainer"],
         div[data-testid="stMainBlockContainer"].block-container,
         section[data-testid="stMain"] .block-container {
-            padding-top: 20px !important;
+            padding-top: 10px !important;
             padding-right: 20px !important;
             padding-left: 20px !important;
             padding-bottom: 40px !important;
         }
 
+        /* Strip default margins from headings in main + sidebar */
+        div[data-testid="stMainBlockContainer"] h1,
+        div[data-testid="stSidebarUserContent"] h1 {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+            margin-bottom: 0.25rem !important;
+        }
+
         /* Sidebar content padding */
         div[data-testid="stSidebarContent"] {
-            padding-top: 10px !important;
+            padding-top: 0px !important;
             padding-right: 10px !important;
             padding-left: 10px !important;
             padding-bottom: 10px !important;
         }
 
-        /* Hide entire Streamlit header */
-        header[data-testid="stHeader"],
-        header[data-testid="stHeader"] div[data-testid="stToolbar"],
-        header[data-testid="stHeader"] .stAppToolbar,
-        div[data-testid="stToolbar"] {
-            display: none !important;
-            visibility: hidden !important;
+        /* Collapse header to zero height but let children overflow */
+        header[data-testid="stHeader"] {
             height: 0 !important;
             min-height: 0 !important;
-            overflow: hidden !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            border: none !important;
         }
 
-        /* Re-show the collapsed sidebar reopen button (lives inside the hidden header) */
-        [data-testid="stSidebarCollapsedControl"] {
-            display: flex !important;
+        /* Hide toolbar contents but keep in flow so children can opt back in */
+        div[data-testid="stToolbar"] {
+            visibility: hidden !important;
+        }
+
+        /* Keep the expand-sidebar button visible and fixed in top-left */
+        button[data-testid="stExpandSidebarButton"] {
             visibility: visible !important;
-            height: auto !important;
-            min-height: auto !important;
+            position: fixed !important;
+            top: 8px !important;
+            left: 8px !important;
+            z-index: 99999 !important;
+        }
+
+        /* Sidebar header region (collapse button area) */
+        div[data-testid="stSidebarHeader"] {
+            height: 40px !important;
+            min-height: 40px !important;
+            max-height: 40px !important;
+            padding: 0 !important;
+            margin-bottom: 0 !important;
             overflow: visible !important;
         }
 
-        /* Sidebar header padding */
-        div[data-testid="stSidebarHeader"] {
-            height: 32px !important;
-            min-height: 32px !important;
-            padding-top: 12px !important;
-            padding-right: 10px !important;
-            padding-left: 10px !important;
-            padding-bottom: 10px !important;
-        }
-                       
-        /* Container for the nav block */
-        nav[data-testid="stSidebarNav"],
-        div[data-testid="stSidebarNav"] {
-            display: none !important;
-        }
-
-        /* UL that holds the nav items */
-        ul[data-testid="stSidebarNavItems"] {
-            display: none !important;
-        }
-                       
-        
         /* Remove top space above user content block */
         div[data-testid="stSidebarUserContent"] {
             margin-top: 0px !important;
-            padding-top: 0px !important;
+            padding-top: 8px !important;
         }
 
         </style>
-        
         """, unsafe_allow_html=True)
     
 def render_top_bar():
-    st.markdown("""
+    st.markdown(f"""
         <style>
         /* Offset main content below the fixed bar */
         div[data-testid="stMainBlockContainer"] {
-            padding-top: 52px !important;
+            padding-top: 0px !important;
+            
+        }
+        
+        h1.approval-digital-stamp{
+            padding-bottom: 8px !important;
         }
         
         /* Our bar must beat Streamlit's internal z-indexes (~300-400 range) */
@@ -99,6 +102,7 @@ def render_top_bar():
             padding: 0 16px;
             gap: 12px;
         }
+        
         #rig-top-bar span {
             font-weight: 700;
             font-size: 1rem;
