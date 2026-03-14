@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.global_init import global_init
-from components.comp_page_layout import page_header, sidebar_header
+from components.layout import page_header, sidebar_header
 
 
 # Set page config
