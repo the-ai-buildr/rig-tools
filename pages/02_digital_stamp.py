@@ -1,20 +1,18 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-from textwrap import dedent 
-from components.comp_page_layout import (
-    page_header, page_content, nav_menu,
-    sidebar_header, sidebar_content )
+from utils.global_init import global_init
+from components.comp_page_layout import page_header, sidebar_header
 
 # ---------------------------------------------------------------------------
-# Page - config
+# Page config
 # ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Digital Stamp",
     page_icon="material/approval",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
-
+# Initialize global
+global_init()
 
 # ---------------------------------------------------------------------------
 # Sidebar — inputs
@@ -22,7 +20,7 @@ st.set_page_config(
 with st.sidebar:
     sidebar_header("Rig Tools", icon=":material/handyman:")
 
-    rigs = ["HP 643","HP 637","HP 604"]
+    rigs = ["HP 390", "HP 604", "HP 637", "HP 643", "Ensign 125", "Ensign 142"]
     wells = ["Example Well 1", "Example Well 2", "Example Well 3"]
 
     rig_name = st.selectbox("Rig", rigs)
@@ -31,9 +29,4 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Main area — results
 # ---------------------------------------------------------------------------
-cont = st.container()
-
-
 page_header("Digital Stamp", ":material/approval:")
-
-# page_content(cont) # Use if build components in another file or section

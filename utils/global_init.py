@@ -3,11 +3,28 @@ from styles.style import apply_custom_css
 from pathlib import Path
 import sys
 
+# Initialize session state
+def init_session_state():
+    st.session_state.setdefault("unit_system", "us")
+    st.session_state.setdefault(
+        "parameters", {
+            "value_a": 10.0,
+            "value_b": 5.0
+        }
+    )
+    
+    st.session_state.setdefault("project_root", Path(__file__).resolve().parent.parent)
+    if str(st.session_state.project_root) not in sys.path:
+        sys.path.insert(0, str(st.session_state.project_root))
+    
+    return True
 
-
+# Initialize global state
 def global_init():
+    
     # Apply custom CSS globally
     apply_custom_css()
+    
 
     # Add project root so styles can be imported (needed for Streamlit multipage / Pyodide)
     _project_root = Path(__file__).resolve().parent.parent

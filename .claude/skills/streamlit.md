@@ -1,0 +1,286 @@
+# Streamlit Development Skill — Rig Tools
+
+You are helping build **Rig Tools**, a drilling calculations platform built with Streamlit + FastAPI. It runs in two modes:
+
+- **Desktop**: Packaged with stlite (Streamlit + WebAssembly + Electron) — offline, no server
+- **Server/Docker**: FastAPI backend on `:8000` + Streamlit frontend on `:8501`
+
+---
+
+## Project Structure
+
+```
+app.py                         # Streamlit entry point (stlite + Docker)
+start.sh                       # One-command Docker startup
+
+api/                           # FastAPI backend
+  main.py                      # App factory (create_app), lifespan hooks
+  config.py                    # Settings via pydantic-settings + .env
+  routes/
+    __init__.py                # register_routers()
+    health.py                  # GET /api/health
+    calcs.py                   # POST /api/calcs/* endpoints
+  models/
+    calc_models.py             # Pydantic request/response schemas
+
+frontend/
+  api_client.py                # HTTP client bridge (Streamlit → FastAPI)
+
+pages/                         # Streamlit pages (numbered: 01_, 02_, …)
+  00_template.py               # Copy this for new pages
+components/
+  comp_page_layout.py          # All reusable UI components
+styles/
+  style.py                     # apply_custom_css(), render_top_bar()
+utils/
+  global_init.py               # global_init() — called at startup on every page
+
+calcs/                         # Pure Python math — no framework imports
+data/                          # Reference data + persistent storage
+docker/
+  Dockerfile.api
+  Dockerfile.frontend
+  docker-compose.yml
+  .env.example
+```
+
+---
+
+## Pages
+
+### Rules
+- Every page lives in `pages/` and is numbered (`01_`, `02_`, …) to control sidebar order.
+- Pages are **UI shells** — they call components and `api_client` wrappers, no raw math.
+- Every page must call `global_init()` before any rendering.
+- Always start a new page by copying `pages/00_template.py`.
+
+### Page Anatomy
+```python
+import streamlit as st
+from utils.global_init import global_init
+from components.comp_page_layout import page_header, sidebar_header, sidebar_content, page_content
+from frontend.api_client import calc_hydrostatic_pressure  # import relevant wrappers
+
+st.set_page_config(page_title="Page Name", layout="wide", initial_sidebar_state="expanded")
+global_init()
+
+# --- Sidebar (inputs) ---
+with st.sidebar:
+    sidebar_header("Page Title", ":material/icon_name:")
+    with sidebar_content(st.container()):
+        depth = st.number_input("Depth (ft)", value=5000.0)
+        mud_wt = st.number_input("Mud Weight (ppg)", value=10.5)
+
+# --- Main (outputs) ---
+page_header("Page Title", ":material/icon_name:")
+with page_content(st.container()):
+    result = calc_hydrostatic_pressure(mud_wt, depth)
+    if result:
+        st.metric("Hydrostatic Pressure", f"{result['pressure']:,.1f} psi")
+```
+
+### Adding a New Page
+1. Copy `pages/00_template.py` → `pages/NN_<name>.py`
+2. Add a link in `nav_menu()` in `components/comp_page_layout.py`
+3. Add calculation logic in `calcs/<name>.py`
+4. Add API endpoint in `api/routes/calcs.py` (or a new route file)
+5. Add a convenience wrapper in `frontend/api_client.py`
+
+---
+
+## Components
+
+All reusable UI lives in `components/comp_page_layout.py`. Never duplicate layout code in pages.
+
+| Function | Usage |
+|---|---|
+| `page_header(title, icon)` | Full page header — applies CSS, nav, rule |
+| `page_content(container)` | Wraps main content area |
+| `sidebar_header(title, icon)` | Centered sidebar title |
+| `sidebar_content(container)` | Wraps sidebar content |
+| `nav_menu()` | Popover with links to all pages |
+| `horizontal_rule()` | Lightweight `<hr>` divider |
+
+Adding a component: add a stateless function to `comp_page_layout.py` — accept params, render or return.
+
+---
+
+## API Client (`frontend/api_client.py`)
+
+The **only** place that makes HTTP calls. Pages import wrappers, never call `httpx` directly.
+
+```python
+# In a page:
+from frontend.api_client import calc_kill_sheet
+
+result = calc_kill_sheet(sidpp=200, current_mud_weight=10.5, depth=5000)
+if result:
+    st.metric("Kill Mud Weight", f"{result['kill_mud_weight_rounded']} ppg")
+```
+
+Adding a new wrapper:
+```python
+def calc_my_feature(param_a: float, param_b: float, unit_system: str = "us") -> dict | None:
+    return api_request("POST", "/calcs/my-feature", json={
+        "param_a": param_a,
+        "param_b": param_b,
+        "unit_system": unit_system,
+    })
+```
+
+`API_BASE_URL` is read from env: `http://api:8000` in Docker, `http://localhost:8000` locally.
+
+---
+
+## FastAPI Backend (`api/`)
+
+### App Factory (`api/main.py`)
+```python
+app = create_app()  # uvicorn api.main:app
+```
+
+### Adding a New Route Group
+1. Create `api/routes/<feature>.py` with `router = APIRouter()`
+2. Import and register in `api/routes/__init__.py`:
+   ```python
+   from .my_feature import router as my_feature_router
+   app.include_router(my_feature_router, prefix="/api/my-feature", tags=["My Feature"])
+   ```
+3. Add Pydantic schemas to `api/models/<feature>_models.py`
+
+### Endpoint Pattern
+```python
+from fastapi import APIRouter
+from api.models.calc_models import MyRequest, MyResponse
+import calcs.my_module as my_calc
+
+router = APIRouter()
+
+@router.post("/my-endpoint", response_model=MyResponse)
+async def my_endpoint(req: MyRequest) -> MyResponse:
+    result = my_calc.compute(req.value, req.unit_system)
+    return MyResponse(result=result, unit_system=req.unit_system)
+```
+
+### Current Endpoints
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/api/health` | Health check |
+| `POST` | `/api/calcs/hydrostatic-pressure` | HP from mud weight + depth |
+| `POST` | `/api/calcs/equivalent-mud-weight` | EMW from pressure + depth |
+| `POST` | `/api/calcs/kill-sheet` | Kill mud weight from SIDPP |
+| `POST` | `/api/calcs/annular-velocity` | AV from flow rate + geometry |
+
+All accept `unit_system: "us" | "metric"`. Docs at `http://localhost:8000/docs`.
+
+---
+
+## Calculations (`calcs/`)
+
+Pure Python — **no Streamlit, no FastAPI imports**. Called by both API routes and (in Electron mode) directly by pages.
+
+```python
+# calcs/mud_weight.py
+def hydrostatic_pressure(mud_weight: float, depth: float) -> float:
+    """Returns pressure in psi. mud_weight in ppg, depth in ft."""
+    return mud_weight * 0.052 * depth
+```
+
+Unit system is always a parameter, never global state.
+
+---
+
+## Styling
+
+- `apply_custom_css()` is called once via `global_init()` — never call it per-page.
+- Streamlit header/toolbar is hidden — use `render_top_bar()` for the custom top bar.
+- Sidebar nav items are hidden — `nav_menu()` handles navigation.
+- Scoped overrides: `st.markdown("<style>...</style>", unsafe_allow_html=True)`.
+- Global styles: only via `styles/style.py > apply_custom_css()`.
+
+---
+
+## Session State
+
+| Key | Default | Description |
+|---|---|---|
+| `unit_system` | `"us"` | `"us"` or `"metric"` |
+
+Initialize in `global_init()`. Name per-feature keys with a prefix: `digital_stamp_rig`.
+
+---
+
+## Docker
+
+### Start
+```bash
+bash start.sh            # build + start (first run)
+bash start.sh --build    # rebuild after dep changes
+bash start.sh --logs     # follow logs
+bash start.sh --down     # stop
+```
+
+### Services
+| Service | Port |
+|---|---|
+| `api` (FastAPI) | `8000` |
+| `frontend` (Streamlit) | `8501` |
+
+### Environment
+```bash
+cp docker/.env.example docker/.env
+# Set SECRET_KEY before production use
+```
+
+Key variables:
+- `API_BASE_URL=http://api:8000` — internal Docker hostname
+- `SECRET_KEY` — must be changed for production
+- `CORS_ORIGINS=["*"]` — restrict to domain in production
+- `DEBUG=false` — set `true` for uvicorn reload
+
+### Dockerfile locations
+- `docker/Dockerfile.api` — FastAPI image
+- `docker/Dockerfile.frontend` — Streamlit image
+- `docker/docker-compose.yml` — orchestration
+- `docker/.env.example` — environment template
+
+---
+
+## Desktop Build (stlite + Electron)
+
+```bash
+npm install
+npm run dump           # compile stlite artifacts
+npm run serve          # launch Electron window
+npm run app:dist:mac   # macOS .dmg
+npm run app:dist:win   # Windows .exe
+npm run app:dist:all   # all platforms
+```
+
+In Electron mode, `calcs/` functions are called directly — no HTTP layer.
+
+---
+
+## Local Development (no Docker)
+
+```bash
+# Terminal 1 — API
+uvicorn api.main:app --reload --port 8000
+
+# Terminal 2 — Frontend
+API_BASE_URL=http://localhost:8000 streamlit run app.py
+```
+
+---
+
+## Key Conventions
+
+| Rule | Reason |
+|---|---|
+| Copy `00_template.py` for new pages | Consistent structure |
+| Pages import from `frontend/api_client.py`, not `httpx` | Single HTTP layer |
+| `calcs/` has no framework imports | Works in both Electron and Docker modes |
+| `api/routes/` has no Streamlit imports | Clean separation |
+| Docker files live in `docker/` | Clean root directory |
+| Never commit `docker/.env` | Contains secrets |
+| `requirements.txt` is minimal | stlite bundle size matters |
