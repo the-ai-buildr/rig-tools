@@ -4,14 +4,16 @@ def apply_custom_css():
     return st.markdown("""
         <style>
         
-        /* Main block container padding */
-        div[data-testid="stMainBlockContainer"].block-container {
-            padding-top: 40px !important;
+        /* Main block container — single source of truth for padding */
+        div[data-testid="stMainBlockContainer"],
+        div[data-testid="stMainBlockContainer"].block-container,
+        section[data-testid="stMain"] .block-container {
+            padding-top: 20px !important;
             padding-right: 20px !important;
             padding-left: 20px !important;
             padding-bottom: 40px !important;
         }
-        
+
         /* Sidebar content padding */
         div[data-testid="stSidebarContent"] {
             padding-top: 10px !important;
@@ -19,7 +21,8 @@ def apply_custom_css():
             padding-left: 10px !important;
             padding-bottom: 10px !important;
         }
-        /* Hide entire Streamlit header (toolbar div + whole header bar) */
+
+        /* Hide entire Streamlit header */
         header[data-testid="stHeader"],
         header[data-testid="stHeader"] div[data-testid="stToolbar"],
         header[data-testid="stHeader"] .stAppToolbar,
@@ -30,7 +33,16 @@ def apply_custom_css():
             min-height: 0 !important;
             overflow: hidden !important;
         }
-        
+
+        /* Re-show the collapsed sidebar reopen button (lives inside the hidden header) */
+        [data-testid="stSidebarCollapsedControl"] {
+            display: flex !important;
+            visibility: visible !important;
+            height: auto !important;
+            min-height: auto !important;
+            overflow: visible !important;
+        }
+
         /* Sidebar header padding */
         div[data-testid="stSidebarHeader"] {
             height: 32px !important;
@@ -39,15 +51,6 @@ def apply_custom_css():
             padding-right: 10px !important;
             padding-left: 10px !important;
             padding-bottom: 10px !important;
-        }
-        /* Main block container padding */
-        div[data-testid="stMainBlockContainer"] {
-            padding: 20px !important;
-        }
-
-        /* Main block container padding */
-        section[data-testid="stMain"] .block-container {
-            padding: 30px !important;
         }
                        
         /* Container for the nav block */
@@ -79,6 +82,7 @@ def render_top_bar():
         div[data-testid="stMainBlockContainer"] {
             padding-top: 52px !important;
         }
+        
         /* Our bar must beat Streamlit's internal z-indexes (~300-400 range) */
         #rig-top-bar {
             position: fixed;

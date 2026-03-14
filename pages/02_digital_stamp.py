@@ -13,7 +13,7 @@ st.set_page_config(
     page_title="Digital Stamp",
     page_icon="material/approval",
     layout="wide",
-    # initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 
@@ -23,7 +23,7 @@ st.set_page_config(
 with st.sidebar:
     sidebar_header("Rig Tools", icon=":material/handyman:")
 
-    rigs = ["HP 643","HP 637","HP 604"]
+    rigs = ["HP 390","HP 604", "HP 637","HP 643","HP 637","Ensign 125","Ensign 142"]
     wells = ["Example Well 1", "Example Well 2", "Example Well 3"]
 
     rig_name = st.selectbox("Rig", rigs)

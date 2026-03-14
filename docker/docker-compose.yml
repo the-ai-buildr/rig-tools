@@ -1,0 +1,44 @@
+services:
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: rig-tools-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../data:/app/data
+    env_file:
+      - .env
+    environment:
+      - DATA_PATH=/app/data
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    restart: unless-stopped
+    networks:
+      - rig_tools_network
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    container_name: rig-tools-frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../data:/app/data
+    env_file:
+      - .env
+    environment:
+      - API_BASE_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - rig_tools_network
+
+networks:
+  rig_tools_network:
+    driver: bridge

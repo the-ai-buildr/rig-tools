@@ -14,7 +14,7 @@ from components.comp_page_layout import (
 st.set_page_config(
         page_title="Home",
         layout="wide",
-        initial_sidebar_state="collapsed",
+        initial_sidebar_state="expanded",
     )
 
 # ---------------------------------------------------------------------------
