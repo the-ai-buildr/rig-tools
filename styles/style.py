@@ -14,10 +14,21 @@ def apply_custom_css():
         
         /* Sidebar content padding */
         div[data-testid="stSidebarContent"] {
-            padding-top: 16px !important;
+            padding-top: 10px !important;
             padding-right: 10px !important;
             padding-left: 10px !important;
             padding-bottom: 10px !important;
+        }
+        /* Hide entire Streamlit header (toolbar div + whole header bar) */
+        header[data-testid="stHeader"],
+        header[data-testid="stHeader"] div[data-testid="stToolbar"],
+        header[data-testid="stHeader"] .stAppToolbar,
+        div[data-testid="stToolbar"] {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            overflow: hidden !important;
         }
         
         /* Sidebar header padding */
@@ -37,23 +48,6 @@ def apply_custom_css():
         /* Main block container padding */
         section[data-testid="stMain"] .block-container {
             padding: 30px !important;
-        }
-        /* Streamlit header and toolbar — reduce top spacing */
-        header[data-testid="stHeader"],
-        header[data-testid="stHeader"] .stAppToolbar,
-        div[data-testid="stToolbar"] {
-            padding-top: 0px !important;
-            padding-bottom: 4px !important;
-            margin-top: 0px !important;
-            margin-bottom: 0px !important;
-        }
-
-        /* Reduce internal toolbar/button padding */
-        div[data-testid="stToolbar"] .stToolbarActions,
-        header[data-testid="stHeader"] button[data-testid^="stBaseButton"] {
-            padding-top: 0px !important;
-            padding-bottom: 0px !important;
-            min-height: 0px !important;
         }
                        
         /* Container for the nav block */

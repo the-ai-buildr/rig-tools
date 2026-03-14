@@ -37,7 +37,7 @@ with st.sidebar:
                    
                 Use this sidebar section to navigate to different tools and features. 
                    
-                **Loacted here:** [GitHub Repo](https://github.com/the-ai-buildr/rig-tools)
+                **Located here:** [GitHub Repo](https://github.com/the-ai-buildr/rig-tools)
                 
                 More content coming soon!
                    
