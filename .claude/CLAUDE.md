@@ -10,7 +10,7 @@ Produced by: orchestrator-agent
 **Rig Tools** is a drilling calculations platform built with Streamlit + FastAPI + Supabase.
 
 - **Frontend:** Streamlit 1.55 (multipage, `st.fragment` for partial rerenders, HTMX for lightweight interactivity)
-- **Backend API:** FastAPI 0.109 (separate Docker service on :8000, communicates over HTTP)
+- **Backend API:** FastAPI 0.135 (separate Docker service on :8000, communicates over HTTP)
 - **Database/Auth:** Supabase (PostgreSQL + Auth + Row-Level Security)
 - **Deployment:** Docker Compose (`api` on :8000, `frontend` on :8501)
 - **Desktop mode:** stlite/Electron — fully offline, calls `calcs/` directly with no HTTP
@@ -33,7 +33,7 @@ All endpoints are on **one port (8501)**. There is no separate `:8000` API servi
 > In Electron/stlite mode, API calls go directly to `calcs/` functions — no HTTP, no FastAPI.
 
 > **context7 note:** This file was generated without context7 MCP access. API signatures
-> match supabase-py ≥2.3, Streamlit 1.33–1.55, FastAPI 0.109, HTMX 1.9.x.
+> match supabase-py ≥2.3, Streamlit 1.33–1.55, FastAPI 0.135, HTMX 1.9.x.
 > Re-verify `supabase.auth.*` call signatures if upgrading past supabase-py 3.0.
 
 ---
@@ -299,7 +299,7 @@ Add per-feature keys with namespaced names: `{feature}_{key}` (e.g., `digital_st
 | Package | Version | Notes |
 |---|---|---|
 | `streamlit` | `1.55.0` | `st.fragment` stable since 1.33 |
-| `fastapi` | `0.109.0` | |
+| `fastapi` | `0.135.1` | |
 | `pydantic` | `2.5.3` | v2 syntax throughout |
 | `pydantic-settings` | `2.1.0` | |
 | `httpx` | `0.26.0` | |

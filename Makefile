@@ -39,8 +39,7 @@ help:
 	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make logs"    "Follow live container logs"
 	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make ps"      "Show running containers"
 	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make health"  "Check /api/health endpoint"
-	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make shell"   "Open bash inside running container"
-	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make test"    "Run test suite locally (fast, no Docker)"
+	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make shell"   "Open bash inside running container"	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make serve"   "Run full stack locally — no Docker (uvicorn + streamlit)"	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make test"    "Run test suite locally (fast, no Docker)"
 	@printf "  $(BOLD)%-14s$(RESET) %s\n" "make clean"   "Remove stopped containers + dangling images"
 	@echo ""
 
@@ -101,6 +100,12 @@ clean:
 	$(COMPOSE) down --remove-orphans
 	docker image prune -f
 	@echo "  Cleaned."
+
+# ── Local dev (no Docker) ─────────────────────────────────────────────────────
+.PHONY: serve
+serve:
+	@echo "  Starting full stack locally on :8501 (Ctrl+C to stop)..."
+	PYTHONPATH=src uvicorn api.asgi:app --host 0.0.0.0 --port 8501 --reload
 
 # ── Test target (local, no Docker) ────────────────────────────────────────────
 .PHONY: test

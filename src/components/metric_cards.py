@@ -9,7 +9,7 @@ def rig_stats():
     changes = list(rng(4).standard_normal(40))
     data = [sum(changes[:i]) for i in range(20)]
     delta = round(data[-1], 2)
-    width =200
+
     row = st.container(horizontal=True, gap="small",width='stretch', vertical_alignment="distribute")
     with row:
         st.metric(
