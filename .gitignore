@@ -7,5 +7,6 @@ dist/
 *.pyc
 *.pyo
 .env
+docker/.env
 .venv
 

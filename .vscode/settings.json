@@ -1,0 +1,10 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "mkdir": true,
+        "git mv": true,
+        "touch": true,
+        "cp": true,
+        "git add": true,
+        "git rm": true
+    }
+}
