@@ -22,7 +22,7 @@ class HydrostaticPressureResponse(BaseModel):
 
 class EMWRequest(BaseModel):
     pressure: float = Field(..., description="Pressure in psi (US) or kPa (metric)")
-    depth: float = Field(..., description="True vertical depth in ft (US) or m (metric)")
+    depth: float = Field(..., gt=0, description="True vertical depth in ft (US) or m (metric) — must be > 0")
     unit_system: UnitSystem = "us"
 
 
