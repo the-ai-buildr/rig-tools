@@ -1,29 +1,20 @@
+# Rig Tools — Docker Compose (single-service)
+#
+# Streamlit + FastAPI run in one process via asgi.py using Streamlit's
+# experimental Starlette integration (Streamlit 1.53+).
+#
+# Endpoints (all on :8501):
+#   http://localhost:8501          → Streamlit app
+#   http://localhost:8501/api/*    → FastAPI routes
+#   http://localhost:8501/api/docs → Swagger UI
+
 services:
 
-  api:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.api
-    container_name: rig-tools-api
-    ports:
-      - "8000:8000"
-    volumes:
-      - ../data:/app/data
-    env_file:
-      - .env
-    environment:
-      - DATA_PATH=/app/data
-      - API_HOST=0.0.0.0
-      - API_PORT=8000
-    restart: unless-stopped
-    networks:
-      - rig_tools_network
-
-  frontend:
+  app:
     build:
       context: ..
       dockerfile: docker/Dockerfile.frontend
-    container_name: rig-tools-frontend
+    container_name: rig-tools
     ports:
       - "8501:8501"
     volumes:
@@ -31,14 +22,8 @@ services:
     env_file:
       - .env
     environment:
-      - API_BASE_URL=http://api:8000
-    depends_on:
-      api:
-        condition: service_healthy
+      - DATA_PATH=/app/data
+      # API_BASE_URL is not needed — FastAPI is in the same process on the same port.
+      # Set it explicitly only if you need to override for external API access.
+      # - API_BASE_URL=http://localhost:8501
     restart: unless-stopped
-    networks:
-      - rig_tools_network
-
-networks:
-  rig_tools_network:
-    driver: bridge

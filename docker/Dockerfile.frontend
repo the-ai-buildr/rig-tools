@@ -1,6 +1,17 @@
+# Rig Tools — Unified application container
+# Serves Streamlit frontend + FastAPI backend in a single process via asgi.py
+# Using Streamlit 1.53+ experimental Starlette integration.
+#
+# Build:  docker build -f docker/Dockerfile.frontend -t rig-tools .
+# Run:    docker run -p 8501:8501 rig-tools
+
 FROM python:3.11-slim
 
 WORKDIR /app
+
+# System deps for healthcheck curl
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
@@ -13,10 +24,9 @@ ENV PYTHONPATH=/app
 
 EXPOSE 8501
 
-HEALTHCHECK --interval=15s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+# Health check via the FastAPI endpoint (validates both Starlette routing and FastAPI)
+HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl --fail http://localhost:8501/api/health || exit 1
 
-CMD ["streamlit", "run", "app.py", \
-     "--server.port=8501", \
-     "--server.address=0.0.0.0", \
-     "--server.headless=true"]
+# Single uvicorn process: Streamlit + FastAPI via asgi.py
+CMD ["uvicorn", "asgi:app", "--host", "0.0.0.0", "--port", "8501"]

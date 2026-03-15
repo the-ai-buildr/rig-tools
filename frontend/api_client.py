@@ -20,10 +20,11 @@ from typing import Any
 def get_api_base_url() -> str:
     """
     Reads API_BASE_URL from environment.
-    - Docker: set to http://api:8000 via docker-compose
-    - Local dev: defaults to http://localhost:8000
+    - Single-process mode (default): Streamlit + FastAPI share port 8501 via asgi.py
+    - Docker: same container, defaults to http://localhost:8501
+    - Override: set API_BASE_URL env var for external API access
     """
-    return os.getenv("API_BASE_URL", "http://localhost:8000").rstrip("/")
+    return os.getenv("API_BASE_URL", "http://localhost:8501").rstrip("/")
 
 
 def api_request(

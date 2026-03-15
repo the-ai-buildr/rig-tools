@@ -76,27 +76,27 @@ docker compose -f "$COMPOSE_FILE" up $BUILD_FLAG -d
 
 # ── Wait for health ───────────────────────────────────────────────────────────
 echo ""
-info "Waiting for API health check..."
+info "Waiting for app health check..."
 MAX_WAIT=60
 ELAPSED=0
-until curl -sf http://localhost:8000/api/health > /dev/null; do
+until curl -sf http://localhost:8501/api/health > /dev/null; do
     if [ $ELAPSED -ge $MAX_WAIT ]; then
-        error "API did not become healthy within ${MAX_WAIT}s."
+        error "App did not become healthy within ${MAX_WAIT}s."
         error "Check logs with: bash start.sh --logs"
         exit 1
     fi
     sleep 2
     ELAPSED=$((ELAPSED + 2))
 done
-success "API is healthy"
+success "App is healthy"
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 echo ""
 echo -e "${BOLD}  ✅  Rig Tools is running${RESET}"
 echo -e "  ─────────────────────────────────"
-echo -e "  ${GREEN}Frontend${RESET}   http://localhost:8501"
-echo -e "  ${GREEN}API${RESET}        http://localhost:8000"
-echo -e "  ${GREEN}API Docs${RESET}   http://localhost:8000/docs"
+echo -e "  ${GREEN}App${RESET}        http://localhost:8501"
+echo -e "  ${GREEN}API Docs${RESET}   http://localhost:8501/api/docs"
+echo -e "  ${GREEN}API Health${RESET} http://localhost:8501/api/health"
 echo ""
 echo -e "  ${BOLD}Useful commands:${RESET}"
 echo -e "    bash start.sh --build    Rebuild images and restart"
