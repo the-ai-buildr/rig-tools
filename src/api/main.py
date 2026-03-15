@@ -9,6 +9,7 @@ from api.routes import register_routers
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    settings.validate_production_secrets()
     ensure_directories()
     yield
     # Shutdown (add cleanup here if needed)

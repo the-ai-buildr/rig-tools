@@ -1,7 +1,11 @@
+"""Metric card components for the home page. Produced by: frontend-agent / streamlit-components skill."""
 import streamlit as st
 from numpy.random import default_rng as rng
 
+
+@st.fragment
 def rig_stats():
+    # TODO: replace with real API data from api_client
     changes = list(rng(4).standard_normal(40))
     data = [sum(changes[:i]) for i in range(20)]
     delta = round(data[-1], 2)

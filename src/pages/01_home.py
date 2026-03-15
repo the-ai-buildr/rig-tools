@@ -1,3 +1,4 @@
+"""Home page — landing page with rig stat cards. Produced by: frontend-agent."""
 import streamlit as st
 from textwrap import dedent
 from utils.global_init import global_init
@@ -9,16 +10,7 @@ from components.layout import (
     rig_stats,
 )
 
-# ---------------------------------------------------------------------------
-# Page config
-# ---------------------------------------------------------------------------
-st.set_page_config(
-    page_title="Home",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-
-# Initialize global state
+# Initialize global state (must be first executable call)
 global_init()
 # ---------------------------------------------------------------------------
 # Sidebar — inputs

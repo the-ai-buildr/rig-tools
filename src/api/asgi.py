@@ -15,14 +15,21 @@ receives /api/* requests and Streamlit handles every other path — all on one p
 
 Run
 ---
-    uvicorn asgi:app --host 0.0.0.0 --port 8501 [--reload]
+    PYTHONPATH=src uvicorn api.asgi:app --host 0.0.0.0 --port 8501 [--reload]
 
 Docker
 ------
-    CMD ["uvicorn", "asgi:app", "--host", "0.0.0.0", "--port", "8501"]
+    CMD ["uvicorn", "api.asgi:app", "--host", "0.0.0.0", "--port", "8501"]
 
 Produced by: backend-agent / fastapi-streamlit-mount skill
 """
+import os
+import sys
+
+# This file lives at src/api/asgi.py. Walk up two levels (src/api → src) to get
+# the src/ directory, which is the PYTHONPATH root for all application imports.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from starlette.routing import Mount
 
 from streamlit.web.server.starlette import App
@@ -39,7 +46,7 @@ _api = create_app()
 # App("app.py") resolves the script path relative to cwd when launched via uvicorn.
 # Reserved Streamlit prefixes (/_stcore/, /media/, /component/) are not affected.
 app = App(
-    "app.py",
+    "src/app.py",
     routes=[
         Mount("/api", app=_api),
     ],

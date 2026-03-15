@@ -1,17 +1,9 @@
+"""Digital Stamp page — per-rig approval form. Produced by: frontend-agent."""
 import streamlit as st
 from utils.global_init import global_init
 from components.layout import page_header, sidebar_header
 
-# ---------------------------------------------------------------------------
-# Page config
-# ---------------------------------------------------------------------------
-st.set_page_config(
-    page_title="Digital Stamp",
-    page_icon="material/approval",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-# Initialize global
+# Initialize global (must be first executable call)
 global_init()
 
 # ---------------------------------------------------------------------------

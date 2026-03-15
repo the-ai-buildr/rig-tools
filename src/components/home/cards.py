@@ -1,3 +1,9 @@
+"""
+Home page card components — layout cards for the homepage.
+Migrated from sections/home/cards.py into the canonical components/ location.
+
+Produced by: frontend-agent / streamlit-components skill
+"""
 import streamlit as st
 from components.page_card import card
 

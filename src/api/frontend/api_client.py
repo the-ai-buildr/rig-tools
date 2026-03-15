@@ -2,7 +2,7 @@
 HTTP client for Streamlit → FastAPI communication.
 
 Usage:
-    from frontend.api_client import api_request, get_api_base_url
+    from api.frontend.api_client import api_request, get_api_base_url
 
     result = api_request("POST", "/calcs/hydrostatic-pressure", json={
         "mud_weight": 10.5,
