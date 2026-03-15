@@ -179,7 +179,9 @@ async def create_item_partial(
 from api.routes.partials import router as partials_router
 
 # inside register_routers(app):
-app.include_router(partials_router, prefix="/api", tags=["HTMX Partials"])
+# NO /api prefix — the partials router's own prefix= "/partials" is sufficient.
+# Mount("/api", ...) in asgi.py makes these externally available at /api/partials/*
+app.include_router(partials_router)  # external: /api/partials/*
 ```
 
 ### Streamlit component using HTMX (`components/items/items_htmx_table.py`)
@@ -208,7 +210,7 @@ def items_htmx_table() -> None:
     to avoid duplicate <script> tags.
     """
     token = st.session_state.get("auth_token", "")
-    api_base = os.environ.get("API_BASE_URL", "http://localhost:8000")
+    api_base = os.environ.get("API_BASE_URL", "http://localhost:8501")
 
     html = f"""
     <script
@@ -253,7 +255,7 @@ def create_item_htmx_form() -> None:
     On success, fires the 'itemCreated' event on <body> to trigger the table reload.
     """
     token = st.session_state.get("auth_token", "")
-    api_base = os.environ.get("API_BASE_URL", "http://localhost:8000")
+    api_base = os.environ.get("API_BASE_URL", "http://localhost:8501")
 
     html = f"""
     <form

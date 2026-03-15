@@ -24,7 +24,7 @@ Activate when the task contains: **endpoint**, **route**, **API**, **router**, *
 7. Error handling: check `(data, error)` tuple; raise `HTTPException` if `error` is not None.
 8. HTMX partial endpoints use `response_class=HTMLResponse` and live in `api/routes/partials.py`.
 9. Auth endpoints live in `api/routes/auth.py`.
-10. Prefix all routes with `/api` (enforced in `register_routers`).
+10. Routes must **NOT** include `/api` in `register_routers` — the `Mount('/api', app=fastapi_app)` in `asgi.py` applies it externally. FastAPI internal paths are `/health`, `/calcs/*`, `/auth/*`, etc. External callers see `/api/health`, `/api/calcs/*`, `/api/auth/*`.
 
 ## Patterns
 
@@ -139,11 +139,12 @@ from api.routes.items import router as items_router
 
 
 def register_routers(app: FastAPI) -> None:
-    app.include_router(health_router, prefix="/api")
-    app.include_router(calcs_router, prefix="/api/calcs", tags=["Calculations"])
-    app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
-    app.include_router(items_router, prefix="/api", tags=["Items"])
-    # Register additional routers here
+    # IMPORTANT: NO /api prefix here — Mount("/api", ...) in asgi.py adds it externally.
+    app.include_router(health_router)                                      # external: /api/health
+    app.include_router(calcs_router, prefix="/calcs", tags=["Calculations"])  # external: /api/calcs/*
+    app.include_router(auth_router, prefix="/auth", tags=["Authentication"])  # external: /api/auth/*
+    app.include_router(items_router)                                       # external: /api/items/* (prefix set in APIRouter)
+    # Register additional routers here — never add /api prefix
 ```
 
 ### FastAPI dependencies (`api/deps.py`)

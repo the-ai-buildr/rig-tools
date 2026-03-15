@@ -3,7 +3,12 @@
 You are helping build **Rig Tools**, a drilling calculations platform built with Streamlit + FastAPI. It runs in two modes:
 
 - **Desktop**: Packaged with stlite (Streamlit + WebAssembly + Electron) — offline, no server
-- **Server/Docker**: FastAPI backend on `:8000` + Streamlit frontend on `:8501`
+- **Server/Docker**: Single-process — Streamlit + FastAPI on `:8501` via `uvicorn asgi:app` (Streamlit 1.53+ `starlette.App`)
+
+> **⚠️ Architecture note (updated 2026-03):** This is a legacy reference skill. The project now uses
+> `asgi.py` as the ASGI entry point — FastAPI is mounted at `/api/*` via `streamlit.starlette.App`.
+> All patterns here still apply for UI; for FastAPI patterns see `fastapi-routes.md` and
+> `fastapi-streamlit-mount.md`. Do NOT use two-service Docker or two-terminal local dev.
 
 ---
 
@@ -128,7 +133,7 @@ def calc_my_feature(param_a: float, param_b: float, unit_system: str = "us") -> 
     })
 ```
 
-`API_BASE_URL` is read from env: `http://api:8000` in Docker, `http://localhost:8000` locally.
+`API_BASE_URL` is read from env: defaults to `http://localhost:8501`. Same port as the app — FastAPI is mounted at `/api/*` on the same port via `asgi.py`. No separate service.
 
 ---
 
@@ -144,7 +149,8 @@ app = create_app()  # uvicorn api.main:app
 2. Import and register in `api/routes/__init__.py`:
    ```python
    from .my_feature import router as my_feature_router
-   app.include_router(my_feature_router, prefix="/api/my-feature", tags=["My Feature"])
+   # NO /api prefix — Mount("/api", ...) in asgi.py adds it externally
+   app.include_router(my_feature_router, prefix="/my-feature", tags=["My Feature"])
    ```
 3. Add Pydantic schemas to `api/models/<feature>_models.py`
 
@@ -171,7 +177,7 @@ async def my_endpoint(req: MyRequest) -> MyResponse:
 | `POST` | `/api/calcs/kill-sheet` | Kill mud weight from SIDPP |
 | `POST` | `/api/calcs/annular-velocity` | AV from flow rate + geometry |
 
-All accept `unit_system: "us" | "metric"`. Docs at `http://localhost:8000/docs`.
+All accept `unit_system: "us" | "metric"`. Docs at `http://localhost:8501/api/docs`.
 
 ---
 
@@ -223,8 +229,7 @@ bash start.sh --down     # stop
 ### Services
 | Service | Port |
 |---|---|
-| `api` (FastAPI) | `8000` |
-| `frontend` (Streamlit) | `8501` |
+| `app` (Streamlit + FastAPI combined) | `8501` |
 
 ### Environment
 ```bash
@@ -233,15 +238,14 @@ cp docker/.env.example docker/.env
 ```
 
 Key variables:
-- `API_BASE_URL=http://api:8000` — internal Docker hostname
 - `SECRET_KEY` — must be changed for production
 - `CORS_ORIGINS=["*"]` — restrict to domain in production
 - `DEBUG=false` — set `true` for uvicorn reload
+- `API_BASE_URL` — defaults to `http://localhost:8501`; override only if running behind a proxy
 
 ### Dockerfile locations
-- `docker/Dockerfile.api` — FastAPI image
-- `docker/Dockerfile.frontend` — Streamlit image
-- `docker/docker-compose.yml` — orchestration
+- `docker/Dockerfile.frontend` — combined Streamlit + FastAPI image (CMD: `uvicorn asgi:app`)
+- `docker/docker-compose.yml` — single service orchestration
 - `docker/.env.example` — environment template
 
 ---
@@ -264,12 +268,15 @@ In Electron mode, `calcs/` functions are called directly — no HTTP layer.
 ## Local Development (no Docker)
 
 ```bash
-# Terminal 1 — API
-uvicorn api.main:app --reload --port 8000
+# Single command — Streamlit + FastAPI on :8501
+uvicorn asgi:app --reload --port 8501
 
-# Terminal 2 — Frontend
-API_BASE_URL=http://localhost:8000 streamlit run app.py
+# Swagger UI
+open http://localhost:8501/api/docs
 ```
+
+> **Do NOT use `streamlit run app.py` for local dev** — this starts Streamlit only and bypasses
+> the FastAPI wiring in `asgi.py`. All `/api/*` calls will fail with connection errors.
 
 ---
 

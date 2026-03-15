@@ -353,7 +353,7 @@ CREATE POLICY "items: delete own" ON items
 ## Checklist
 
 - [ ] `SignupRequest`, `LoginRequest`, `AuthResponse` present in `api/models/auth_models.py`
-- [ ] Auth routes registered in `register_routers()` under `/api/auth`
+- [ ] Auth router registered in `register_routers()` with `prefix="/auth"` — NO `/api` prefix (external path `/api/auth/*` is applied by `Mount` in `asgi.py`)
 - [ ] `get_current_user` dependency validates via `db.auth.get_user(jwt)`, not local decode
 - [ ] Protected routes use `Depends(get_current_user)`
 - [ ] User data routes use `Depends(get_user_db)` (RLS-respecting client)
