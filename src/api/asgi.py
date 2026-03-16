@@ -46,7 +46,7 @@ _api = create_app()
 # App("app.py") resolves the script path relative to cwd when launched via uvicorn.
 # Reserved Streamlit prefixes (/_stcore/, /media/, /component/) are not affected.
 app = App(
-    "src/app.py",
+    "app.py",
     routes=[
         Mount("/api", app=_api),
     ],
