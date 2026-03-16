@@ -8,6 +8,8 @@ def horizontal_rule():
 def nav_menu():
     with st.popover("Goto", type="secondary", use_container_width=True, width=200):
         st.page_link("pages/01_home.py", label="Home", icon="🏠")
+        st.page_link("pages/03_project.py", label="Project", icon=":material/folder_open:")
+        st.page_link("pages/04_well.py", label="Well", icon=":material/oil_barrel:")
         # st.page_link("pages/00_template.py", label="Template", icon="📝")
         st.page_link("pages/02_digital_stamp.py", label="Digital Stamp", icon="📱")
 
