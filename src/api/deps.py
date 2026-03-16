@@ -30,6 +30,15 @@ def get_db() -> Client:
     return get_supabase_client()
 
 
+def get_file_db() -> None:
+    """
+    Dependency for routes backed by the file-based store (api/db/projects.py).
+    Returns None — the file-based functions accept but do not use the client arg.
+    Swap this to get_db() when the Supabase backend is wired.
+    """
+    return None
+
+
 def get_user_db(
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer)],
 ) -> Client:

@@ -76,6 +76,46 @@ def calc_hydrostatic_pressure(mud_weight: float, depth: float, unit_system: str 
     })
 
 
+# ---------------------------------------------------------------------------
+# Project wrappers — mirrors session-state store in data/project_store.py
+# Migrate pages to these when Supabase DB is wired.
+# ---------------------------------------------------------------------------
+
+def list_projects() -> list | None:
+    return api_request("GET", "/projects")
+
+
+def create_project_api(name: str, project_type: str = "single") -> dict | None:
+    return api_request("POST", "/projects", json={"project_name": name, "project_type": project_type})
+
+
+def get_project_api(project_id: str) -> dict | None:
+    return api_request("GET", f"/projects/{project_id}")
+
+
+def update_project_api(project_id: str, name: str | None = None, project_type: str | None = None) -> dict | None:
+    payload = {k: v for k, v in {"project_name": name, "project_type": project_type}.items() if v is not None}
+    return api_request("PUT", f"/projects/{project_id}", json=payload)
+
+
+def delete_project_api(project_id: str) -> bool:
+    result = api_request("DELETE", f"/projects/{project_id}")
+    return result is not None
+
+
+def add_well_api(project_id: str, well_name: str) -> dict | None:
+    return api_request("POST", f"/projects/{project_id}/wells", json={"well_name": well_name})
+
+
+def update_well_api(project_id: str, well_id: str, data: dict) -> dict | None:
+    return api_request("PUT", f"/projects/{project_id}/wells/{well_id}", json=data)
+
+
+def delete_well_api(project_id: str, well_id: str) -> bool:
+    result = api_request("DELETE", f"/projects/{project_id}/wells/{well_id}")
+    return result is not None
+
+
 def calc_emw(pressure: float, depth: float, unit_system: str = "us") -> dict | None:
     return api_request("POST", "/calcs/equivalent-mud-weight", json={
         "pressure": pressure,

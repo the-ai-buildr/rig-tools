@@ -7,6 +7,13 @@ import sys
 
 # Initialize session state
 def init_session_state():
+    # Ensure project root is on sys.path first (needed before importing feature modules)
+    _project_root = Path(__file__).resolve().parent.parent
+    st.session_state.setdefault("project_root", _project_root)
+    if str(_project_root) not in sys.path:
+        sys.path.insert(0, str(_project_root))
+
+    # Core app keys
     st.session_state.setdefault("unit_system", "us")
     st.session_state.setdefault(
         "parameters", {
@@ -14,15 +21,16 @@ def init_session_state():
             "value_b": 5.0
         }
     )
-    st.session_state.setdefault("project_root", Path(__file__).resolve().parent.parent)
-    if str(st.session_state.project_root) not in sys.path:
-        sys.path.insert(0, str(st.session_state.project_root))
 
     # Auth keys — required by CLAUDE.md session state contract
     st.session_state.setdefault("auth_token", None)
     st.session_state.setdefault("auth_refresh_token", None)
     st.session_state.setdefault("auth_user", None)
     st.session_state.setdefault("auth_expires_at", None)
+
+    # Feature modules register their own keys — this is the registry, not the definition site
+    from data.project_store import init_project_state
+    init_project_state()
 
     return True
 

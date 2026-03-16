@@ -20,6 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application source
 COPY . .
 
+# Ensure Streamlit picks up config from WORKDIR (/app) — config.toml lives at
+# the project root so it's already at /app/.streamlit/config.toml after COPY.
+# The env var below is a belt-and-braces fallback for any CWD resolution edge cases.
+ENV STREAMLIT_CLIENT_SHOW_SIDEBAR_NAVIGATION=false
+
 ENV PYTHONPATH=/app/src
 
 EXPOSE 8501
