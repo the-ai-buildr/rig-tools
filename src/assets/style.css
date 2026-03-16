@@ -77,9 +77,30 @@ h1#approval-digital-stamp {
     padding-bottom: 8px !important;
 }
 
+/* Right-align nav button in its column */
+div[data-testid="stColumn"]:last-child div[data-testid="stPopoverButton"] {
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+}
+
+div[data-testid="stColumn"]:last-child div[data-testid="stPopoverButton"] button {
+    margin-left: auto !important;
+}
+
 button[data-testid="stPopoverButton"] {
-    min-width: 200px !important;
-    max-width: 200px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+}
+
+/* Reduce space between column row and HR */
+div[data-testid="stColumns"] {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+div[data-testid="stColumns"] + div {
+    margin-top: 0 !important;
 }
 
 /* Our bar must beat Streamlit's internal z-indexes (~300-400 range) */
