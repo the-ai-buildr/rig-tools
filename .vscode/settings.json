@@ -5,6 +5,7 @@
         "touch": true,
         "cp": true,
         "git add": true,
-        "git rm": true
+        "git rm": true,
+        "docker compose": true
     }
 }
