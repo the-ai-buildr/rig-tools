@@ -26,7 +26,7 @@ div[data-testid="stSidebarContent"] {
     padding-bottom: 10px !important;
 }
 
-/* Collapse header to zero height but let children overflow */
+/* Collapse header to zero height but let children overflow 
 header[data-testid="stHeader"] {
     height: 0 !important;
     min-height: 0 !important;
@@ -34,12 +34,12 @@ header[data-testid="stHeader"] {
     overflow: visible !important;
     background: transparent !important;
     border: none !important;
-}
+}*/
 
-/* Hide toolbar contents but keep in flow so children can opt back in */
+/* Hide toolbar contents but keep in flow so children can opt back in 
 div[data-testid="stToolbar"] {
     visibility: hidden !important;
-}
+}*/
 
 /* Keep the expand-sidebar button visible and fixed in top-left */
 button[data-testid="stExpandSidebarButton"] {
@@ -60,18 +60,18 @@ div[data-testid="stSidebarHeader"] {
     overflow: visible !important;
 }
 
-/* Remove top space above user content block */
+/* Remove top space above user content block 
 div[data-testid="stSidebarUserContent"] {
     margin-top: 0px !important;
     padding-top: 8px !important;
-}
+}*/
 
 /* ── Top bar ─────────────────────────────────────────────────────────────────── */
 
-/* Offset main content below the fixed bar */
+/* Offset main content below the fixed bar 
 div[data-testid="stMainBlockContainer"].has-top-bar {
     padding-top: 0px !important;
-}
+}*/
 
 h1#approval-digital-stamp {
     padding-bottom: 8px !important;
@@ -103,7 +103,7 @@ div[data-testid="stColumns"] + div {
     margin-top: 0 !important;
 }
 
-/* Our bar must beat Streamlit's internal z-indexes (~300-400 range) */
+/* Our bar must beat Streamlit's internal z-indexes (~300-400 range) 
 #rig-top-bar {
     position: fixed;
     top: 0;
@@ -123,4 +123,4 @@ div[data-testid="stColumns"] + div {
 #rig-top-bar span {
     font-weight: 700;
     font-size: 1rem;
-}
+} */

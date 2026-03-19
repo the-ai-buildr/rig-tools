@@ -1,4 +1,5 @@
 import streamlit as st
+from components.nav.links import nav_links
 
 # Page config must be the first Streamlit call.
 st.set_page_config(
@@ -7,9 +8,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Redirect immediately — no rendering here so there is nothing for Streamlit to
-# clear on switch, eliminating the CSS flash between app.py and 01_home.py.
-# Session state and CSS are initialised by global_init() in each page. 
-# TODO: will this cause the session state to reset?
-st.switch_page("pages/01_home.py")
+# Init top nav — st.navigation handles default routing (Home is default=True)
+pages_nav = nav_links()
+pages_nav.run()
 

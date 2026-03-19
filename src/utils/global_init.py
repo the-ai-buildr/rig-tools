@@ -41,7 +41,7 @@ def global_init():
     init_session_state()
 
     # Apply custom CSS globally
-    apply_custom_css()
+    # apply_custom_css()
 
     # Add project root so styles can be imported (needed for Streamlit multipage / Pyodide)
     _project_root = Path(__file__).resolve().parent.parent

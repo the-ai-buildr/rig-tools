@@ -52,9 +52,9 @@ def _navigate_after_confirm(project_id: str, project_type: str):
         well = create_well(project_id, "Well 1")
         if well:
             st.session_state["active_well_id"] = well.well_id
-        st.switch_page("pages/05_well.py")
+        st.switch_page("src/pages/05_well.py")
     else:
-        st.switch_page("pages/04_project.py")
+        st.switch_page("src/pages/04_project.py")
 
 
 # ---------------------------------------------------------------------------
@@ -258,9 +258,9 @@ else:
                         # Single well — navigate to first well directly
                         if project.wells:
                             st.session_state["active_well_id"] = project.wells[0].well_id
-                        st.switch_page("pages/05_well.py")
+                        st.switch_page("src/pages/05_well.py")
                     else:
-                        st.switch_page("pages/04_project.py")
+                        st.switch_page("src/pages/04_project.py")
             with cols[5]:
                 confirm_key = f"confirm_del_{project.project_id}"
                 if st.session_state.get(confirm_key):

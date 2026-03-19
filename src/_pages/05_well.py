@@ -30,17 +30,17 @@ well = get_well(project_id, well_id) if (project_id and well_id) else None
 if project is None:
     st.warning("No project selected.")
     if st.button(":material/folder: Go to Projects"):
-        st.switch_page("pages/03_projects.py")
+        st.switch_page("src/pages/03_projects.py")
     st.stop()
 
 if well is None:
     st.warning("No well selected.")
-    back_page = "pages/04_project.py" if project.project_type == "pad" else "pages/03_projects.py"
+    back_page = "src/pages/04_project.py" if project.project_type == "pad" else "src/pages/03_projects.py"
     if st.button(":material/arrow_back: Go Back"):
         st.switch_page(back_page)
     st.stop()
 
-_back_page = "pages/04_project.py" if project.project_type == "pad" else "pages/03_projects.py"
+_back_page = "src/pages/04_project.py" if project.project_type == "pad" else "src/pages/03_projects.py"
 _back_label = "Back to Pad" if project.project_type == "pad" else "Back to Projects"
 
 # ---------------------------------------------------------------------------

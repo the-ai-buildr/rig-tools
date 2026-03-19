@@ -34,14 +34,14 @@ project = get_project(project_id) if project_id else None
 if project is None:
     st.warning("No project selected.")
     if st.button(":material/folder: Go to Projects"):
-        st.switch_page("pages/03_projects.py")
+        st.switch_page("src/pages/03_projects.py")
     st.stop()
 
 if project.project_type == "single":
     # Single-well projects never land here
     if project.wells:
         st.session_state["active_well_id"] = project.wells[0].well_id
-    st.switch_page("pages/05_well.py")
+    st.switch_page("src/pages/05_well.py")
 
 # ---------------------------------------------------------------------------
 # Add-well wizard session keys (pad-specific)
@@ -61,7 +61,7 @@ with st.sidebar:
     st.caption(f":material/schedule: modified {project.modified_at[:10]}")
     horizontal_rule()
     if st.button(":material/arrow_back: All Projects", use_container_width=True):
-        st.switch_page("pages/03_projects.py")
+        st.switch_page("src/pages/03_projects.py")
 
 # ---------------------------------------------------------------------------
 # Main area
@@ -71,7 +71,7 @@ page_header(project.project_name, ":material/folder_open:")
 col_back, col_dl, col_spacer = st.columns([0.14, 0.18, 0.68])
 with col_back:
     if st.button(":material/arrow_back: Projects", use_container_width=True):
-        st.switch_page("pages/03_projects.py")
+        st.switch_page("src/pages/03_projects.py")
 with col_dl:
     json_data = export_project_json(project_id)
     if json_data:
@@ -167,7 +167,7 @@ else:
             with cols[4]:
                 if st.button("Open", key=f"open_well_{well.well_id}", use_container_width=True, type="primary"):
                     st.session_state["active_well_id"] = well.well_id
-                    st.switch_page("pages/05_well.py")
+                    st.switch_page("src/pages/05_well.py")
             with cols[5]:
                 if st.session_state.get("pad_confirm_delete_well") == well.well_id:
                     if st.button(":material/check:", key=f"confirm_del_{well.well_id}", use_container_width=True, help="Confirm delete"):
