@@ -15,6 +15,7 @@ Read **all** skill files before auditing:
 
 - `.claude/skills/streamlit-pages.md`
 - `.claude/skills/streamlit-components.md`
+- `.claude/skills/streamline.md` (Developing with Streamlit)
 - `.claude/skills/fastapi-routes.md`
 - `.claude/skills/fastapi-streamlit-mount.md`
 - `.claude/skills/supabase-crud.md`
@@ -63,6 +64,14 @@ Read **all** skill files before auditing:
 - [ ] Auth endpoints (`signup`, `login`, `logout`, `refresh`) are in `api/routes/auth.py` only
 - [ ] RLS policies exist (or are documented for creation) for every new table
 - [ ] `auth_token`, `auth_refresh_token`, `auth_user`, `auth_expires_at` initialized in `init_session_state()`
+
+### Streamlit Design & UI (Developing with Streamlit skill)
+- [ ] Material icons (`:material/icon_name:`) used for UI — no emoji in place of icons
+- [ ] `st.segmented_control` used instead of `st.radio(..., horizontal=True)`
+- [ ] `st.toast()` used for transient confirmations — not `st.success()` in persistent position
+- [ ] `st.set_page_config()` not called in any page or component file (lives in `app.py` only)
+- [ ] `st.session_state.setdefault(key, default)` used for initialization — never overwrite on every run
+- [ ] Cache keys involving user identity use `st.session_state["auth_user"]["id"]` — no cross-user leakage
 
 ### Streamlit Pages & Components
 - [ ] Every page calls `global_init()` as its first statement

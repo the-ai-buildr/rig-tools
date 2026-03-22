@@ -1,4 +1,4 @@
-# Skill: Streamline (Developing with Streamlit)
+# Skill: Developing with Streamlit
 
 <!--
 Purpose: Streamlit best-practices skill set — routing hub for design, layout, performance,

@@ -125,7 +125,7 @@ All reusable layout is in `components/layout.py` (re-export hub). Never duplicat
 |---|---|---|
 | page, view, layout, UI | frontend-agent | streamlit-pages, streamlit-components |
 | component, fragment, widget | frontend-agent | streamlit-components, htmx-integration |
-| design, chart, badge, icon, metric, cache, performance, session state, dashboard | frontend-agent | streamline |
+| design, chart, badge, icon, metric, cache, performance, session state, dashboard | frontend-agent | developing-with-streamlit |
 | endpoint, route, API | backend-agent | fastapi-routes, supabase-crud |
 | auth, login, signup, session, JWT | backend-agent | supabase-auth, fastapi-routes |
 | mount, wiring, main.py, single-process | backend-agent | fastapi-streamlit-mount |
@@ -317,5 +317,5 @@ All migration files live in `supabase/migrations/`. See `.claude/skills/supabase
 | Supabase CRUD | `.claude/skills/supabase-crud.md` | `api/db/` functions |
 | Supabase Auth | `.claude/skills/supabase-auth.md` | Auth flows, JWT, RLS |
 | HTMX Integration | `.claude/skills/htmx-integration.md` | HTMX patterns |
-| Streamline | `.claude/skills/streamline.md` | Design, layout, widgets, charts, caching, session state, dashboards |
+| Developing with Streamlit | `.claude/skills/streamline.md` | Design, layout, widgets, charts, caching, session state, dashboards |
 | Rig Tools (legacy) | `.claude/skills/streamlit.md` | Existing page/component conventions |

@@ -15,6 +15,7 @@ Read all of the following before acting on any task:
 
 - `.claude/skills/streamlit-pages.md`
 - `.claude/skills/streamlit-components.md`
+- `.claude/skills/streamline.md` (Developing with Streamlit — design, layout, widgets, caching, session state, dashboards)
 - `.claude/skills/htmx-integration.md`
 - `.claude/skills/streamlit.md` (legacy conventions)
 
