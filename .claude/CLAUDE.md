@@ -317,5 +317,5 @@ All migration files live in `supabase/migrations/`. See `.claude/skills/supabase
 | Supabase CRUD | `.claude/skills/supabase-crud.md` | `api/db/` functions |
 | Supabase Auth | `.claude/skills/supabase-auth.md` | Auth flows, JWT, RLS |
 | HTMX Integration | `.claude/skills/htmx-integration.md` | HTMX patterns |
-| Developing with Streamlit | `.claude/skills/streamline.md` | Design, layout, widgets, charts, caching, session state, dashboards |
+| Developing with Streamlit | `.claude/skills/developing-with-streamlit.md` | Routing hub → 16 sub-skills: design, layout, widgets, themes, markdown, charts, caching, session state, dashboards, chat, components |
 | Rig Tools (legacy) | `.claude/skills/streamlit.md` | Existing page/component conventions |

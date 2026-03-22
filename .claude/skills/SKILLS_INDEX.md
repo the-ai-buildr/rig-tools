@@ -29,7 +29,23 @@ Produced by: orchestrator-agent
 | Supabase Auth | `skills/supabase-auth.md` | auth, login, signup, logout, session, JWT, token, RLS | backend-agent |
 | Supabase Migration | `skills/supabase-migration.md` | migration, schema, DDL, table, column, alter, index, RLS policy, seed, rollback, `supabase db` | migration-agent |
 | HTMX Integration | `skills/htmx-integration.md` | htmx, partial, swap, `hx-get`, `hx-post`, `hx-target`, `partials/` | both agents |
-| Developing with Streamlit | `skills/streamline.md` | design, layout, widget, chart, display, cache, performance, session state, dashboard, metric, badge, icon, theme | frontend-agent |
+| Developing with Streamlit (routing hub) | `skills/developing-with-streamlit.md` | design, layout, widget, chart, display, cache, performance, session state, dashboard, metric, badge, icon, theme, chat, markdown, component | frontend-agent |
+| → Dashboards | `skills/building-streamlit-dashboards.md` | KPI cards, metric rows, sparklines, dashboard layout | frontend-agent |
+| → Design | `skills/improving-streamlit-design.md` | icons, badges, spacing, typography, sentence case | frontend-agent |
+| → Layouts | `skills/using-streamlit-layouts.md` | columns, sidebar, containers, dialogs, tabs, expanders | frontend-agent |
+| → Session State | `skills/using-streamlit-session-state.md` | st.session_state, callbacks, cross-page state | frontend-agent |
+| → Performance | `skills/optimizing-streamlit-performance.md` | caching, fragments, forms, reruns | frontend-agent |
+| → Selection Widgets | `skills/choosing-streamlit-selection-widgets.md` | radio, select, pills, segmented control, toggle | frontend-agent |
+| → Data Display | `skills/displaying-streamlit-data.md` | tables, dataframes, charts, column config | frontend-agent |
+| → Themes | `skills/creating-streamlit-themes.md` | colors, fonts, borders, config.toml, light/dark mode | frontend-agent |
+| → Markdown | `skills/using-streamlit-markdown.md` | colored text, badges, LaTeX, icons in markdown | frontend-agent |
+| → Multipage Apps | `skills/building-streamlit-multipage-apps.md` | navigation, page structure, page-level state | frontend-agent |
+| → Chat UI | `skills/building-streamlit-chat-ui.md` | chat interfaces, streaming, file uploads | frontend-agent |
+| → Custom Components v2 | `skills/building-streamlit-custom-components-v2.md` | CCv2, bidirectional components, JS/HTML | frontend-agent |
+| → Third-party Components | `skills/using-streamlit-custom-components.md` | community packages, aggrid, folium | frontend-agent |
+| → Code Organization | `skills/organizing-streamlit-code.md` | file structure, imports, module layout | frontend-agent |
+| → Environment Setup | `skills/setting-up-streamlit-environment.md` | dependencies, uv, config baseline | frontend-agent |
+| → CLI | `skills/using-streamlit-cli.md` | streamlit run, config, diagnostics | frontend-agent |
 | Rig Tools (legacy) | `skills/streamlit.md` | existing page/component conventions, legacy patterns | frontend-agent |
 
 ---
