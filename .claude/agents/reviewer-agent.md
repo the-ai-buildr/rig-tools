@@ -15,7 +15,7 @@ Read **all** skill files before auditing:
 
 - `.claude/skills/streamlit-pages.md`
 - `.claude/skills/streamlit-components.md`
-- `.claude/skills/streamline.md` (Developing with Streamlit)
+- `.claude/skills/developing-with-streamlit.md` (Developing with Streamlit)
 - `.claude/skills/fastapi-routes.md`
 - `.claude/skills/fastapi-streamlit-mount.md`
 - `.claude/skills/supabase-crud.md`
