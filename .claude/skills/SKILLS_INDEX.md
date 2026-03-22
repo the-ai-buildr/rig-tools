@@ -29,6 +29,7 @@ Produced by: orchestrator-agent
 | Supabase Auth | `skills/supabase-auth.md` | auth, login, signup, logout, session, JWT, token, RLS | backend-agent |
 | Supabase Migration | `skills/supabase-migration.md` | migration, schema, DDL, table, column, alter, index, RLS policy, seed, rollback, `supabase db` | migration-agent |
 | HTMX Integration | `skills/htmx-integration.md` | htmx, partial, swap, `hx-get`, `hx-post`, `hx-target`, `partials/` | both agents |
+| Streamline | `skills/streamline.md` | design, layout, widget, chart, display, cache, performance, session state, dashboard, metric, badge, icon, theme | frontend-agent |
 | Rig Tools (legacy) | `skills/streamlit.md` | existing page/component conventions, legacy patterns | frontend-agent |
 
 ---
@@ -84,6 +85,16 @@ Produced by: orchestrator-agent
 - Streamlit stores: `auth_token`, `auth_refresh_token`, `auth_user`, `auth_expires_at` in session_state.
 - Login/signup components call `st.rerun(scope="app")` on success.
 - Logout clears all `auth_*` keys.
+
+### Streamline
+- Use `st.container(border=True)` and `st.container(horizontal=True)` for KPI card layouts — not CSS hacks.
+- Icons: `:material/icon_name:` (Material icons) everywhere — never emoji for UI elements.
+- Use `st.segmented_control` instead of `st.radio(..., horizontal=True)`.
+- `st.badge()` / `:green-badge[...]` for status indicators; `st.toast()` for transient confirmations.
+- `@st.cache_data(ttl=...)` for data/DataFrames; `@st.cache_resource` for connections (never mutate).
+- Cache keys that include user identity must use `st.session_state["auth_user"]["id"]` — no cross-user leakage.
+- `st.set_page_config()` is called once in `app.py` — never in pages or components.
+- Initialize session state with `st.session_state.setdefault(key, default)` — never overwrite on every run.
 
 ### HTMX Integration
 - Partial endpoints live in `api/routes/partials.py`, prefix `/api/partials`.
