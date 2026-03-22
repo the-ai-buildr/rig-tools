@@ -1,6 +1,6 @@
 """
 Pure Python dataclass models for Projects, Wells, and related entities.
-No Streamlit, FastAPI, or framework imports — safe for calcs/, API, and Electron/stlite.
+No Streamlit, FastAPI, or framework imports — safe for calcs/ and API layers.
 
 Produced by: backend-agent / data-layer
 """
