@@ -56,7 +56,7 @@ st.session_state.setdefault("pad_confirm_delete_well", None)
 with st.sidebar:
     sidebar_header("Rig Tools", icon=":material/handyman:")
     st.markdown(f"**{project.project_name}**")
-    st.caption(":material/category: Pad")
+    st.badge("Pad", color="blue")
     st.caption(f":material/person: {project.created_by}")
     st.caption(f":material/schedule: modified {project.modified_at[:10]}")
     horizontal_rule()
@@ -157,13 +157,13 @@ else:
                 st.caption(f"modified {modified}")
             with cols[1]:
                 wbc = len(well.wellbores)
-                st.caption(f":material/water: {wbc} bore{'s' if wbc != 1 else ''}")
+                st.badge(f"{wbc} bore{'s' if wbc != 1 else ''}", color="blue")
             with cols[2]:
                 cc = len(well.casings)
-                st.caption(f":material/settings: {cc} casing{'s' if cc != 1 else ''}")
+                st.badge(f"{cc} casing{'s' if cc != 1 else ''}", color="violet")
             with cols[3]:
                 mc = len(well.mud_entries)
-                st.caption(f":material/opacity: {mc} mud")
+                st.badge(f"{mc} mud", color="green" if mc > 0 else "gray")
             with cols[4]:
                 if st.button("Open", key=f"open_well_{well.well_id}", use_container_width=True, type="primary"):
                     st.session_state["active_well_id"] = well.well_id

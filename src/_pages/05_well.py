@@ -120,7 +120,7 @@ def _tab_well_header():
                 longitude=longitude if longitude != 0.0 else None,
             )
             update_well(project_id, well_local)
-            st.success("Well header saved.")
+            st.toast("Well header saved.")
 
 
 # ===========================================================================
@@ -165,7 +165,7 @@ def _tab_wellbores():
             if str(row.get("Name", "")).strip()
         ]
         update_well(project_id, well_local)
-        st.success("Wellbores saved.")
+        st.toast("Wellbores saved.")
 
 
 # ===========================================================================
@@ -224,7 +224,7 @@ def _tab_casings():
             if str(row.get("Name", "")).strip()
         ]
         update_well(project_id, well_local)
-        st.success("Casings & Liners saved.")
+        st.toast("Casings & Liners saved.")
 
 
 # ===========================================================================
@@ -278,7 +278,7 @@ def _tab_mud():
             if str(row.get("Mud Type", "")).strip() or float(row.get("Depth (ft)", 0.0) or 0.0) > 0
         ]
         update_well(project_id, well_local)
-        st.success("Mud table saved.")
+        st.toast("Mud table saved.")
 
 
 # ---------------------------------------------------------------------------
