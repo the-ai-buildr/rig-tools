@@ -105,32 +105,35 @@ elif step == 2:
         st.markdown(f"**Step 2 of 3 — {'Project Details' if mode == 'create' else 'Upload File'}**")
 
         if mode == "create":
-            name_input = st.text_input("Project Name", value=st.session_state["project_wizard_name"], key="_wiz_name")
-            type_input = st.selectbox(
-                "Project Type",
-                options=["single", "pad"],
-                format_func=_type_label,
-                index=0 if st.session_state["project_wizard_type"] == "single" else 1,
-                key="_wiz_type",
-            )
-            col_next, col_back, col_cancel = st.columns([0.15, 0.15, 0.70])
-            with col_next:
-                if st.button("Next →", type="primary", use_container_width=True):
-                    if not name_input.strip():
-                        st.warning("Project name is required.")
-                    else:
-                        st.session_state["project_wizard_name"] = name_input.strip()
-                        st.session_state["project_wizard_type"] = type_input
-                        st.session_state["project_wizard_step"] = 3
-                        st.rerun()
-            with col_back:
-                if st.button("← Back", use_container_width=True):
-                    st.session_state["project_wizard_step"] = 1
+            with st.form("wizard_create_form", border=False):
+                name_input = st.text_input("Project name", value=st.session_state["project_wizard_name"])
+                type_input = st.selectbox(
+                    "Project type",
+                    options=["single", "pad"],
+                    format_func=_type_label,
+                    index=0 if st.session_state["project_wizard_type"] == "single" else 1,
+                )
+                col_next, col_back, col_cancel = st.columns([0.15, 0.15, 0.70])
+                with col_next:
+                    submitted = st.form_submit_button("Next →", type="primary", use_container_width=True)
+                with col_back:
+                    back = st.form_submit_button("← Back", use_container_width=True)
+                with col_cancel:
+                    cancel = st.form_submit_button("Cancel", use_container_width=True)
+            if submitted:
+                if not name_input.strip():
+                    st.warning("Project name is required.")
+                else:
+                    st.session_state["project_wizard_name"] = name_input.strip()
+                    st.session_state["project_wizard_type"] = type_input
+                    st.session_state["project_wizard_step"] = 3
                     st.rerun()
-            with col_cancel:
-                if st.button("Cancel", use_container_width=True):
-                    _reset_wizard()
-                    st.rerun()
+            if back:
+                st.session_state["project_wizard_step"] = 1
+                st.rerun()
+            if cancel:
+                _reset_wizard()
+                st.rerun()
 
         else:  # upload
             uploaded = st.file_uploader("Select project JSON file", type=["json"], key="_wiz_upload")
@@ -234,7 +237,7 @@ else:
                 st.markdown(f"**{project.project_name}**")
                 st.caption(f"modified {modified} · by {project.created_by}")
             with cols[1]:
-                st.caption(f":material/category: {type_label}")
+                st.badge(type_label, color="blue" if project.project_type == "pad" else "green")
             with cols[2]:
                 st.caption(f":material/oil_barrel: {well_count} well{'s' if well_count != 1 else ''}")
             with cols[3]:

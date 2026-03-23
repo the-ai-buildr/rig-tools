@@ -1,9 +1,6 @@
 # Streamlit Development Skill — Rig Tools
 
-You are helping build **Rig Tools**, a drilling calculations platform built with Streamlit + FastAPI. It runs in two modes:
-
-- **Desktop**: Packaged with stlite (Streamlit + WebAssembly + Electron) — offline, no server
-- **Server/Docker**: Single-process — Streamlit + FastAPI on `:8501` via `uvicorn asgi:app` (Streamlit 1.53+ `starlette.App`)
+You are helping build **Rig Tools**, a drilling calculations platform built with Streamlit + FastAPI. It runs as a single-process service — Streamlit + FastAPI on `:8501` via `uvicorn asgi:app` (Streamlit 1.53+ `starlette.App`).
 
 > **⚠️ Architecture note (updated 2026-03):** This is a legacy reference skill. The project now uses
 > `asgi.py` as the ASGI entry point — FastAPI is mounted at `/api/*` via `streamlit.starlette.App`.
@@ -15,7 +12,7 @@ You are helping build **Rig Tools**, a drilling calculations platform built with
 ## Project Structure
 
 ```
-app.py                         # Streamlit entry point (stlite + Docker)
+app.py                         # Streamlit entry point
 start.sh                       # One-command Docker startup
 
 api/                           # FastAPI backend
@@ -183,7 +180,7 @@ All accept `unit_system: "us" | "metric"`. Docs at `http://localhost:8501/api/do
 
 ## Calculations (`calcs/`)
 
-Pure Python — **no Streamlit, no FastAPI imports**. Called by both API routes and (in Electron mode) directly by pages.
+Pure Python — **no Streamlit, no FastAPI imports**. Called by API routes only.
 
 ```python
 # calcs/mud_weight.py
@@ -250,21 +247,6 @@ Key variables:
 
 ---
 
-## Desktop Build (stlite + Electron)
-
-```bash
-npm install
-npm run dump           # compile stlite artifacts
-npm run serve          # launch Electron window
-npm run app:dist:mac   # macOS .dmg
-npm run app:dist:win   # Windows .exe
-npm run app:dist:all   # all platforms
-```
-
-In Electron mode, `calcs/` functions are called directly — no HTTP layer.
-
----
-
 ## Local Development (no Docker)
 
 ```bash
@@ -286,8 +268,8 @@ open http://localhost:8501/api/docs
 |---|---|
 | Copy `00_template.py` for new pages | Consistent structure |
 | Pages import from `frontend/api_client.py`, not `httpx` | Single HTTP layer |
-| `calcs/` has no framework imports | Works in both Electron and Docker modes |
+| `calcs/` has no framework imports | Independently testable; no framework coupling |
 | `api/routes/` has no Streamlit imports | Clean separation |
 | Docker files live in `docker/` | Clean root directory |
 | Never commit `docker/.env` | Contains secrets |
-| `requirements.txt` is minimal | stlite bundle size matters |
+| `requirements.txt` is minimal | Keeps the Docker image lean |

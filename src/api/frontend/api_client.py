@@ -81,38 +81,58 @@ def calc_hydrostatic_pressure(mud_weight: float, depth: float, unit_system: str 
 # Migrate pages to these when Supabase DB is wired.
 # ---------------------------------------------------------------------------
 
+@st.cache_data(ttl=60)
 def list_projects() -> list | None:
     return api_request("GET", "/projects")
 
 
 def create_project_api(name: str, project_type: str = "single") -> dict | None:
-    return api_request("POST", "/projects", json={"project_name": name, "project_type": project_type})
+    result = api_request("POST", "/projects", json={"project_name": name, "project_type": project_type})
+    if result:
+        list_projects.clear()
+    return result
 
 
+@st.cache_data(ttl=60)
 def get_project_api(project_id: str) -> dict | None:
     return api_request("GET", f"/projects/{project_id}")
 
 
 def update_project_api(project_id: str, name: str | None = None, project_type: str | None = None) -> dict | None:
     payload = {k: v for k, v in {"project_name": name, "project_type": project_type}.items() if v is not None}
-    return api_request("PUT", f"/projects/{project_id}", json=payload)
+    result = api_request("PUT", f"/projects/{project_id}", json=payload)
+    if result:
+        list_projects.clear()
+        get_project_api.clear()
+    return result
 
 
 def delete_project_api(project_id: str) -> bool:
     result = api_request("DELETE", f"/projects/{project_id}")
+    if result is not None:
+        list_projects.clear()
+        get_project_api.clear()
     return result is not None
 
 
 def add_well_api(project_id: str, well_name: str) -> dict | None:
-    return api_request("POST", f"/projects/{project_id}/wells", json={"well_name": well_name})
+    result = api_request("POST", f"/projects/{project_id}/wells", json={"well_name": well_name})
+    if result:
+        get_project_api.clear()
+    return result
 
 
 def update_well_api(project_id: str, well_id: str, data: dict) -> dict | None:
-    return api_request("PUT", f"/projects/{project_id}/wells/{well_id}", json=data)
+    result = api_request("PUT", f"/projects/{project_id}/wells/{well_id}", json=data)
+    if result:
+        get_project_api.clear()
+    return result
 
 
 def delete_well_api(project_id: str, well_id: str) -> bool:
     result = api_request("DELETE", f"/projects/{project_id}/wells/{well_id}")
+    if result is not None:
+        get_project_api.clear()
     return result is not None
 
 

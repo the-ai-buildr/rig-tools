@@ -10,27 +10,19 @@ Produced by: orchestrator-agent
 **Rig Tools** is a drilling calculations platform built with Streamlit + FastAPI + Supabase.
 
 - **Frontend:** Streamlit 1.55 (multipage, `st.fragment` for partial rerenders, HTMX for lightweight interactivity)
-- **Backend API:** FastAPI 0.135 (separate Docker service on :8000, communicates over HTTP)
+- **Backend API:** FastAPI 0.135 (mounted at `/api/*` on the same port via `asgi.py`)
 - **Database/Auth:** Supabase (PostgreSQL + Auth + Row-Level Security)
-- **Deployment:** Docker Compose (`api` on :8000, `frontend` on :8501)
-- **Desktop mode:** stlite/Electron — fully offline, calls `calcs/` directly with no HTTP
+- **Deployment:** Docker Compose (single service on :8501)
 
 **Target users:** Operations Supervisors, Rig Managers, and Engineers.
 
-### Two Deployment Modes
+### Deployment Mode
 
-| Mode | Entry Point | Run command | Use Case |
-|---|---|---|-|
-| Single-process (default) | `asgi.py` via uvicorn | `uvicorn asgi:app` | Docker, local dev, desktop |
-| Desktop (stlite/Electron) | `app.py` | `npm run serve` | Offline field use — calls `calcs/` directly |
-
-In both non-Electron modes, `asgi.py` is the ASGI entry point. It composes:
+`asgi.py` is the ASGI entry point. It composes:
 - **Streamlit** — handles every path except `/api/*`
 - **FastAPI** — mounted at `/api/*` via Starlette `Mount`
 
 All endpoints are on **one port (8501)**. There is no separate `:8000` API service.
-
-> In Electron/stlite mode, API calls go directly to `calcs/` functions — no HTTP, no FastAPI.
 
 > **context7 note:** This file was generated without context7 MCP access. API signatures
 > match supabase-py ≥2.3, Streamlit 1.33–1.55, FastAPI 0.135, HTMX 1.9.x.
@@ -133,6 +125,7 @@ All reusable layout is in `components/layout.py` (re-export hub). Never duplicat
 |---|---|---|
 | page, view, layout, UI | frontend-agent | streamlit-pages, streamlit-components |
 | component, fragment, widget | frontend-agent | streamlit-components, htmx-integration |
+| design, chart, badge, icon, metric, cache, performance, session state, dashboard | frontend-agent | developing-with-streamlit |
 | endpoint, route, API | backend-agent | fastapi-routes, supabase-crud |
 | auth, login, signup, session, JWT | backend-agent | supabase-auth, fastapi-routes |
 | mount, wiring, main.py, single-process | backend-agent | fastapi-streamlit-mount |
@@ -248,17 +241,6 @@ uvicorn asgi:app --reload --port 8501
 open http://localhost:8501/api/docs
 ```
 
-### Desktop build (stlite + Electron)
-
-```bash
-npm install
-npm run dump           # compile stlite artifacts
-npm run serve          # launch Electron dev window
-npm run app:dist:mac   # macOS .dmg
-npm run app:dist:win   # Windows .exe
-npm run app:dist:all   # all platforms
-```
-
 ---
 
 ## Session State Keys
@@ -280,7 +262,7 @@ Add per-feature keys with namespaced names: `{feature}_{key}` (e.g., `digital_st
 | Rule | Reason |
 |---|---|
 | Copy `pages/00_template.py` for new pages | Consistent structure |
-| `calcs/` has no framework imports | Independently testable; reusable in both Desktop and Docker modes |
+| `calcs/` has no framework imports | Independently testable; no framework coupling |
 | `api/routes/` has no Streamlit imports | Clean layer separation |
 | `frontend/api_client.py` is the only HTTP layer | Single place to change base URL / auth headers |
 | Global CSS applied once via `global_init()` | Avoid repeated injection on every rerender |
@@ -335,4 +317,5 @@ All migration files live in `supabase/migrations/`. See `.claude/skills/supabase
 | Supabase CRUD | `.claude/skills/supabase-crud.md` | `api/db/` functions |
 | Supabase Auth | `.claude/skills/supabase-auth.md` | Auth flows, JWT, RLS |
 | HTMX Integration | `.claude/skills/htmx-integration.md` | HTMX patterns |
+| Developing with Streamlit | `.claude/skills/developing-with-streamlit.md` | Routing hub → 16 sub-skills: design, layout, widgets, themes, markdown, charts, caching, session state, dashboards, chat, components |
 | Rig Tools (legacy) | `.claude/skills/streamlit.md` | Existing page/component conventions |
