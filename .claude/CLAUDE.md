@@ -128,6 +128,8 @@ All reusable layout is in `components/layout.py` (re-export hub). Never duplicat
 | design, chart, badge, icon, metric, cache, performance, session state, dashboard | frontend-agent | developing-with-streamlit |
 | endpoint, route, API | backend-agent | fastapi-routes, supabase-crud |
 | auth, login, signup, session, JWT | backend-agent | supabase-auth, fastapi-routes |
+| appwrite, collection, document | backend-agent | appwrite-crud, fastapi-routes |
+| appwrite auth, account | backend-agent | appwrite-auth, fastapi-routes |
 | mount, wiring, main.py, single-process | backend-agent | fastapi-streamlit-mount |
 | htmx, swap, partial | frontend-agent + backend-agent | htmx-integration, fastapi-routes |
 | crud, database, table, query | backend-agent | supabase-crud, fastapi-routes |
@@ -317,5 +319,7 @@ All migration files live in `supabase/migrations/`. See `.claude/skills/supabase
 | Supabase CRUD | `.claude/skills/supabase-crud.md` | `api/db/` functions |
 | Supabase Auth | `.claude/skills/supabase-auth.md` | Auth flows, JWT, RLS |
 | HTMX Integration | `.claude/skills/htmx-integration.md` | HTMX patterns |
+| Appwrite CRUD | `.claude/skills/appwrite-crud.md` | Appwrite `api/db/` document functions |
+| Appwrite Auth | `.claude/skills/appwrite-auth.md` | Appwrite auth flows, JWT, document permissions |
 | Developing with Streamlit | `.claude/skills/developing-with-streamlit.md` | Routing hub → 16 sub-skills: design, layout, widgets, themes, markdown, charts, caching, session state, dashboards, chat, components |
 | Rig Tools (legacy) | `.claude/skills/streamlit.md` | Existing page/component conventions |

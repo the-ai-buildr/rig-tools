@@ -28,6 +28,8 @@ Produced by: orchestrator-agent
 | Supabase CRUD | `skills/supabase-crud.md` | crud, database, table, query, supabase, `api/db/` | backend-agent |
 | Supabase Auth | `skills/supabase-auth.md` | auth, login, signup, logout, session, JWT, token, RLS | backend-agent |
 | Supabase Migration | `skills/supabase-migration.md` | migration, schema, DDL, table, column, alter, index, RLS policy, seed, rollback, `supabase db` | migration-agent |
+| Appwrite CRUD | `skills/appwrite-crud.md` | appwrite, collection, document, databases, query, `api/db/` | backend-agent |
+| Appwrite Auth | `skills/appwrite-auth.md` | appwrite auth, account, login, signup, logout, session, JWT, token, permissions | backend-agent |
 | HTMX Integration | `skills/htmx-integration.md` | htmx, partial, swap, `hx-get`, `hx-post`, `hx-target`, `partials/` | both agents |
 | Developing with Streamlit (routing hub) | `skills/developing-with-streamlit.md` | design, layout, widget, chart, display, cache, performance, session state, dashboard, metric, badge, icon, theme, chat, markdown, component | frontend-agent |
 | → Dashboards | `skills/building-streamlit-dashboards.md` | KPI cards, metric rows, sparklines, dashboard layout | frontend-agent |
@@ -111,6 +113,24 @@ Produced by: orchestrator-agent
 - Cache keys that include user identity must use `st.session_state["auth_user"]["id"]` — no cross-user leakage.
 - `st.set_page_config()` is called once in `app.py` — never in pages or components.
 - Initialize session state with `st.session_state.setdefault(key, default)` — never overwrite on every run.
+
+### Appwrite CRUD
+- One file per collection: `api/db/{collection}.py` — five functions: `create_`, `list_`, `read_`, `update_`, `delete_`.
+- All DB functions return `(data, error)` tuples — never raise out of `api/db/`.
+- Catch `AppwriteException`; return `exc.message` as the error string — there is no `.error` attribute.
+- `services/appwrite.py` is the **only** place `Client()` is instantiated.
+- API key usage requires: `# API KEY: bypasses permissions — [reason]` comment.
+- `Query.equal("field", ["value"])` — value must be a **list**, even for single values.
+- `list_documents` returns `.documents` (list) and `.total` (int) — not `.data`.
+
+### Appwrite Auth
+- JWT validated via `account.get()` with `client.set_jwt(jwt)` in `get_current_user` dep — not local decode.
+- User data operations use `get_user_appwrite_client(jwt)` — never the API key client.
+- Auth endpoints only in `api/routes/auth.py`.
+- Streamlit stores: `auth_token` (JWT), `auth_session_id`, `auth_user`, `auth_expires_at` in session_state.
+- JWT is short-lived (15 min) — refresh using `account.create_jwt()` with the long-lived `session_id`.
+- Login/signup components call `st.rerun(scope="app")` on success.
+- Logout clears all `auth_*` keys and calls `account.delete_session(session_id)`.
 
 ### HTMX Integration
 - Partial endpoints live in `api/routes/partials.py`, prefix `/api/partials`.
