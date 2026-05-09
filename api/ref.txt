@@ -1,0 +1,2 @@
+Dash fastapi 
+- https://community.plotly.com/t/tips-tricks-natively-integrating-a-fastapi-backend-in-your-dash-application-dash-4-1-0/96834
