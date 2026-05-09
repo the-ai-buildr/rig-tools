@@ -2,7 +2,7 @@ import dash
 from dash import ( 
     Dash, html, dcc, 
     Input, Output, State,
-    callback
+    callback, clientside_callback
 )
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify as dc
