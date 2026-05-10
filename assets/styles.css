@@ -1,0 +1,11 @@
+/* rig-tools global styles */
+
+.dmc {
+    height: 100%;
+}
+
+/* Reduce top padding in main content area */
+.mantine-AppShell-main {
+    margin-top: calc(0px);
+    padding-top: calc(var(--app-shell-header-height) - 10px);
+}

@@ -3,6 +3,7 @@ import dash_mantine_components as dmc
 from dash import Dash, dcc
 from components.layouts.dashboard import nav_bar, sidebar
 from callbacks.register import register_callbacks
+from styles import theme
 
 # App Setup
 app = Dash(
@@ -27,7 +28,7 @@ layout = dmc.AppShell(
     ],
     header={"height": 42},
     navbar={
-        "width": {"base": 225, "md": 225, "lg": 200},
+        "width": {"base": 300, "md": 250, "lg": 200},
         "breakpoint": "sm",
         "collapsed": {"mobile": True},
     },
@@ -36,10 +37,11 @@ layout = dmc.AppShell(
     className="dmc",
 )
 
+
 app.layout = dmc.MantineProvider([
     dcc.Location(id="route-location", refresh=False),
     layout,
-], id="theme-provider")
+], id="theme-provider", theme=theme)
 
 
 if __name__ == '__main__':

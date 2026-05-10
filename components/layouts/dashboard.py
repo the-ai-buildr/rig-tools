@@ -1,16 +1,41 @@
 import dash_mantine_components as dmc
+from dash_iconify import DashIconify
 
-from components.ui.theme_toggle import theme_toggle
+from components.ui.settings_popover import settings_popover
 
-NAVBAR_CONTENT_ID = "navbar-content"
+# Icon packages:
+# https://icon-sets.iconify.design/tabler/page-32.html?icon-filter=t&keyword=table
 
+nav_links = dmc.Stack(
+    [
+        dmc.NavLink(
+            label="Dashboard",
+            leftSection=DashIconify(icon="tabler:layout-dashboard", width=16),
+            variant="subtle",
+            href="/home",
+        ),
+        dmc.NavLink(
+            label="Tools",
+            leftSection=DashIconify(icon="tabler:tools", width=16),
+            href="/tools",
+        ),
+        dmc.NavLink(
+            label="Scheduler",
+            leftSection=DashIconify(icon="tabler:calendar-month", width=16),
+            href="/scheduler",
+        ),
+    ],
+    gap=0,
+    p="sm",
+    style={"flex": 1},
+)
 
-def default_sidebar_content():
-    return [
-        dmc.Text("Sidebar", fw=600),
-        dmc.Text("Add sidebar content in page register_page(..., sidebar=[...])", c="dimmed", size="sm"),
-    ]
-
+settings_link = dmc.NavLink(
+    label="Settings",
+    leftSection=DashIconify(icon="tabler:settings", width=16),
+    color="dimmed",
+    href="/settings",
+)
 
 nav_bar = dmc.AppShellHeader(
     dmc.Group(
@@ -23,16 +48,25 @@ nav_bar = dmc.AppShellHeader(
             ),
             dmc.Text("Rig-Tools", c="blue", fz="xl", fw=700, fs=22),
             dmc.Space(style={"flex": 1}),
-            theme_toggle,
+            settings_popover,
         ],
-        h="70%",
+        h="100%",
         px="md",
         justify="space-between",
+        align="center",
     )
 )
 
 sidebar = dmc.AppShellNavbar(
     id="navbar",
-    children=dmc.Stack(default_sidebar_content(), id=NAVBAR_CONTENT_ID, gap="sm"),
-    p="sm",
+    children=dmc.Flex(
+        [
+            nav_links,
+            dmc.Divider(),
+            settings_link,
+        ],
+        direction="column",
+        style={"height": "100%"},
+    ),
+    p=0,
 )

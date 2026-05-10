@@ -1,5 +1,6 @@
 import dash_mantine_components as dmc
 from dash import html
+from dash_iconify import DashIconify
 
 
 def sidebar_section(title, description=None, children=None):
@@ -14,11 +15,21 @@ def sidebar_section(title, description=None, children=None):
     return items
 
 
-def sidebar_links(labels, active_label=None):
-    return [
-        dmc.NavLink(label=label, active=label == active_label)
-        for label in labels
-    ]
+def sidebar_links(labels, active_label=None, icons=None, hrefs=None):
+    icons = icons or {}
+    hrefs = hrefs or {}
+    links = []
+    for label in labels:
+        icon = icons.get(label)
+        links.append(
+            dmc.NavLink(
+                label=label,
+                active=label == active_label,
+                leftSection=DashIconify(icon=icon, width=16) if icon else None,
+                href=hrefs.get(label),
+            )
+        )
+    return links
 
 
 def landing_content(home_path="/home"):
@@ -33,8 +44,8 @@ def landing_content(home_path="/home"):
                     style={"textDecoration": "none"},
                 ),
             ],
-            gap="md",
+            gap="sm",
             align="center",
         ),
-        pt="xl",
+        pt="sm",
     )
