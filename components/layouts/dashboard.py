@@ -11,17 +11,22 @@ nav_links = dmc.Stack(
         dmc.NavLink(
             label="Dashboard",
             leftSection=DashIconify(icon="tabler:layout-dashboard", width=16),
+            color="indigo",
             variant="subtle",
             href="/home",
         ),
         dmc.NavLink(
             label="Tools",
             leftSection=DashIconify(icon="tabler:tools", width=16),
+            color="indigo",
+            variant="subtle",
             href="/tools",
         ),
         dmc.NavLink(
             label="Scheduler",
             leftSection=DashIconify(icon="tabler:calendar-month", width=16),
+            color="indigo",
+            variant="subtle",
             href="/scheduler",
         ),
     ],
@@ -33,7 +38,8 @@ nav_links = dmc.Stack(
 settings_link = dmc.NavLink(
     label="Settings",
     leftSection=DashIconify(icon="tabler:settings", width=16),
-    color="dimmed",
+    color="indigo",
+    variant="subtle",
     href="/settings",
 )
 
@@ -46,7 +52,7 @@ nav_bar = dmc.AppShellHeader(
                 hiddenFrom="sm",
                 opened=False,
             ),
-            dmc.Text("Rig-Tools", c="blue", fz="xl", fw=700, fs=22),
+            dmc.Text("Rig-Tools", c="indigo", fz="xl", fw=700, fs=22),
             dmc.Space(style={"flex": 1}),
             settings_popover,
         ],
