@@ -1,86 +1,46 @@
 import dash
-from dash import ( 
-    Dash, html, dcc, 
-    Input, Output, State,
-    callback, clientside_callback
-)
 import dash_mantine_components as dmc
-from dash_iconify import DashIconify as dc
+from dash import Dash, dcc
+from components.layouts.dashboard import nav_bar, sidebar
+from callbacks.register import register_callbacks
 
+# App Setup
 app = Dash(
     __name__,
     backend="fastapi",
-    use_pages=True
+    use_pages=True,
+    assets_folder="assets",
+    suppress_callback_exceptions=True,
 )
 
-# app.layout = html.Div([
-#     html.H1('Rig Tools'),
-#     html.Div([
-#         html.Div(
-#             dcc.Link(f"{page['name']} - {page['path']}", href=page["relative_path"])
-#         ) for page in dash.page_registry.values()
-#     ]),
-#     dash.page_container
-# ])
+# Register callbacks
+register_callbacks(app)
 
-# logo = html.Div(dc(icon="material:tools", width=30))
-
-nav_bar = dmc.AppShellHeader(
-            dmc.Group([
-                    dmc.Burger(
-                        id="burger",
-                        size="sm",
-                        hiddenFrom="sm",
-                        opened=False,
-                    ),
-                    # dmc.Image(src=logo, h=40, flex=0),
-                    dmc.Title("Demo App", c="blue"),
-                ],
-                h="90%",
-                px="md",
-            )
-        )
-
-sidebar = dmc.AppShellNavbar(
-            id="navbar",
-            children=[
-                "Navbar",
-                *[dmc.Skeleton(height=28, mt="sm", animate=True) for _ in range(15)],
-            ],
-            p="md",
-        )
-
-body = dmc.AppShellMain("Main")
+# Layout
+body = dmc.AppShellMain(dmc.Box(), id="main-content")
     
-layout = dmc.AppShell([
+layout = dmc.AppShell(
+    [
         nav_bar,
         sidebar,
         body,
-        dash.page_container
     ],
-    header={
-        "height": {"base": 42, "md": 42, "lg": 42},
-    },
+    header={"height": 42},
     navbar={
-        "width": {"base": 225, "md": 225, "lg": 225},
+        "width": {"base": 225, "md": 225, "lg": 200},
         "breakpoint": "sm",
         "collapsed": {"mobile": True},
     },
-    padding="md",
+    padding="sm",
     id="appshell",
+    className="dmc",
 )
 
-app.layout = dmc.MantineProvider(layout)
+app.layout = dmc.MantineProvider([
+    dcc.Location(id="route-location", refresh=False),
+    layout,
+], id="theme-provider")
 
-
-@callback(
-    Output("appshell", "navbar"),
-    Input("burger", "opened"),
-    State("appshell", "navbar"),
-)
-def toggle_navbar(opened, navbar):
-    navbar["collapsed"] = {"mobile": not opened}
-    return navbar
 
 if __name__ == '__main__':
     app.run(debug=True)
