@@ -27,11 +27,6 @@ layout = dmc.AppShell(
         body,
     ],
     header={"height": 42},
-    navbar={
-        "width": {"base": 300, "md": 250, "lg": 200},
-        "breakpoint": "sm",
-        "collapsed": {"mobile": True},
-    },
     padding="sm",
     id="appshell",
     className="dmc",

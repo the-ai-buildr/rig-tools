@@ -7,7 +7,7 @@ from utils import landing_content
 
 
 BASE_NAVBAR = {
-    "width": {"base": 225, "md": 225, "lg": 200},
+    "width": {"base": 225, "md": 225, "lg": 225},
     "breakpoint": "sm",
     "collapsed": {"mobile": True},
 }

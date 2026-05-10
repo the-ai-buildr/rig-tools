@@ -1,11 +1,44 @@
-/* rig-tools global styles */
+/* ============================================================
+   rig-tools global styles
+   ============================================================ */
 
+
+/* ── Layout ─────────────────────────────────────────────────── */
+
+/* Ensure full-height layout for AppShell wrapper */
 .dmc {
     height: 100%;
 }
 
-/* Reduce top padding in main content area */
-.mantine-AppShell-main {
-    margin-top: calc(0px);
-    padding-top: calc(var(--app-shell-header-height) - 10px);
+/* ── Sidebar NavLink: Hover state ────────────────────────────── */
+
+/* Light mode: indigo tint bg + indigo text + bold on hover
+   Excluded when the link is already active or disabled        */
+.mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
+    background-color: var(--mantine-color-indigo-0);
+    color: var(--mantine-color-indigo-7);
+    font-weight: 600;
+}
+
+/* Dark mode equivalent */
+[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
+    background-color: var(--mantine-color-indigo-9);
+    color: var(--mantine-color-indigo-2);
+}
+
+
+/* ── Sidebar NavLink: Active (current page) state ────────────── */
+
+/* Light mode: indigo text, bold, transparent bg */
+.mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
+    background-color: transparent !important;
+    color: var(--mantine-color-indigo-6);
+    font-weight: 700;
+}
+
+/* Dark mode equivalent */
+[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
+    background-color: transparent !important;
+    color: var(--mantine-color-indigo-3);
+    font-weight: 700;
 }
