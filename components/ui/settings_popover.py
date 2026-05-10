@@ -16,49 +16,38 @@ settings_popover = dmc.Popover(
         dmc.PopoverDropdown(
             dmc.Stack(
                 [
-                    dmc.Group(
-                        [
-                            DashIconify(icon="tabler:user-square-rounded", width=16),
-                            dmc.Text("Profile", size="sm"),
-                        ],
-                        gap="sm",
-                        style={"cursor": "pointer"},
+                    dmc.NavLink(
+                        label="Profile",
+                        leftSection=DashIconify(icon="tabler:user-square-rounded", width=16),
+                        color="indigo",
+                        variant="subtle",
+                    ),
+                    dmc.NavLink(
+                        label="Docs",
+                        leftSection=DashIconify(icon="tabler:book-2", width=16),
+                        color="indigo",
+                        variant="subtle",
+                        href="https://dash.plotly.com",
+                        target="_blank",
+                    ),
+                    dmc.NavLink(
+                        label="Theme",
+                        leftSection=DashIconify(icon="tabler:sun-moon", width=16),
+                        rightSection=theme_toggle,
+                        color="indigo",
+                        variant="subtle",
                     ),
                     dmc.Divider(),
-                    dmc.Group(
-                        [
-                            DashIconify(icon="tabler:book-2", width=16),
-                            dmc.Text("Docs", size="sm"),
-                        ],
-                        gap="sm",
-                        style={"cursor": "pointer"},
-                    ),
-                    dmc.Group(
-                        [
-                            dmc.Group(
-                                [
-                                    DashIconify(icon="tabler:sun-moon", width=16),
-                                    dmc.Text("Theme", size="sm"),
-                                ],
-                                gap="sm",
-                            ),
-                            theme_toggle,
-                        ],
-                        justify="space-between",
-                    ),
-                    dmc.Divider(),
-                    dmc.Group(
-                        [
-                            DashIconify(icon="tabler:logout", width=16, color="var(--mantine-color-red-6)"),
-                            dmc.Text("Sign out", size="sm", c="red"),
-                        ],
-                        gap="sm",
-                        style={"cursor": "pointer"},
+                    dmc.NavLink(
+                        label="Sign out",
+                        leftSection=DashIconify(icon="tabler:logout", width=16),
+                        color="red",
+                        variant="subtle",
                     ),
                 ],
-                gap="xs",
+                gap=2,
             ),
-            p="sm",
+            p="xs",
         ),
     ],
     position="bottom-end",

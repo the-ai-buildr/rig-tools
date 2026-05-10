@@ -4,7 +4,7 @@ from dash_iconify import DashIconify
 
 
 def sidebar_section(title, description=None, children=None):
-    items = [dmc.Text(title, fw=600)]
+    items = [dmc.Text(title, fw=700)]
 
     if description:
         items.append(dmc.Text(description, c="dimmed", size="sm"))
