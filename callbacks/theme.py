@@ -9,7 +9,7 @@ from utils import landing_content
 BASE_NAVBAR = {
     "width": {"base": 225, "md": 225, "lg": 225},
     "breakpoint": "sm",
-    "collapsed": {"mobile": True},
+    "collapsed": {"mobile": True, "desktop": False},
 }
 
 LANDING_NAVBAR = {
@@ -38,5 +38,5 @@ def register_theme_callbacks(app):
             return LANDING_NAVBAR, landing_content("/home")
 
         navbar = dict(BASE_NAVBAR)
-        navbar["collapsed"] = {"mobile": not bool(opened)}
+        navbar["collapsed"] = {"mobile": not bool(opened), "desktop": bool(opened)}
         return navbar, dash.page_container

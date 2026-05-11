@@ -53,7 +53,6 @@ nav_bar = dmc.AppShellHeader(
             dmc.Burger(
                 id="burger",
                 size="sm",
-                hiddenFrom="sm",
                 opened=False,
             ),
             dmc.Group(
