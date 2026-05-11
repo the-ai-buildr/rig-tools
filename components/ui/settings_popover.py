@@ -62,6 +62,7 @@ settings_popover = dmc.Popover(
             p="xs",
         ),
     ],
+    # TODO: opooer glitches out on small screens
     position="left",
     withArrow=False,
     trapFocus=True,
