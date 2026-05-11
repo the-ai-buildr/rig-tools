@@ -1,0 +1,80 @@
+{
+    "header": {
+        "well_name": "Template-4S Well",
+        "api_number": "42-000-00000",
+        "operator": "Gemini Energy",
+        "users": ["j_driller", "s_geologist"],
+        "date_created": "2026-05-09",
+        "last_modified": "2026-05-09T14:30:00Z",
+        "status": "Drilling",
+        "location": {
+            "country": "USA",
+            "state": "Texas",
+            "county": "Midland",
+            "latitude": 32.0000,
+            "longitude": -102.0000
+        },
+        "directions":"Drive down xyz road for 3.4 miles, then turn left onto abc road for 1.2 miles. The well site will be on the right.",
+        "well_type": "Vertical",
+        "spud_date": "2026-05-01",
+        "expected_td_date": "2026-06-30",
+        "operator_contact": {
+            "name": "Jane Doe",
+            "email": "jane.doe@geminienergy.com",
+            "phone": "+1-555-123-4567"
+        },
+        "notes": "This is a template well for testing purposes."
+    },
+    "wellbores": [{
+        "sections": [
+            {"name": "Surface", "size": 17.5, "depth_md": 2500, "status": "Complete"},
+            {"name": "Int 1", "size": 13.38, "depth_md": 6500, "status": "Complete"},
+            {"name": "Int 2", "size": 8.75, "depth_md": 8500, "status": "Complete"},
+            {"name": "Prod", "size": 6.75, "depth_md": 25000, "status": "In Progress"}
+            ]
+        }
+    ],
+    "csg_liners": [
+        {"sections": [
+            {"name": "Surface Casing", "size_od_in": 17.5, "size_id_in": 12.415, "top_depth_md": 0, "btm_depth_md": 2500, "status": "Complete"},
+            {"name": "Int 1 Casing", "size_od_in": 13.38, "size_id_in": 9.625, "top_depth_md": 2500, "btm_depth_md": 6500, "status": "Complete"},
+            {"name": "Int 2 Liner", "size_od_in": 8.75, "size_id_in": 6.883, "top_depth_md": 6500, "btm_depth_md": 8500, "status": "Complete"},
+            {"name": "Prod Casing", "size_od_in": 6.75, "size_id_in": 4.778, "top_depth_md": 8500, "btm_depth_md": 25000, "status": "Not Started"}
+            ]
+        }
+    ],
+    "drill_string": {
+        "name": "BHA #2 - Drilling 8.5in Hole",
+        "total_length": 450,
+        "status": "In Hole",
+        "components": [
+            {"type": "Bit", "od": 8.5, "length": 1.5},
+            {"type": "Mud Motor", "od": 6.75, "length": 30.0}
+        ]
+    },
+    "mud": {
+        "sections": [
+            { "name": "Water Base", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
+            { "name": "Water Based", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
+            { "name": "Fresh Water", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
+            { "name": "Synthetic-1", "type": "OBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
+        ]
+    },
+    "directional": {
+        "status": "Planning",
+        "surveys": [
+            {"md": 0, "inc": 0, "azi": 0},
+            {"md": 1000, "inc": 1.5, "azi": 45.0}
+        ]
+    },
+    "geology": {
+        "formations": [
+            {"name": "Upper Shale", "top_md": 4500},
+            {"name": "Target Sand", "top_md": 8200}
+        ]
+    },
+    "other": {
+        "rig_name": "Rig-101",
+        "misc_notes": "None"
+    }
+}
