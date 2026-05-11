@@ -16,8 +16,9 @@
 
 /* ── Sidebar NavLink: Hover state ────────────────────────────── */
 
-.mantine-AppShell-navbar .mantine-NavLink-root {
-    font-size: 1rem;
+.mantine-AppShell-navbar .mantine-NavLink-root,
+.mantine-AppShell-navbar .mantine-NavLink-label {
+    font-size: 0.875rem !important;
 }
 
 /* Light mode: very subtle blue tint, no text/weight change */
@@ -37,13 +38,14 @@
 .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
     background-color: transparent !important;
     color: var(--mantine-color-blue-6);
+    font-size: 18px;
     font-weight: 700;
 }
 
 /* Dark mode equivalent */
 [data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
     background-color: transparent !important;
-    color: var(--mantine-color-blue-3);
+    color: var(--mantine-color-blue-6);
     font-weight: 700;
 }
 

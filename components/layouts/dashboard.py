@@ -58,7 +58,7 @@ nav_bar = dmc.AppShellHeader(
             dmc.Group(
                 [
                     DashIconify(icon="tabler:shield-chevron", width=26, color="var(--mantine-color-blue-6)"),
-                    dmc.Title("Rig Apps", c="var(--mantine-color-blue-6)", order=2, fw=1100, lh=1),
+                    dmc.Title("Rig Apps", c="var(--mantine-color-blue-6)", order=2, lh=1),
                 ],
                 gap=6,
                 ml="7px",
