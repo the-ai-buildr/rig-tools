@@ -2,6 +2,10 @@
    rig-tools global styles
    ============================================================ */
 
+/* ── Fonts ───────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+
 
 /* ── Layout ─────────────────────────────────────────────────── */
 
@@ -12,33 +16,71 @@
 
 /* ── Sidebar NavLink: Hover state ────────────────────────────── */
 
-/* Light mode: indigo tint bg + indigo text + bold on hover
-   Excluded when the link is already active or disabled        */
-.mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
-    background-color: var(--mantine-color-indigo-0);
-    color: var(--mantine-color-indigo-7);
-    font-weight: 600;
+.mantine-AppShell-navbar .mantine-NavLink-root {
+    font-size: 0.9rem;
 }
 
-/* Dark mode equivalent */
+/* Light mode: very subtle blue tint, no text/weight change */
+.mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
+    background-color: rgba(37, 121, 255, 0.07);
+}
+
+/* Dark mode: same ghost tint — keep it barely-there */
 [data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
-    background-color: var(--mantine-color-indigo-9);
-    color: var(--mantine-color-indigo-2);
+    background-color: rgba(37, 121, 255, 0.09);
 }
 
 
 /* ── Sidebar NavLink: Active (current page) state ────────────── */
 
-/* Light mode: indigo text, bold, transparent bg */
+/* Light mode: blue text, bold, transparent bg */
 .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
     background-color: transparent !important;
-    color: var(--mantine-color-indigo-6);
+    color: var(--mantine-color-blue-6);
     font-weight: 700;
 }
 
 /* Dark mode equivalent */
 [data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
     background-color: transparent !important;
-    color: var(--mantine-color-indigo-3);
+    color: var(--mantine-color-blue-3);
     font-weight: 700;
+}
+
+
+/* ── Card hover state ────────────────────────────────────────── */
+
+.mantine-Card-root {
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.mantine-Card-root:hover {
+    box-shadow: 0 0 0 1px rgba(76, 79, 83, 0.1), 0 2px 4px rgba(26, 27, 28, 0.15)
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mantine-Card-root {
+        transition: none;
+    }
+}
+
+
+/* ── Metric card (dmc.Paper) ─────────────────────────────────── */
+
+[data-mantine-color-scheme="dark"] .metric-card {
+    background-color: var(--mantine-color-slate-7);
+}
+
+.metric-card {
+    transition: box-shadow 400ms ease-in-out;
+}
+
+.metric-card:hover {
+    box-shadow: 0 0 0 1px rgba(76, 79, 83, 0.1), 0 2px 4px rgba(26, 27, 28, 0.15)
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .metric-card {
+        transition: none;
+    }
 }

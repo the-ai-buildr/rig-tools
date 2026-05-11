@@ -2,7 +2,7 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
 
-def metric_card(title, value, icon, color="indigo"):
+def metric_card(title, value, icon, color="blue"):
     return dmc.Paper(
         dmc.Flex(
             [
@@ -15,21 +15,25 @@ def metric_card(title, value, icon, color="indigo"):
                     style={"flex": 1},
                 ),
                 dmc.ThemeIcon(
-                    DashIconify(icon=icon, width=28),
+                    DashIconify(icon=icon, width=32),
                     size="lg",
                     radius="md",
+                    p=4,
                     color=color,
                     variant="light",
                 ),
             ],
             align="center",
             justify="space-between",
+            
             h="100%",
             px="md",
             py="sm",
         ),
         h=75,
+        mt=10,
         radius="md",
         withBorder=True,
+        className="metric-card",
         style={"flex": "1 1 160px"},
     )
