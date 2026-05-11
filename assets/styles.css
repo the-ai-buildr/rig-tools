@@ -17,7 +17,7 @@
 /* ── Sidebar NavLink: Hover state ────────────────────────────── */
 
 .mantine-AppShell-navbar .mantine-NavLink-root {
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 /* Light mode: very subtle blue tint, no text/weight change */

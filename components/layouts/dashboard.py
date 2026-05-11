@@ -10,7 +10,7 @@ nav_links = dmc.Stack(
     [
         dmc.NavLink(
             label="Dashboard",
-            leftSection=DashIconify(icon="tabler:layout-dashboard", width=16),
+            leftSection=DashIconify(icon="tabler:layout-dashboard", width=20),
             color="blue",
             variant="subtle",
             active="exact",
@@ -18,7 +18,7 @@ nav_links = dmc.Stack(
         ),
         dmc.NavLink(
             label="Tools",
-            leftSection=DashIconify(icon="tabler:tools", width=16),
+            leftSection=DashIconify(icon="tabler:tools", width=20),
             color="blue",
             variant="subtle",
             active="exact",
@@ -26,7 +26,7 @@ nav_links = dmc.Stack(
         ),
         dmc.NavLink(
             label="Scheduler",
-            leftSection=DashIconify(icon="tabler:calendar-month", width=16),
+            leftSection=DashIconify(icon="tabler:calendar-month", width=20),
             color="blue",
             variant="subtle",
             active="exact",
@@ -40,7 +40,7 @@ nav_links = dmc.Stack(
 
 settings_link = dmc.NavLink(
     label="Settings",
-    leftSection=DashIconify(icon="tabler:settings", width=16),
+    leftSection=DashIconify(icon="tabler:settings", width=20),
     color="blue",
     variant="subtle",
     active="exact",

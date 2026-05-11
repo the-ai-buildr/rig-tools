@@ -491,7 +491,11 @@ PLOTLY_TEMPLATE_LIGHT = {
 
 APPSHELL_CONFIG = {
     "header":  {"height": 42},   # slim profile — do not change
-    "navbar":  {"width": 225, "breakpoint": "sm", "collapsed": {"mobile": True, "desktop": False}},
+    "navbar":  {"width": 225, 
+                "breakpoint": "sm", 
+                "collapsed": {"mobile": True, "desktop": False},
+                "font": {"family": FONT_BODY, "color": [1, BLUE[6]], "size": 16},
+                },
     "padding": "md",
 }
 
