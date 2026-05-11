@@ -28,10 +28,10 @@ def metric_card(title, value, icon, color="blue"):
             
             h="100%",
             px="md",
-            py="sm",
+            py="xs",
         ),
         h=75,
-        mt=10,
+        mt=2,
         radius="md",
         withBorder=True,
         className="metric-card",
