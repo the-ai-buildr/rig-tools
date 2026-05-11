@@ -48,27 +48,10 @@
 }
 
 
-/* ── Card hover state ────────────────────────────────────────── */
-
-.mantine-Card-root {
-    transition: border-color 200ms ease, box-shadow 200ms ease;
-}
-
-.mantine-Card-root:hover {
-    box-shadow: 0 0 0 1px rgba(76, 79, 83, 0.1), 0 2px 4px rgba(26, 27, 28, 0.15)
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .mantine-Card-root {
-        transition: none;
-    }
-}
-
-
 /* ── Metric card (dmc.Paper) ─────────────────────────────────── */
 
 [data-mantine-color-scheme="dark"] .metric-card {
-    background-color: var(--mantine-color-slate-7);
+    background-color: var(--mantine-color-dark-6);
 }
 
 .metric-card {

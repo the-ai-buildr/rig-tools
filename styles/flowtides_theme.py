@@ -40,10 +40,10 @@ SLATE = {
     4:  "#8AAFC8",
     5:  "#5C7A96",
     6:  "#3A5068",
-    7:  "#1E3554",
-    8:  "#111E33",
-    9:  "#112040",   # Card surface — visibly lighter than canvas
-    10: "#010205",   # Page canvas — near-black deep navy
+    7:  "#2B2D30",   # Border — bg-per-channel +30 ≈ 30% lighter than body bg
+    8:  "#181C26",   # Card / Paper surface — clearly lighter than body bg
+    9:  "#0D0F12",   # Body background — near-black, very slightly cool
+    10: "#000000",   # Pure black — deepest pressed states
 }
 
 # Semantic
@@ -58,8 +58,8 @@ CYAN   = {4: "#22D3EE", 5: "#06B6D4", 6: "#0891B2", 7: "#0E7490"}
 # ─────────────────────────────────────────────────────────────────
 
 FONT_DISPLAY = "'Sans Sherif', 'IBM Plex Mono', monospace"
-FONT_BODY    = "'JetBrains Mono', 'IBM Plex Mono', monospace"
-FONT_MONO    = "'JetBrains Mono', 'IBM Plex Mono', monospace"
+FONT_BODY    = "'Sans Sherif', 'IBM Plex Mono', monospace"
+FONT_MONO    = "'Sans Sherif', 'IBM Plex Mono', monospace"
 
 # ─────────────────────────────────────────────────────────────────
 # 3. DMC THEME OBJECT
@@ -144,6 +144,21 @@ dmc_theme = {
 
     # Color overrides — Mantine v7 requires 10-shade arrays
     "colors": {
+        # Override the Mantine "dark" palette so dark[7] (body bg) and
+        # dark[7] = body bg, dark[6] = card surface, dark[5] = border
+        # Pure neutral near-black — no blue cast.
+        "dark": [
+            "#C9C9C9",  # dark[0] — lightest (inverted text on dark bg)
+            "#b8b8b8",  # dark[1]
+            "#828282",  # dark[2]
+            "#696969",  # dark[3]
+            "#424242",  # dark[4]
+            "#3b3b3b",  # dark[5] — borders (~30% lighter than body bg)
+            "#242424",  # dark[6] — card / Paper surface
+            "#141414",  # dark[7] — body background (near-black)
+            "#0a0a0a",  # dark[8]
+            "#000000",  # dark[9] — pure black
+        ],
         "blue": [
             BLUE[1], BLUE[2], BLUE[3], BLUE[4], BLUE[5],
             BLUE[6], BLUE[7], BLUE[8], BLUE[9],

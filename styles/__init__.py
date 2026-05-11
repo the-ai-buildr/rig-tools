@@ -1,4 +1,3 @@
-from .theme import theme
 from .flowtides_theme import (
     dmc_theme,
     PLOTLY_TEMPLATE_DARK,
@@ -16,7 +15,6 @@ from .flowtides_theme import (
 )
 
 __all__ = [
-    "theme",
     "dmc_theme",
     "PLOTLY_TEMPLATE_DARK", "PLOTLY_TEMPLATE_LIGHT",
     "APPSHELL_CONFIG", "GRID_GUTTER",

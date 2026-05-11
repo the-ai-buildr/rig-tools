@@ -85,5 +85,5 @@ sidebar = dmc.AppShellNavbar(
         direction="column",
         style={"height": "100%"},
     ),
-    p=0,
+    p=0, 
 )
