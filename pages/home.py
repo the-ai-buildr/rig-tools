@@ -1,8 +1,10 @@
 import dash
+from dash import html
 import dash_mantine_components as dmc
 from components.ui.metric_card import metric_card
 
 dash.register_page(__name__, path="/home")
+
 
 layout = dmc.Box(
     [

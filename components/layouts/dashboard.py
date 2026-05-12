@@ -6,8 +6,7 @@ from components.ui.settings_popover import settings_popover
 # Icon packages:
 # https://icon-sets.iconify.design/tabler/page-32.html?icon-filter=t&keyword=table
 
-nav_links = dmc.Stack(
-    [
+nav_links = dmc.Stack([
         dmc.NavLink(
             label="Dashboard",
             leftSection=DashIconify(icon="tabler:layout-dashboard", width=20),
@@ -17,21 +16,47 @@ nav_links = dmc.Stack(
             href="/home",
         ),
         dmc.NavLink(
+            label="Setup",
+            leftSection=DashIconify(icon="tabler:building", width=20),
+            color="blue",
+            variant="subtle",
+            active="exact",
+            href="/setup",
+        ),
+        dmc.NavLink(
             label="Tools",
             leftSection=DashIconify(icon="tabler:tools", width=20),
             color="blue",
             variant="subtle",
-            active="exact",
-            href="/tools",
+            childrenOffset=28,
+            children=[
+                dmc.NavLink(
+                    label="Digital Stamp",
+                    leftSection=DashIconify(icon="tabler:mail-code", width=16),
+                    color="blue",
+                    variant="subtle",
+                    active="exact",
+                    href="/tools/digital-stamp",
+                ),
+                dmc.NavLink(
+                    label="Templater",
+                    leftSection=DashIconify(icon="tabler:template", width=16),
+                    color="blue",
+                    variant="subtle",
+                    active="exact",
+                    href="/tools/templater",
+                ),
+                dmc.NavLink(
+                    label="Scheduler",
+                    leftSection=DashIconify(icon="tabler:calendar-month", width=20),
+                    color="blue",
+                    variant="subtle",
+                    active="exact",
+                    href="/scheduler",
+                ),
+            ],
         ),
-        dmc.NavLink(
-            label="Scheduler",
-            leftSection=DashIconify(icon="tabler:calendar-month", width=20),
-            color="blue",
-            variant="subtle",
-            active="exact",
-            href="/scheduler",
-        ),
+   
     ],
     gap=0,
     p="sm",
