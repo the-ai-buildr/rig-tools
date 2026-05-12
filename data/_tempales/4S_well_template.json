@@ -57,7 +57,7 @@
             { "name": "Water Base", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
             { "name": "Water Based", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
             { "name": "Fresh Water", "type": "WBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
-            { "name": "Synthetic-1", "type": "OBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" },
+            { "name": "Synthetic-1", "type": "OBM", "top_depth_md": 0, "btm_depth_md": 2500, "mw_min_ppg": 8.5, "mw_max_ppg": 9.0, "details": "Standard WBM for surface section", "status": "Circulating", "notes": "Monitor for losses in shallow formations" }
         ]
     },
     "directional": {
