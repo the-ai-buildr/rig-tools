@@ -1,6 +1,8 @@
 ## **Rig-Apps Design Document**
 This document outlines the foundational design principles, visual and UI guidelines, and tool specifications for developing the Rig-Apps platform.
 
+> Note: This draft is for the planned Rig-Apps experience and may intentionally differ from the current rig-tools implementation stack and theme.
+
 ---
 
 ### **1. Design Principles**
@@ -50,7 +52,7 @@ This document outlines the foundational design principles, visual and UI guideli
 
 3. **Layout Principles**
    - **Header:** Full-width header for branding and tools navigation.
-   - **Sidebar7 Dashboard:**
+   - **Sidebar Dashboard:**
      - Sidebar should include menu links for quick access to:
        - Projects (Wells)
        - Tasks
@@ -83,7 +85,7 @@ This document outlines the foundational design principles, visual and UI guideli
 
 #### **Dashboard**
 - **Header:** Branding + light/dark theme toggle + user profile/dropdown.
-- **Left Sidebar (Sidebar7):**
+- **Left Sidebar (Sidebar):**
   - Links to:
     - Projects (with project list dropdown/collapsible).
     - Task Management.
@@ -148,7 +150,7 @@ This document outlines the foundational design principles, visual and UI guideli
    - Layouts adjust at each point, utilizing TailwindCSS utilities (e.g., `md:grid`).
 
 2. **Priority Adjustments for Mobile Use**
-   - Collapse Sidebar7 navigation into a menu icon.
+   - Collapse Sidebar navigation into a menu icon.
    - Simplify landing page content (e.g., hide non-essential text).
    - Optimize touch targets (e.g., larger buttons on mobile).
 
