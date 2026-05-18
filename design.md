@@ -32,15 +32,15 @@ This document outlines the foundational design principles, visual and UI guideli
 
 1. **Color Palette**
    - **Light Theme:**
-     - Primary: `#004aad` (blue)
-     - Accent: `#00aaff` (light blue)
-     - Background: `#f9f9f9` (white-gray)
+     - Primary: `#004AAD` (blue)
+     - Accent: `#00AAFF` (light blue)
+     - Background: `#F9F9F9` (white-gray)
      - Text: `#000000` (black)
    - **Dark Theme:**
-     - Primary: `#00aaff` (light blue)
-     - Accent: `#66d9ea` (aqua)
-     - Background: `#1e1e2e` (dark gray)
-     - Text: `#ffffff` (white)
+     - Primary: `#00AAFF` (light blue)
+     - Accent: `#66D9EA` (aqua)
+     - Background: `#1E1E2E` (dark gray)
+     - Text: `#FFFFFF` (white)
 
 2. **Typography**
    - Font: `Inter` (modern and readable sans-serif font).
