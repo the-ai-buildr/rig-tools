@@ -16,10 +16,10 @@ This document outlines the foundational design principles, visual and UI guideli
    - Use flexible grid layouts and components to scale gracefully across device sizes.
 
 3. **Consistency**
-   - Utilize a component-based design to maintain theme and style consistency across all pages and views (e.g., shadcn for design system).
+   - Utilize a component-based design to maintain theme and style consistency across all pages and views (e.g., shadcn/ui for design system).
 
 4. **Dark/Light Mode Support**
-   - Implement shadcn's built-in light/dark mode toggle for user preferences.
+   - Implement shadcn/ui's built-in light/dark mode toggle for user preferences.
    - Ensure that key visuals, such as schematics and dashboard elements, are colorblind-friendly.
 
 5. **Accessibility**
@@ -102,11 +102,11 @@ This document outlines the foundational design principles, visual and UI guideli
 
 #### **Frontend**
 - **Framework:** React.js (with TypeScript).
-- **UI Library:** shadcn (TailwindCSS-based design system).
+- **UI Library:** shadcn/ui (TailwindCSS-based design system).
 - **Styling:** TailwindCSS with a mobile-first design approach.
 - **State Management:** Zustand or Redux for real-time and global state sync.
 - **Routing:** React Router or Next.js (depending on navigation complexity).
-- **Accessibility:** Utilize shadcn's accessibility-supported components.
+- **Accessibility:** Utilize shadcn/ui's accessibility-supported components.
 
 #### **Backend**
 - **Backend Framework:** Appwrite
@@ -127,8 +127,8 @@ This document outlines the foundational design principles, visual and UI guideli
 
 ### **5. Light/Dark Theme Implementation Plan**
 
-1. **shadcn Theme Setup**
-   - Use shadcn’s theme builder to set up a toggler between light and dark modes.
+1. **shadcn/ui Theme Setup**
+   - Use shadcn/ui’s theme builder to set up a toggler between light and dark modes.
    - Test state persistence with browser localStorage or context API for theme synchronization.
 
 2. **Dynamic Theme Transition**
