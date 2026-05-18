@@ -20,7 +20,7 @@ These notes are kept here as reference for how the `rig-apps` repository was cre
 #### **2. Clone the Repository to Your Local Machine**
 1. Open your terminal and run:
    ```bash
-   git clone https://github.com/your-username/rig-apps.git
+   git clone https://github.com/<your-github-username>/rig-apps.git
    cd rig-apps
    ```
 
