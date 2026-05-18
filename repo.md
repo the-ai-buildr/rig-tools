@@ -1,16 +1,16 @@
 # Repository Setup Notes (`rig-apps`)
 
-Repo is already created.
+These notes are kept here as reference for how the `rig-apps` repository was created and initialized.
 
 #### **1. Create the Repository**
-1. Go to <a href="https://github.com/">GitHub</a> and log in to your account.
+1. Go to [GitHub](https://github.com/) and log in to your account.
 2. Click the **+ (plus)** icon at the top-right corner and select **“New repository”**.
 3. Use the following details:
    - **Repository name:** `rig-apps`
-   - **Description:** Dashboard-style Appwrite app for drilling engineers and advisors with collaboration, task tracking, and planning tools.
+   - **Description:** Dashboard-style Plotly Dash + FastAPI app for drilling engineers and advisors with collaboration, task tracking, and planning tools.
    - **Repository visibility:** Private (you can make it public later).
    - Check **“Add a README file”** (this creates the initial README which we will replace).
-   - Add a `.gitignore` file with templates for **Node.js**.
+   - Add a `.gitignore` file with templates for **Python**.
    - Choose a license (e.g., MIT, or skip this for now).
 
 4. Click **Create repository**.
