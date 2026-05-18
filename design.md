@@ -85,7 +85,7 @@ This document outlines the foundational design principles, visual and UI guideli
 
 #### **Dashboard**
 - **Header:** Branding + light/dark theme toggle + user profile/dropdown.
-- **Left Sidebar (Sidebar):**
+- **Left Sidebar:**
   - Links to:
     - Projects (with project list dropdown/collapsible).
     - Task Management.
@@ -168,7 +168,7 @@ This document outlines the foundational design principles, visual and UI guideli
    - Use input fields for tagging files (e.g., "reports," "standards").
 
 2. **Processes and Standards Docs**
-   - Include quick access or search for company standards and procedures within the Dashboard Sidebar.
+   - Include quick access or search for company standards and procedures within the Sidebar.
 
 ---
 
