@@ -20,8 +20,7 @@ register_callbacks(app)
 # Layout
 body = dmc.AppShellMain(dmc.Box(), id="main-content")
     
-layout = dmc.AppShell(
-    [
+layout = dmc.AppShell([
         nav_bar,
         sidebar,
         body,
