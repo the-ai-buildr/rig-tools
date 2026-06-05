@@ -19,17 +19,17 @@ Usage:
 # 1. COLOR PALETTE
 # ─────────────────────────────────────────────────────────────────
 
-# Electric / Tactical Blue
+# Electric / Tactical Blue — shadcn/Tailwind blue scale (matches --brand #3b82f6)
 BLUE = {
-    1: "#EBF5FF",
-    2: "#D0E9FF",
-    3: "#A8D4FF",
-    4: "#7ABFFF",
-    5: "#4A9EFF",
-    6: "#2579FF",   # Brand primary — CTAs, icons
-    7: "#1762DE",   # Primary button (dark mode)
-    8: "#0F52C4",   # Focus rings, active nav
-    9: "#0A3B8C",   # Darkest — pressed states
+    1: "#EFF6FF",   # blue-50
+    2: "#DBEAFE",   # blue-100
+    3: "#BFDBFE",   # blue-200
+    4: "#93C5FD",   # blue-300
+    5: "#60A5FA",   # blue-400
+    6: "#3B82F6",   # blue-500 — brand primary (matches --brand)
+    7: "#2563EB",   # blue-600 — filled buttons / active
+    8: "#1D4ED8",   # blue-700 — focus rings, pressed
+    9: "#1E40AF",   # blue-800 — darkest
 }
 
 # Neutral / Navy
@@ -160,7 +160,7 @@ dmc_theme = {
         "blue": [
             BLUE[1], BLUE[2], BLUE[3], BLUE[4], BLUE[5],
             BLUE[6], BLUE[7], BLUE[8], BLUE[9],
-            "#072A6B",  # shade 9 (index 9) — deepest
+            "#1E3A8A",  # shade 9 (index 9) — blue-900, deepest
         ],
         "slate": [
             SLATE[1], SLATE[2], SLATE[3], SLATE[4], SLATE[5],

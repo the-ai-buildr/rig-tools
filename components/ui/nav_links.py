@@ -25,7 +25,7 @@ from dash_iconify import DashIconify
 NAV_ITEMS = [
     # Main sections
     {"label": "Dashboard", "icon": "tabler:layout-dashboard", "href": "/home",},
-    {"label": "Setup", "icon": "tabler:building", "href": "/setup",},
+    {"label": "Projects", "icon": "tabler:list-details", "href": "/projects",},
     {"label": "Tools", "icon": "tabler:tools", "href": "/tools",},
 ]
 
