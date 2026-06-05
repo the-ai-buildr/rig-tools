@@ -3,6 +3,7 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
 from styles.flowtides_theme import SPAN_THIRD, GRID_GUTTER
+from utils import page_body, page_header
 
 dash.register_page(__name__, path="/tools")
 
@@ -25,6 +26,11 @@ TOOLS = [
         "description": "Plan and schedule rig operations and activities.",
         "icon": "tabler:calendar-month",
         "href": "/tools/scheduler",
+    },{
+        "label": "Planner",
+        "description": "Plan and schedule rig operations and activities.",
+        "icon": "tabler:calendar-month",
+        "href": "/tools/planner",
     },
 ]
 
@@ -58,17 +64,20 @@ def _tool_card(tool: dict) -> dmc.Anchor:
     )
 
 
-layout = dmc.Box(
-    [
-        dmc.Title("Tools", order=3, ml="5px", mb="5px"),
-        dmc.Divider(mb="md"),
-        dmc.Grid(
-            [
-                dmc.GridCol(_tool_card(tool), span=SPAN_THIRD)
-                for tool in TOOLS
-            ],
-            gutter=GRID_GUTTER,
+layout = page_body(
+    page_header(
+        "Tools",
+        action=dmc.Button(
+            "Create",
+            id="create-tools-btn",
         ),
-    ],
-    p="sm",
+    ),
+    dmc.Divider(mb="md"),
+    dmc.Grid(
+        [
+            dmc.GridCol(_tool_card(tool), span=SPAN_THIRD)
+            for tool in TOOLS
+        ],
+        gutter=GRID_GUTTER,
+    ),
 )

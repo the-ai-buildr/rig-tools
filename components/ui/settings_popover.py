@@ -61,6 +61,7 @@ settings_popover = dmc.Popover(
                 [
                     dmc.NavLink(
                         label="Profile",
+                        id="profile-link",
                         leftSection=DashIconify(icon="tabler:user-square-rounded", width=16),
                         variant="subtle",
                         c='dimmed',
@@ -91,6 +92,7 @@ settings_popover = dmc.Popover(
                     dmc.Divider(),
                     dmc.NavLink(
                         label="Sign out",
+                        id="sign-out-btn",
                         leftSection=DashIconify(icon="tabler:logout", width=16),
                         color="red",
                         variant="subtle",

@@ -2,12 +2,12 @@
 # from datetime import datetime
 
 
-# from src.app import app
-# import dash
-# from dash import html
-# from fastapi import FastAPI
-# from fastapi.sse import EventSourceResponse
-# from fastapi import WebSocket
+from app import app
+import dash
+from dash import html
+from fastapi import FastAPI
+from fastapi.sse import EventSourceResponse
+from fastapi import WebSocket
 
 # @app.server.get("/fastapi-sse-test", response_class=EventSourceResponse)
 # async def fastapi_sse_test():

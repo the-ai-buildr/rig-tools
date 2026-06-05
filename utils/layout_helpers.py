@@ -33,6 +33,25 @@ def page_header(title, action=None, order=3, divider=True):
     return header
 
 
+def page_body(*children, p="sm", **kwargs):
+    """Standard page body wrapper.
+
+    Provides the default padding/structure for a page's content, mirroring the
+    way ``page_header`` standardizes the title bar. Compose a page as::
+
+        layout = page_body(
+            page_header("Projects", action=...),
+            ...,
+        )
+
+    Args:
+        *children: page content components.
+        p:         outer padding (defaults to "sm").
+        **kwargs:  forwarded to the underlying ``dmc.Box``.
+    """
+    return dmc.Box(list(children), p=p, **kwargs)
+
+
 def sidebar_section(title, description=None, children=None):
     items = [dmc.Text(title, fw=700)]
 

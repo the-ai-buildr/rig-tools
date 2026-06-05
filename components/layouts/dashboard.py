@@ -37,7 +37,8 @@ nav_bar = dmc.AppShellHeader(
         px="md",
         justify="space-between",
         align="center",
-    )
+    ),
+    id="app-header",
 )
 
 sidebar = dmc.AppShellNavbar(

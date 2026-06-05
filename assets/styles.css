@@ -34,10 +34,10 @@
     --radius:                0.5rem;
 
     /* Live accent — set by the accent color picker (clientside).
-       Defaults to blue. */
-    --brand:             #3b82f6;
-    --brand-foreground:  #ffffff;
-    --brand-contrast:    #ffffff;
+       Defaults to monochrome (foreground): true black/white shadcn. */
+    --brand:             hsl(var(--foreground));
+    --brand-foreground:  hsl(var(--background));
+    --brand-contrast:    hsl(var(--background));
 }
 
 [data-mantine-color-scheme="dark"] {
@@ -85,30 +85,6 @@
     --mantine-primary-color-light:         color-mix(in srgb, var(--brand) 12%, transparent);
     --mantine-primary-color-light-hover:   color-mix(in srgb, var(--brand) 18%, transparent);
     --mantine-primary-color-light-color:   var(--brand);
-
-    /* Accent color = "blue" — remap the whole blue scale to the live --brand
-       accent so any component with color="blue" follows the accent picker.
-       (Semantic colors green / yellow / red stay fixed.) */
-    --mantine-color-blue-0: color-mix(in srgb, var(--brand) 10%, white);
-    --mantine-color-blue-1: color-mix(in srgb, var(--brand) 20%, white);
-    --mantine-color-blue-2: color-mix(in srgb, var(--brand) 35%, white);
-    --mantine-color-blue-3: color-mix(in srgb, var(--brand) 55%, white);
-    --mantine-color-blue-4: color-mix(in srgb, var(--brand) 78%, white);
-    --mantine-color-blue-5: color-mix(in srgb, var(--brand) 92%, white);
-    --mantine-color-blue-6: var(--brand);
-    --mantine-color-blue-7: color-mix(in srgb, var(--brand) 88%, black);
-    --mantine-color-blue-8: color-mix(in srgb, var(--brand) 74%, black);
-    --mantine-color-blue-9: color-mix(in srgb, var(--brand) 60%, black);
-
-    /* Variant tokens consumed by Button/Badge/ThemeIcon/etc. for color="blue" */
-    --mantine-color-blue-filled:        var(--brand);
-    --mantine-color-blue-filled-hover:  color-mix(in srgb, var(--brand) 88%, black);
-    --mantine-color-blue-light:         color-mix(in srgb, var(--brand) 12%, transparent);
-    --mantine-color-blue-light-hover:   color-mix(in srgb, var(--brand) 18%, transparent);
-    --mantine-color-blue-light-color:   var(--brand);
-    --mantine-color-blue-outline:       var(--brand);
-    --mantine-color-blue-outline-hover: color-mix(in srgb, var(--brand) 12%, transparent);
-    --mantine-color-blue-text:          var(--brand);
 }
 
 
@@ -126,15 +102,6 @@ body,
 .mantine-AppShell-header {
     background-color: hsl(var(--card));
     border-color: hsl(var(--border));
-}
-
-/* Sidebar — super light gray surface to set it apart from the canvas. */
-.mantine-AppShell-navbar {
-    background-color: hsl(0 0% 98%);
-}
-
-[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar {
-    background-color: hsl(0 0% 8%);
 }
 
 .mantine-Popover-dropdown,
@@ -169,11 +136,6 @@ body,
     font-size: 0.875rem !important;
 }
 
-/* Rounder hover/active fill in the sidebar */
-.mantine-AppShell-navbar .mantine-NavLink-root {
-    border-radius: var(--mantine-radius-lg);
-}
-
 /* Hover — subtle muted surface (shadcn ghost) */
 .mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
     background-color: hsl(var(--accent));
@@ -206,12 +168,6 @@ body,
     .mantine-AppShell-navbar.rail .mantine-NavLink-chevron,
     .mantine-AppShell-navbar.rail .mantine-NavLink-children,
     .mantine-AppShell-navbar.rail .rail-hide {
-        display: none !important;
-    }
-
-    /* Body still has flex:1 even with the label hidden, which shoves the
-       icon to the left — collapse it so the icon can truly center. */
-    .mantine-AppShell-navbar.rail .mantine-NavLink-body {
         display: none !important;
     }
 
