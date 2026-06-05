@@ -15,10 +15,9 @@ def metric_card(title, value, icon, color="blue"):
                     style={"flex": 1},
                 ),
                 dmc.ThemeIcon(
-                    DashIconify(icon=icon, width=32),
+                    DashIconify(icon=icon, width=20),
                     size="lg",
                     radius="md",
-                    p=4,
                     color=color,
                     variant="light",
                 ),

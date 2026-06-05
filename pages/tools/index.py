@@ -36,6 +36,11 @@ TOOLS = [
         "description": "Define and track the plan of action for rig operations.",
         "icon": "tabler:clipboard-list",
         "href": "/tools/poa",
+    },{
+        "label": "Safety",
+        "description": "PSMS and Observational Safety tools.",
+        "icon": "tabler:shield-check",
+        "href": "/tools/safety",
     },
 ]
 

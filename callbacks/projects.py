@@ -93,8 +93,9 @@ def _project_card(project) -> dmc.Card:
                     children=dmc.ActionIcon(
                         DashIconify(icon="tabler:trash", width=18),
                         id={"type": "project-delete", "index": project.id},
-                        color="red",
+                        color="gray",
                         variant="subtle",
+                        className="card-delete",
                         n_clicks=0,
                     ),
                 ),

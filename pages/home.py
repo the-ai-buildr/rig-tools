@@ -11,12 +11,12 @@ layout = page_body(
     page_header("Overview"),
     dmc.SimpleGrid(
         [
-            metric_card("Active Wells", "12", "tabler:antenna", color="red"),
+            metric_card("Active Wells", "12", "tabler:antenna", color="blue"),
             metric_card("Daily Footage", "4,280'", "tabler:chart-bar", color="blue"),
-            metric_card("Rig Hours", "186 hrs", "tabler:clock", color="orange"),
-            metric_card("Incidents", "0", "tabler:shield-check", color="green"),
+            metric_card("Rig Hours", "186 hrs", "tabler:clock", color="blue"),
+            metric_card("Incidents", "0", "tabler:shield-check", color="blue"),
         ],
         cols={"base": 1, "sm": 2, "md": 4},
-        spacing="md",
+        spacing="sm",
     ),
 )
