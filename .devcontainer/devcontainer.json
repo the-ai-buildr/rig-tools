@@ -1,0 +1,11 @@
+{
+	"name": "rig-tools",
+	"forwardPorts": [8050],
+	"portsAttributes": {
+		"8050": {
+			"label": "rig-tools app",
+			"visibility": "public",
+			"onAutoForward": "openBrowser"
+		}
+	}
+}
