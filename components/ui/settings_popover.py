@@ -3,6 +3,48 @@ from dash_iconify import DashIconify
 
 from components.ui.theme_toggle import theme_toggle
 
+# Curated accent swatches — value drives the live --brand CSS var (clientside).
+ACCENT_SWATCHES = [
+    ("neutral", "#71717a"),
+    ("blue",    "#3b82f6"),
+    ("violet",  "#8b5cf6"),
+    ("green",   "#22c55e"),
+    ("amber",   "#f59e0b"),
+    ("orange",  "#f97316"),
+    ("red",     "#ef4444"),
+    ("rose",    "#f43f5e"),
+    ("cyan",    "#06b6d4"),
+]
+
+
+def _accent_swatch(key: str, color: str) -> dmc.Tooltip:
+    return dmc.Tooltip(
+        label=key.capitalize(),
+        children=dmc.ActionIcon(
+            id={"type": "accent-swatch", "index": key},
+            variant="filled",
+            radius="xl",
+            size="md",
+            className="accent-swatch",
+            style={"backgroundColor": color},
+            n_clicks=0,
+        ),
+    )
+
+
+accent_picker = dmc.Stack(
+    [
+        dmc.Text("Accent", size="xs", c="dimmed", fw=600, tt="uppercase"),
+        dmc.Group(
+            [_accent_swatch(key, color) for key, color in ACCENT_SWATCHES],
+            gap="xs",
+        ),
+    ],
+    gap=6,
+    px="xs",
+    py=4,
+)
+
 settings_popover = dmc.Popover(
     [
         dmc.PopoverTarget(
@@ -20,14 +62,12 @@ settings_popover = dmc.Popover(
                     dmc.NavLink(
                         label="Profile",
                         leftSection=DashIconify(icon="tabler:user-square-rounded", width=16),
-                        color="blue",
                         variant="subtle",
                         c='dimmed',
                     ),
                     dmc.NavLink(
                         label="Docs",
                         leftSection=DashIconify(icon="tabler:book-2", width=16),
-                        color="blue",
                         variant="subtle",
                         href="#",
                         c='dimmed',
@@ -37,10 +77,10 @@ settings_popover = dmc.Popover(
                         label="Theme",
                         leftSection=DashIconify(icon="tabler:sun-moon", width=16),
                         rightSection=theme_toggle,
-                        color="blue",
                         c='dimmed',
                         variant="subtle",
                     ),
+                    accent_picker,
                     dmc.Divider(),
                     dmc.NavLink(
                         label="Settings",
@@ -67,7 +107,7 @@ settings_popover = dmc.Popover(
     withArrow=False,
     trapFocus=True,
     shadow="sm",
-    width=220,
+    width=240,
     keepMounted=True,
     withinPortal=True,
     # offset=4,

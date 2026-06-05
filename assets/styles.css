@@ -1,10 +1,125 @@
 /* ============================================================
-   rig-tools global styles
+   rig-tools global styles — shadcn/ui design language (monochrome
+   base + user-selectable accent). Source of truth for tokens.
    ============================================================ */
 
 /* ── Fonts ───────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+
+/* ── shadcn design tokens (HSL channels) ─────────────────────── */
+/* Light = default. Dark applied via [data-mantine-color-scheme="dark"]. */
+
+:root {
+    --background:            0 0% 100%;
+    --foreground:            0 0% 3.9%;
+    --card:                  0 0% 100%;
+    --card-foreground:       0 0% 3.9%;
+    --popover:               0 0% 100%;
+    --popover-foreground:    0 0% 3.9%;
+    --primary:               0 0% 9%;
+    --primary-foreground:    0 0% 98%;
+    --secondary:             0 0% 96.1%;
+    --secondary-foreground:  0 0% 9%;
+    --muted:                 0 0% 96.1%;
+    --muted-foreground:      0 0% 45.1%;
+    --accent:                0 0% 96.1%;
+    --accent-foreground:     0 0% 9%;
+    --destructive:           0 84.2% 60.2%;
+    --destructive-foreground:0 0% 98%;
+    --border:                0 0% 89.8%;
+    --input:                 0 0% 89.8%;
+    --ring:                  0 0% 3.9%;
+    --radius:                0.5rem;
+
+    /* Live accent — set by the accent color picker (clientside).
+       Defaults to blue. */
+    --brand:             #3b82f6;
+    --brand-foreground:  #ffffff;
+    --brand-contrast:    #ffffff;
+}
+
+[data-mantine-color-scheme="dark"] {
+    --background:            0 0% 3.9%;
+    --foreground:            0 0% 98%;
+    --card:                  0 0% 6%;
+    --card-foreground:       0 0% 98%;
+    --popover:               0 0% 6%;
+    --popover-foreground:    0 0% 98%;
+    --primary:               0 0% 98%;
+    --primary-foreground:    0 0% 9%;
+    --secondary:             0 0% 14.9%;
+    --secondary-foreground:  0 0% 98%;
+    --muted:                 0 0% 14.9%;
+    --muted-foreground:      0 0% 63.9%;
+    --accent:                0 0% 14.9%;
+    --accent-foreground:     0 0% 98%;
+    --destructive:           0 62.8% 45%;
+    --destructive-foreground:0 0% 98%;
+    --border:                0 0% 14.9%;
+    --input:                 0 0% 14.9%;
+    --ring:                  0 0% 83.1%;
+}
+
+
+/* ── Remap Mantine core CSS vars → shadcn tokens ─────────────── */
+/* Makes every DMC component inherit the shadcn surfaces/borders/text. */
+
+:root,
+[data-mantine-color-scheme="light"],
+[data-mantine-color-scheme="dark"] {
+    --mantine-color-body:            hsl(var(--background));
+    --mantine-color-text:            hsl(var(--foreground));
+    --mantine-color-default:         hsl(var(--card));
+    --mantine-color-default-hover:   hsl(var(--accent));
+    --mantine-color-default-border:  hsl(var(--border));
+    --mantine-color-dimmed:          hsl(var(--muted-foreground));
+    --mantine-color-placeholder:     hsl(var(--muted-foreground));
+    --mantine-color-anchor:          var(--brand);
+
+    /* Primary / filled surfaces follow the live accent */
+    --mantine-primary-color-filled:        var(--brand);
+    --mantine-primary-color-filled-hover:  color-mix(in srgb, var(--brand) 88%, black);
+    --mantine-primary-color-contrast:      var(--brand-contrast);
+    --mantine-primary-color-light:         color-mix(in srgb, var(--brand) 12%, transparent);
+    --mantine-primary-color-light-hover:   color-mix(in srgb, var(--brand) 18%, transparent);
+    --mantine-primary-color-light-color:   var(--brand);
+}
+
+
+/* ── Surfaces ───────────────────────────────────────────────── */
+
+body,
+.mantine-AppShell-main {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+.mantine-Card-root,
+.mantine-Paper-root,
+.mantine-AppShell-navbar,
+.mantine-AppShell-header {
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--border));
+}
+
+/* Sidebar — super light gray surface to set it apart from the canvas. */
+.mantine-AppShell-navbar {
+    background-color: hsl(0 0% 98%);
+}
+
+[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar {
+    background-color: hsl(0 0% 8%);
+}
+
+.mantine-Popover-dropdown,
+.mantine-Menu-dropdown,
+.mantine-HoverCard-dropdown {
+    background-color: hsl(var(--popover));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--popover-foreground));
+}
 
 
 /* ── Layout ─────────────────────────────────────────────────── */
@@ -14,58 +129,108 @@
     height: 100%;
 }
 
-/* ── Sidebar NavLink: Hover state ────────────────────────────── */
+
+/* ── Focus ring (shadcn --ring) ─────────────────────────────── */
+
+*:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+}
+
+
+/* ── Sidebar NavLink ─────────────────────────────────────────── */
 
 .mantine-AppShell-navbar .mantine-NavLink-root,
 .mantine-AppShell-navbar .mantine-NavLink-label {
     font-size: 0.875rem !important;
 }
 
-/* Light mode: very subtle blue tint, no text/weight change */
+/* Hover — subtle muted surface (shadcn ghost) */
 .mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
-    background-color: rgba(37, 121, 255, 0.07);
+    background-color: hsl(var(--accent));
 }
 
-/* Dark mode: same ghost tint — keep it barely-there */
-[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root:hover:not([data-disabled]):not([data-active]) {
-    background-color: rgba(37, 121, 255, 0.09);
+/* Active (current page) — brand-tinted fill + brand-colored icon & label.
+   No size change (fixes the old icon-highlight jump). Icons inherit
+   currentColor from the link, so the chosen accent drives the icon too. */
+.mantine-AppShell-navbar .mantine-NavLink-root[data-active],
+.mantine-AppShell-navbar .mantine-NavLink-root[data-active]:hover {
+    background-color: color-mix(in srgb, var(--brand) 12%, transparent);
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.mantine-AppShell-navbar .mantine-NavLink-root[data-active] .mantine-NavLink-label {
+    color: var(--brand);
+}
+
+.mantine-AppShell-navbar .mantine-NavLink-root[data-active] svg {
+    color: var(--brand);
 }
 
 
-/* ── Sidebar NavLink: Active (current page) state ────────────── */
+/* ── Mini rail (collapsed icon-only sidebar, desktop ≥ md) ────── */
 
-/* Light mode: blue text, bold, transparent bg */
-.mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
-    background-color: transparent !important;
-    color: var(--mantine-color-blue-6);
-    font-size: 18px;
-    font-weight: 700;
-}
+@media (min-width: 62em) {
+    .mantine-AppShell-navbar.rail .mantine-NavLink-label,
+    .mantine-AppShell-navbar.rail .mantine-NavLink-rightSection,
+    .mantine-AppShell-navbar.rail .mantine-NavLink-chevron,
+    .mantine-AppShell-navbar.rail .mantine-NavLink-children,
+    .mantine-AppShell-navbar.rail .rail-hide {
+        display: none !important;
+    }
 
-/* Dark mode equivalent */
-[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar .mantine-NavLink-root[data-active] {
-    background-color: transparent !important;
-    color: var(--mantine-color-blue-6);
-    font-weight: 700;
+    .mantine-AppShell-navbar.rail .mantine-NavLink-root {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .mantine-AppShell-navbar.rail .mantine-NavLink-section[data-position="left"] {
+        margin-right: 0;
+    }
+
+    /* keep the inner stack centered & tight in rail mode */
+    .mantine-AppShell-navbar.rail .mantine-Stack-root {
+        padding-left: 0;
+        padding-right: 0;
+        align-items: center;
+    }
 }
 
 
 /* ── Metric card (dmc.Paper) ─────────────────────────────────── */
 
-[data-mantine-color-scheme="dark"] .metric-card {
-    background-color: var(--mantine-color-dark-6);
-}
-
 .metric-card {
-    transition: box-shadow 400ms ease-in-out;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .metric-card:hover {
-    box-shadow: 0 0 0 1px rgba(76, 79, 83, 0.1), 0 2px 4px rgba(26, 27, 28, 0.15)
+    border-color: color-mix(in srgb, var(--brand) 40%, hsl(var(--border)));
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
+
+/* ── Accent swatch picker ────────────────────────────────────── */
+
+.accent-swatch {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.accent-swatch:hover {
+    transform: scale(1.12);
+}
+
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
-    .metric-card {
+    .metric-card,
+    .accent-swatch {
         transition: none;
     }
 }

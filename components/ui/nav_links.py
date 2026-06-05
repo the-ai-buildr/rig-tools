@@ -26,15 +26,7 @@ NAV_ITEMS = [
     # Main sections
     {"label": "Dashboard", "icon": "tabler:layout-dashboard", "href": "/home",},
     {"label": "Setup", "icon": "tabler:building", "href": "/setup",},
-    
-    # Tools with sub-items
-    {"label": "Tools","icon": "tabler:tools", "href": None, "opened": True,
-     "children": [
-            {"label": "Digital Stamp", "icon": "tabler:mail-code",  "href": "/tools/digital-stamp"},
-            {"label": "Templater",     "icon": "tabler:template",   "href": "/tools/templater"},
-            {"label": "Scheduler",     "icon": "tabler:calendar-month",   "href": "/tools/scheduler"},
-        ],
-    },
+    {"label": "Tools", "icon": "tabler:tools", "href": "/tools",},
 ]
 
 # ---------------------------------------------------------------------------
@@ -47,7 +39,6 @@ def _build_link(item: dict, child: bool = False) -> dmc.NavLink:
     return dmc.NavLink(
         label=item["label"],
         leftSection=DashIconify(icon=item["icon"], width=size),
-        color="blue",
         variant="subtle",
         href=item.get("href"),
         active="exact" if item.get("href") else None,

@@ -57,9 +57,10 @@ CYAN   = {4: "#22D3EE", 5: "#06B6D4", 6: "#0891B2", 7: "#0E7490"}
 # 2. TYPOGRAPHY
 # ─────────────────────────────────────────────────────────────────
 
-FONT_DISPLAY = "'Sans Sherif', 'IBM Plex Mono', monospace"
-FONT_BODY    = "'Sans Sherif', 'IBM Plex Mono', monospace"
-FONT_MONO    = "'Sans Sherif', 'IBM Plex Mono', monospace"
+# shadcn/ui uses a single clean sans stack everywhere; mono reserved for numeric data.
+FONT_DISPLAY = "Inter, 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+FONT_BODY    = "Inter, 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+FONT_MONO    = "'Geist Mono', ui-monospace, 'JetBrains Mono', 'SFMono-Regular', Menlo, monospace"
 
 # ─────────────────────────────────────────────────────────────────
 # 3. DMC THEME OBJECT
@@ -121,42 +122,39 @@ dmc_theme = {
         "xl": "88em",    # 1408px — wide desktop
     },
 
-    # Border radius — sharp / tactical aesthetic
+    # Border radius — shadcn scale (derived from --radius: 0.5rem)
     "radius": {
         "xs":   "2px",
-        "sm":   "4px",     # default for buttons, badges
-        "md":   "8px",     # cards, inputs
-        "lg":   "12px",    # modals, drawers
-        "xl":   "16px",    # pills, large chips
+        "sm":   "4px",     # rounded-sm  (--radius - 4px)
+        "md":   "6px",     # rounded-md  (--radius - 2px) — buttons, inputs
+        "lg":   "8px",     # rounded-lg  (--radius)        — cards, popovers
+        "xl":   "12px",    # larger surfaces / modals
         "full": "9999px",  # circular avatars
     },
 
-    # Shadows
+    # Shadows — Tailwind-equivalent subtle set (no accent glow)
     "shadows": {
-        "xs": "0 1px 3px rgba(7,12,22,0.4), 0 1px 2px rgba(7,12,22,0.3)",
-        "sm": "0 2px 8px rgba(7,12,22,0.45), 0 1px 3px rgba(7,12,22,0.35)",
-        "md": "0 4px 16px rgba(7,12,22,0.5), 0 2px 6px rgba(7,12,22,0.4)",
-        "lg": "0 8px 32px rgba(7,12,22,0.55), 0 4px 12px rgba(7,12,22,0.45)",
-        "xl": "0 16px 48px rgba(7,12,22,0.6), 0 8px 20px rgba(7,12,22,0.5)",
-        # Accent glow — use on featured/highlighted cards
-        "glow": "0 0 0 1px rgba(37,121,255,0.4), 0 0 30px rgba(37,121,255,0.15)",
+        "xs": "0 1px 2px 0 rgba(0,0,0,0.05)",
+        "sm": "0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)",
+        "md": "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)",
+        "lg": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+        "xl": "0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)",
     },
 
     # Color overrides — Mantine v7 requires 10-shade arrays
     "colors": {
-        # Override the Mantine "dark" palette so dark[7] (body bg) and
-        # dark[7] = body bg, dark[6] = card surface, dark[5] = border
-        # Pure neutral near-black — no blue cast.
+        # shadcn "neutral" dark palette — pure grayscale, no blue cast.
+        # dark[7] = body bg (3.9%), dark[6] = card surface, dark[5] = border/muted (14.9%)
         "dark": [
-            "#C9C9C9",  # dark[0] — lightest (inverted text on dark bg)
-            "#b8b8b8",  # dark[1]
-            "#828282",  # dark[2]
-            "#696969",  # dark[3]
-            "#424242",  # dark[4]
-            "#3b3b3b",  # dark[5] — borders (~30% lighter than body bg)
-            "#242424",  # dark[6] — card / Paper surface
-            "#141414",  # dark[7] — body background (near-black)
-            "#0a0a0a",  # dark[8]
+            "#fafafa",  # dark[0] — foreground / lightest text on dark bg
+            "#e5e5e5",  # dark[1]
+            "#a3a3a3",  # dark[2] — muted-foreground (63.9%)
+            "#737373",  # dark[3]
+            "#404040",  # dark[4]
+            "#262626",  # dark[5] — border / muted (14.9%)
+            "#1c1c1c",  # dark[6] — card / Paper surface (slightly raised)
+            "#0a0a0a",  # dark[7] — body background (3.9%)
+            "#050505",  # dark[8]
             "#000000",  # dark[9] — pure black
         ],
         "blue": [
@@ -182,9 +180,11 @@ dmc_theme = {
         ],
     },
 
-    # Primary
-    "primaryColor": "blue",
-    "primaryShade": {"light": 6, "dark": 5},   # blue.6 light, blue.5 dark
+    # Primary — monochrome by default (near-black light / near-white dark).
+    # The live accent color is injected via the --brand CSS var (see assets/styles.css
+    # + the accent color picker), so primary surfaces follow the user's chosen accent.
+    "primaryColor": "dark",
+    "primaryShade": {"light": 9, "dark": 0},
 
     # Focus ring — visible for keyboard, hidden for mouse
     "focusRing": "auto",
@@ -209,7 +209,7 @@ dmc_theme = {
         # Card — hover handled in assets/styles.css via .mantine-Card-root:hover
         "Card": {
             "defaultProps": {
-                "radius":     "md",
+                "radius":     "lg",
                 "padding":    "lg",
                 "withBorder": True,
             },
@@ -217,7 +217,7 @@ dmc_theme = {
 
         "Button": {
             "defaultProps": {
-                "radius": "sm",
+                "radius": "md",
                 "size":   "md",
             },
         },
@@ -229,14 +229,14 @@ dmc_theme = {
             },
         },
 
-        # Input / TextInput / Select — mono font for data entry
+        # Input / TextInput / Select — clean sans, shadcn radius + border
         "Input": {
             "defaultProps": {
-                "radius": "sm",
+                "radius": "md",
             },
             "styles": {
                 "input": {
-                    "fontFamily": FONT_MONO,
+                    "fontFamily": FONT_BODY,
                     "fontSize":   "0.875rem",
                 },
             },
@@ -262,8 +262,7 @@ dmc_theme = {
 
         "NavLink": {
             "defaultProps": {
-                "radius":  "sm",
-                "color":   "blue",
+                "radius":  "md",
                 "variant": "subtle",
             },
         },
@@ -276,7 +275,7 @@ dmc_theme = {
 
         "Paper": {
             "defaultProps": {
-                "radius":     "md",
+                "radius":     "lg",
                 "withBorder": True,
             },
         },
@@ -296,7 +295,6 @@ dmc_theme = {
 
         "Loader": {
             "defaultProps": {
-                "color": "blue.5",
                 "size":  "sm",
             },
         },
@@ -516,17 +514,17 @@ SPAN_NARROW    = {"base": 12, "md": 4}
 # Pre-built dicts — spread into dmc component style={}
 # ─────────────────────────────────────────────────────────────────
 
-# Featured / accent card (glow border, dark gradient)
+# Featured / accent card — flat surface with a subtle brand-accent border
 style_card_featured_dark = {
-    "background": f"linear-gradient(135deg, {SLATE[9]} 0%, {SLATE[8]} 100%)",
-    "border":     f"1px solid rgba(37,121,255,0.55)",
-    "boxShadow":  "0 0 0 1px rgba(37,121,255,0.3), 0 0 30px rgba(37,121,255,0.14) inset",
+    "background":  "hsl(var(--card))",
+    "border":     "1px solid var(--brand)",
+    "boxShadow":  "0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)",
 }
 
 style_card_featured_light = {
-    "background": f"linear-gradient(135deg, #FFFFFF 0%, {SLATE[1]} 100%)",
-    "border":     f"1px solid rgba(23,98,222,0.45)",
-    "boxShadow":  "0 0 0 1px rgba(23,98,222,0.2), 0 4px 24px rgba(23,98,222,0.08)",
+    "background":  "hsl(var(--card))",
+    "border":     "1px solid var(--brand)",
+    "boxShadow":  "0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)",
 }
 
 # KPI value text — mono, bold, large
@@ -553,9 +551,9 @@ style_data_cell = {
     "fontSize":   "0.8125rem",
 }
 
-# Section header with blue left-border accent
+# Section header with brand-accent left-border
 style_section_header = {
-    "borderLeft":   f"3px solid {BLUE[6]}",
+    "borderLeft":   "3px solid var(--brand)",
     "paddingLeft":  "0.75rem",
     "marginBottom": "1.0rem",
 }

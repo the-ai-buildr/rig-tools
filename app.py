@@ -39,6 +39,8 @@ layout = dmc.AppShell([
 
 app.layout = dmc.MantineProvider([
     dcc.Location(id="route-location", refresh=False),
+    dcc.Store(id="accent-store", storage_type="local", data="blue"),
+    dcc.Store(id="accent-dummy"),
     layout,
 ], id="theme-provider", theme=dmc_theme)
 

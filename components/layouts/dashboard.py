@@ -9,7 +9,6 @@ from components.ui.nav_links import nav_links
 settings_link = dmc.NavLink(
     label="Settings",
     leftSection=DashIconify(icon="tabler:settings", width=20),
-    color="blue",
     variant="subtle",
     active="exact",
     href="/settings",
@@ -24,8 +23,8 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:shield-chevron", width=26, color="var(--mantine-color-blue-6)"),
-                    dmc.Title("Rig Apps", c="var(--mantine-color-blue-6)", order=2, lh=1),
+                    DashIconify(icon="tabler:shield-chevron", width=26, color="var(--brand)"),
+                    dmc.Title("Rig Apps", c="var(--brand)", order=2, lh=1),
                 ],
                 gap=6,
                 ml="7px",
