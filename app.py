@@ -3,6 +3,7 @@ import dash_mantine_components as dmc
 from dash import Dash, dcc
 from components.layouts.dashboard import nav_bar, sidebar
 from callbacks.register import register_callbacks
+from api import register_api
 from styles.flowtides_theme import dmc_theme
 
 # App Setup
@@ -16,6 +17,9 @@ app = Dash(
 
 # Register callbacks
 register_callbacks(app)
+
+# Initialize SQLite database + mount REST API routers on the FastAPI backend
+register_api(app)
 
 # Layout
 body = dmc.AppShellMain(dmc.Box(), id="main-content")
@@ -39,6 +43,7 @@ layout = dmc.AppShell([
 
 app.layout = dmc.MantineProvider([
     dcc.Location(id="route-location", refresh=False),
+    dcc.Store(id="auth-store", storage_type="session"),
     dcc.Store(id="accent-store", storage_type="local", data="blue"),
     dcc.Store(id="accent-dummy"),
     layout,
@@ -46,4 +51,16 @@ app.layout = dmc.MantineProvider([
 
 
 if __name__ == '__main__':
+    import os
+
+    # Local runs default to the dev environment (seeds the dev login user).
+    # Plotly Cloud imports this module rather than executing __main__, so it
+    # stays in production unless APP_ENV is set explicitly.
+    os.environ.setdefault("APP_ENV", "dev")
+
+    # Re-seed now that APP_ENV is set so the dev login user is provisioned
+    # (seeding is idempotent).
+    from data.seed import seed_default_users
+    seed_default_users()
+
     app.run(debug=True)

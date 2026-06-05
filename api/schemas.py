@@ -1,0 +1,82 @@
+"""Pydantic request/response schemas for the REST API."""
+from __future__ import annotations
+
+from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel
+
+from data.models import Well
+
+
+# ---------------------------------------------------------------------------
+# Users
+# ---------------------------------------------------------------------------
+class UserCreate(BaseModel):
+    username: str
+    full_name: str = ""
+    email: str
+    role: str = "viewer"
+    password: str
+
+
+class UserRead(BaseModel):
+    id: str
+    username: str
+    full_name: str
+    email: str
+    role: str
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+# ---------------------------------------------------------------------------
+# Projects
+# ---------------------------------------------------------------------------
+class ProjectCreate(BaseModel):
+    name: str
+    project_type: str = "single"
+    description: Optional[str] = None
+    status: str = "planned"
+    owner_id: Optional[str] = None
+
+
+class ProjectUpdate(BaseModel):
+    name: Optional[str] = None
+    project_type: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
+    owner_id: Optional[str] = None
+
+
+class ProjectRead(BaseModel):
+    id: str
+    name: str
+    project_type: str
+    description: Optional[str] = None
+    status: str
+    owner_id: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+
+# ---------------------------------------------------------------------------
+# Wells
+# ---------------------------------------------------------------------------
+class WellCreate(BaseModel):
+    well: Well
+    project_id: Optional[str] = None
+    api_number: Optional[str] = None
+
+
+class WellRead(BaseModel):
+    id: str
+    project_id: Optional[str] = None
+    well_name: str
+    api_number: Optional[str] = None
+    status: str
+    well_type: str
+    well: Well
+    created_at: datetime
+    updated_at: datetime

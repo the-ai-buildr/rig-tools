@@ -8,7 +8,7 @@ from components.ui.nav_links import nav_links
 
 settings_link = dmc.NavLink(
     label="Settings",
-    leftSection=DashIconify(icon="tabler:settings", width=20),
+    leftSection=DashIconify(icon="tabler:adjustments-horizontal", width=20),
     variant="subtle",
     active="exact",
     href="/settings",
@@ -23,8 +23,8 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:shield-chevron", width=26, color="var(--brand)"),
-                    dmc.Title("Rig Apps", c="var(--brand)", order=2, lh=1),
+                    DashIconify(icon="tabler:cpu-2", width=24, color="color-mix(in srgb, var(--brand) 88%, black)"),
+                    dmc.Title("Rig Tools", c="color-mix(in srgb, var(--brand) 88%, black)", order=3, lh=1),
                 ],
                 gap=6,
                 ml="7px",
@@ -37,7 +37,8 @@ nav_bar = dmc.AppShellHeader(
         px="md",
         justify="space-between",
         align="center",
-    )
+    ),
+    id="app-header",
 )
 
 sidebar = dmc.AppShellNavbar(

@@ -11,3 +11,10 @@ __pycache__/
 docker/.env
 .venv
 
+# SQLite database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+data/rig_tools.db
+

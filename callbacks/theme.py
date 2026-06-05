@@ -39,17 +39,32 @@ def register_theme_callbacks(app):
         Output("appshell", "navbar"),
         Output("navbar", "className"),
         Output("main-content", "children"),
+        Output("app-header", "style"),
+        Output("route-location", "pathname", allow_duplicate=True),
         Input("route-location", "pathname"),
         Input("burger", "opened"),
+        Input("auth-store", "data"),
+        prevent_initial_call="initial_duplicate",
     )
-    def update_layout_for_route(pathname, opened):
+    def update_layout_for_route(pathname, opened, auth):
+        # Unauthenticated: hide app chrome and route to the /login page.
+        # The login UI is served by pages/login.py through page_container
+        # (a first-class route), not injected as a one-off view.
+        if not auth:
+            redirect = no_update if pathname == "/login" else "/login"
+            return LANDING_NAVBAR, "", dash.page_container, {"display": "none"}, redirect
+
+        # Authenticated user landing on /login → send them to the dashboard.
+        if pathname == "/login":
+            return BASE_NAVBAR, "", dash.page_container, None, "/home"
+
         if pathname in (None, "", "/"):
-            return LANDING_NAVBAR, "", landing_content("/home")
+            return LANDING_NAVBAR, "", landing_content("/home"), None, no_update
 
         # Burger "opened" toggles the desktop mini rail.
         if opened:
-            return RAIL_NAVBAR, "rail", dash.page_container
-        return BASE_NAVBAR, "", dash.page_container
+            return RAIL_NAVBAR, "rail", dash.page_container, None, no_update
+        return BASE_NAVBAR, "", dash.page_container, None, no_update
 
     # ── Accent color picker ──────────────────────────────────────
     @app.callback(
