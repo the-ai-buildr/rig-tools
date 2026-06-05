@@ -25,16 +25,9 @@ from dash_iconify import DashIconify
 NAV_ITEMS = [
     # Main sections
     {"label": "Dashboard", "icon": "tabler:layout-dashboard", "href": "/home",},
-    {"label": "Setup", "icon": "tabler:building", "href": "/setup",},
-    
-    # Tools with sub-items
-    {"label": "Tools","icon": "tabler:tools", "href": "/tools", "opened": True,
-     "children": [
-            {"label": "Digital Stamp", "icon": "tabler:mail-code",  "href": "/tools/digital-stamp"},
-            {"label": "Templater",     "icon": "tabler:template",   "href": "/tools/templater"},
-            {"label": "Scheduler",     "icon": "tabler:calendar-month",   "href": "/tools/scheduler"},
-        ],
-    },
+    {"label": "Projects", "icon": "tabler:list-details", "href": "/projects",},
+    {"label": "Tools", "icon": "tabler:tools", "href": "/tools",},
+    {"label": "Calculators", "icon": "tabler:calculator", "href": "/calculators",},
 ]
 
 # ---------------------------------------------------------------------------

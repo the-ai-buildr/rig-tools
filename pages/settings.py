@@ -12,6 +12,9 @@ layout = page_body(
         action=dmc.Button(
             "Create",
             id="create-settings-btn",
+            leftSection=DashIconify(icon="tabler:plus", width=16),
+            variant="subtle",
+            styles={"root": {"border": "1px solid var(--mantine-color-default-border)"}},
         ),
     ),
 )

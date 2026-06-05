@@ -1,11 +1,9 @@
 import dash
-from dash import html
+import dash_mantine_components as dmc
+from utils import page_body, page_header
 
 dash.register_page(__name__, path="/tools/scheduler")
 
-layout = html.Div([
-    html.H1('This is our Scheduler page'),
-    html.Div('This is our Scheduler page content.'),
-    ],
-    className="dmc",
+layout = page_body(
+    page_header("Scheduler"),
 )

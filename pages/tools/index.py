@@ -2,7 +2,7 @@ import dash
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
-from styles.flowtides_theme import SPAN_THIRD, GRID_GUTTER
+from styles.flowtides_theme import SPAN_THIRD
 from utils import page_body, page_header
 
 dash.register_page(__name__, path="/tools")
@@ -23,7 +23,7 @@ TOOLS = [
     },
     {
         "label": "Scheduler",
-        "description": "Plan and schedule rig operations and activities.",
+        "description": "Sync team schedules.",
         "icon": "tabler:calendar-month",
         "href": "/tools/scheduler",
     },{
@@ -31,6 +31,11 @@ TOOLS = [
         "description": "Plan and schedule rig operations and activities.",
         "icon": "tabler:calendar-month",
         "href": "/tools/planner",
+    },{
+        "label": "Plan of Action",
+        "description": "Define and track the plan of action for rig operations.",
+        "icon": "tabler:clipboard-list",
+        "href": "/tools/poa",
     },
 ]
 
@@ -42,20 +47,23 @@ def _tool_card(tool: dict) -> dmc.Anchor:
                 dmc.Group(
                     [
                         dmc.ThemeIcon(
-                            DashIconify(icon=tool["icon"], width=24),
-                            size="xl",
+                            DashIconify(icon=tool["icon"], width=20),
+                            size="lg",
                             radius="md",
                             variant="light",
                             color="blue",
                         ),
-                        dmc.Text(tool["label"], fw=600, size="lg"),
+                        dmc.Text(tool["label"], fw=600, size="sm"),
                     ],
-                    gap="sm",
+                    gap="xs",
                     align="center",
                 ),
-                dmc.Text(tool["description"], size="sm", c="dimmed", mt="sm"),
+                dmc.Text(tool["description"], size="xs", c="dimmed", mt="xs"),
             ],
             className="metric-card",
+            radius="md",
+            withBorder=True,
+            p="sm",
             h="100%",
         ),
         href=tool["href"],
@@ -65,19 +73,12 @@ def _tool_card(tool: dict) -> dmc.Anchor:
 
 
 layout = page_body(
-    page_header(
-        "Tools",
-        action=dmc.Button(
-            "Create",
-            id="create-tools-btn",
-        ),
-    ),
-    dmc.Divider(mb="md"),
+    page_header("Tools",),
     dmc.Grid(
         [
             dmc.GridCol(_tool_card(tool), span=SPAN_THIRD)
             for tool in TOOLS
         ],
-        gutter=GRID_GUTTER,
+        gutter="sm",
     ),
 )

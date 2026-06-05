@@ -13,6 +13,7 @@ from sqlmodel import Session
 
 from data.db import engine
 from data.repositories import projects as project_repo
+from styles.flowtides_theme import SPAN_THIRD
 
 _TYPE_LABELS = {"single": "Single well", "pad": "Pad"}
 _STATUS_COLORS = {
@@ -31,43 +32,61 @@ def _fmt_date(value) -> str:
 
 
 def _project_card(project) -> dmc.Card:
+    icon = "tabler:stack-2" if project.project_type == "pad" else "tabler:point"
     return dmc.Card(
         dmc.Group(
             [
-                dmc.Stack(
+                dmc.Group(
                     [
-                        dmc.Group(
+                        dmc.ThemeIcon(
+                            DashIconify(icon=icon, width=20),
+                            size="lg",
+                            radius="md",
+                            variant="light",
+                            color="blue",
+                        ),
+                        dmc.Stack(
                             [
-                                dmc.Text(project.name, fw=600),
-                                dmc.Badge(
-                                    _TYPE_LABELS.get(
-                                        project.project_type, project.project_type
-                                    ),
-                                    variant="light",
-                                    size="sm",
+                                dmc.Group(
+                                    [
+                                        dmc.Text(project.name, fw=600, size="sm"),
+                                        dmc.Badge(
+                                            _TYPE_LABELS.get(
+                                                project.project_type,
+                                                project.project_type,
+                                            ),
+                                            variant="light",
+                                            size="sm",
+                                        ),
+                                        dmc.Badge(
+                                            project.status,
+                                            color=_STATUS_COLORS.get(
+                                                project.status, "gray"
+                                            ),
+                                            variant="light",
+                                            size="sm",
+                                        ),
+                                    ],
+                                    gap="xs",
+                                    align="center",
                                 ),
-                                dmc.Badge(
-                                    project.status,
-                                    color=_STATUS_COLORS.get(project.status, "gray"),
-                                    variant="light",
-                                    size="sm",
+                                dmc.Text(
+                                    project.description or "No description",
+                                    c="dimmed",
+                                    size="xs",
+                                ),
+                                dmc.Text(
+                                    f"Created {_fmt_date(project.created_at)}",
+                                    c="dimmed",
+                                    size="xs",
                                 ),
                             ],
-                            gap="xs",
-                            align="center",
-                        ),
-                        dmc.Text(
-                            project.description or "No description",
-                            c="dimmed",
-                            size="sm",
-                        ),
-                        dmc.Text(
-                            f"Created {_fmt_date(project.created_at)}",
-                            c="dimmed",
-                            size="xs",
+                            gap=2,
                         ),
                     ],
-                    gap=4,
+                    gap="xs",
+                    align="flex-start",
+                    wrap="nowrap",
                 ),
                 dmc.Tooltip(
                     label="Delete project",
@@ -84,9 +103,11 @@ def _project_card(project) -> dmc.Card:
             align="flex-start",
             wrap="nowrap",
         ),
+        className="metric-card",
         withBorder=True,
         radius="md",
-        p="md",
+        p="sm",
+        h="100%",
     )
 
 
@@ -181,4 +202,10 @@ def register_project_callbacks(app):
         if not projects:
             return _empty_state()
         projects.sort(key=lambda p: p.created_at, reverse=True)
-        return dmc.Stack([_project_card(p) for p in projects], gap="sm")
+        return dmc.Grid(
+            [
+                dmc.GridCol(_project_card(p), span=SPAN_THIRD)
+                for p in projects
+            ],
+            gutter="sm",
+        )
