@@ -3,6 +3,7 @@ import dash_mantine_components as dmc
 from dash import Dash, dcc
 from components.layouts.dashboard import nav_bar, sidebar
 from callbacks.register import register_callbacks
+from api import register_api
 from styles.flowtides_theme import dmc_theme
 
 # App Setup
@@ -16,6 +17,9 @@ app = Dash(
 
 # Register callbacks
 register_callbacks(app)
+
+# Initialize SQLite database + mount REST API routers on the FastAPI backend
+register_api(app)
 
 # Layout
 body = dmc.AppShellMain(dmc.Box(), id="main-content")
