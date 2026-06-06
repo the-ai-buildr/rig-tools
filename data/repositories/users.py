@@ -80,6 +80,43 @@ def authenticate(session: Session, email: str, password: str) -> Optional[User]:
     return None
 
 
+def update_user(
+    session: Session,
+    user_id: str,
+    *,
+    username: Optional[str] = None,
+    full_name: Optional[str] = None,
+    email: Optional[str] = None,
+    role: Optional[str] = None,
+    is_active: Optional[bool] = None,
+    password: Optional[str] = None,
+) -> Optional[User]:
+    """Update mutable fields on a user. Only non-None values are applied.
+
+    Passing a non-empty ``password`` re-hashes and replaces the stored hash.
+    """
+    user = session.get(User, user_id)
+    if not user:
+        return None
+    if username is not None:
+        user.username = username
+    if full_name is not None:
+        user.full_name = full_name
+    if email is not None:
+        user.email = email
+    if role is not None:
+        user.role = role
+    if is_active is not None:
+        user.is_active = is_active
+    if password:
+        user.hashed_password = hash_password(password)
+    user.updated_at = _now()
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
+
+
 def delete_user(session: Session, user_id: str) -> bool:
     user = session.get(User, user_id)
     if not user:
