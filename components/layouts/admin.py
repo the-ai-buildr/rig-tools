@@ -1,7 +1,7 @@
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
-from components.ui.settings_popover import settings_popover
+from components.ui.settings_popover import build_settings_popover
 from components.ui.nav_links import nav_links
 
 # Nav items are configured in components/ui/nav_links.py
@@ -23,15 +23,23 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:shield-checkered", width=24, color="color-mix(in srgb, var(--brand) 88%, black)"),
-                    dmc.Title("Rig Tools - Admin", c="color-mix(in srgb, var(--brand) 88%, black)", order=3, lh=1),
+                    DashIconify(icon="tabler:shield-checkered", width=24, color="hsl(var(--foreground))"),
+                    dmc.Title("Rig Tools - Admin", c="hsl(var(--foreground))", order=3, lh=1),
                 ],
                 gap=6,
                 ml="7px",
                 align="center",
             ),
             dmc.Space(style={"flex": 1}),
-            settings_popover,
+            build_settings_popover(
+                dmc.ActionIcon(
+                    DashIconify(icon="tabler:settings", width=18),
+                    variant="subtle",
+                    size="lg",
+                    mr=10,
+                ),
+                position="left",
+            ),
         ],
         h="100%",
         px="md",

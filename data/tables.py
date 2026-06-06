@@ -34,6 +34,18 @@ class User(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=_now)
 
 
+class AppSettings(SQLModel, table=True):
+    __tablename__ = "app_settings"
+
+    # Single-row table — always keyed by the fixed id "global".
+    id: str = Field(default="global", primary_key=True)
+    app_name: str = "Rig Tools"
+    default_color_scheme: str = "light"  # dark | light
+    default_accent: str = "blue"
+    default_units: str = "imperial"  # imperial | metric
+    updated_at: datetime = Field(default_factory=_now)
+
+
 class Project(SQLModel, table=True):
     __tablename__ = "projects"
 

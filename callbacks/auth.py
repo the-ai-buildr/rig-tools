@@ -1,9 +1,10 @@
-"""Authentication callbacks: login, logout, and profile display.
+"""
+    Authentication callbacks: login, logout, and profile display.
 
-Auth is validated server-side against the SQLite users table via the
-repository layer (same data layer the REST API uses). The signed-in user
-is held in a session-scoped ``dcc.Store`` (``auth-store``); route gating
-lives in ``callbacks/theme.py``.
+    Auth is validated server-side against the SQLite users table via the
+    repository layer (same data layer the REST API uses). The signed-in user
+    is held in a session-scoped ``dcc.Store`` (``auth-store``); route gating
+    lives in ``callbacks/theme.py``.
 """
 import dash_mantine_components as dmc
 from dash import Input, Output, State, no_update
@@ -68,3 +69,24 @@ def register_auth_callbacks(app):
         if not auth:
             return "Profile", None
         return auth.get("full_name") or auth.get("email"), auth.get("role")
+
+    @app.callback(
+        Output("footer-user-avatar", "children"),
+        Output("footer-user-name", "children"),
+        Input("auth-store", "data"),
+    )
+    def show_footer_user(auth):
+        if not auth:
+            return "··", "Guest"
+        name = auth.get("full_name") or auth.get("email") or "User"
+        parts = [p for p in name.replace(".", " ").replace("@", " ").split() if p]
+        initials = "".join(p[0] for p in parts[:2]).upper() or name[0].upper()
+        return initials, name
+
+    @app.callback(
+        Output("admin-nav-link", "display"),
+        Input("auth-store", "data"),
+    )
+    def toggle_admin_link(auth):
+        is_admin = bool(auth) and auth.get("role") == "admin"
+        return "block" if is_admin else "none"

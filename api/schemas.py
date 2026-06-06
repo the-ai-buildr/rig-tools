@@ -32,6 +32,25 @@ class UserRead(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# App settings (global, single row)
+# ---------------------------------------------------------------------------
+class AppSettingsRead(BaseModel):
+    id: str
+    app_name: str
+    default_color_scheme: str
+    default_accent: str
+    default_units: str
+    updated_at: datetime
+
+
+class AppSettingsUpdate(BaseModel):
+    app_name: Optional[str] = None
+    default_color_scheme: Optional[str] = None
+    default_accent: Optional[str] = None
+    default_units: Optional[str] = None
+
+
+# ---------------------------------------------------------------------------
 # Projects
 # ---------------------------------------------------------------------------
 class ProjectCreate(BaseModel):

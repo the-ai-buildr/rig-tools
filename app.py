@@ -44,7 +44,7 @@ app.layout = dmc.MantineProvider([
     dcc.Store(id="accent-store", storage_type="local", data="blue"),
     dcc.Store(id="accent-dummy"),
     layout,
-], id="theme-provider", theme=dmc_theme)
+], id="theme-provider", theme=dmc_theme, forceColorScheme="light")
 
 
 if __name__ == '__main__':

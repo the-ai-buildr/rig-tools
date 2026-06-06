@@ -26,6 +26,7 @@ NAV_ITEMS = [
     # Main sections
     {"label": "Dashboard", "icon": "tabler:layout-dashboard", "href": "/home",},
     {"label": "Projects", "icon": "tabler:list-details", "href": "/projects",},
+    {"label": "Files", "icon": "tabler:folder-open", "href": "/files",},
     {"label": "Tools", "icon": "tabler:tools", "href": "/tools",},
     {"label": "Calculators", "icon": "tabler:calculator", "href": "/calculators",},
 ]

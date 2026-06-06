@@ -45,72 +45,85 @@ accent_picker = dmc.Stack(
     py=4,
 )
 
-settings_popover = dmc.Popover(
-    [
-        dmc.PopoverTarget(
-            dmc.ActionIcon(
-                DashIconify(icon="tabler:settings", width=18),
+settings_dropdown = dmc.PopoverDropdown(
+    dmc.Stack(
+        [
+            dmc.NavLink(
+                label="Profile",
+                id="profile-link",
+                leftSection=DashIconify(icon="tabler:user-square-rounded", width=16),
                 variant="subtle",
-                size="lg",
-                id="settings-popover-btn",
-                mr=10,
+                c='dimmed',
             ),
-        ),
-        dmc.PopoverDropdown(
-            dmc.Stack(
+            dmc.NavLink(
+                label="Docs",
+                leftSection=DashIconify(icon="tabler:book-2", width=16),
+                variant="subtle",
+                href="#",
+                c='dimmed',
+                target="_blank",
+            ),
+            dmc.Group(
                 [
-                    dmc.NavLink(
-                        label="Profile",
-                        id="profile-link",
-                        leftSection=DashIconify(icon="tabler:user-square-rounded", width=16),
-                        variant="subtle",
-                        c='dimmed',
+                    dmc.Group(
+                        [
+                            DashIconify(icon="tabler:sun-moon", width=16),
+                            dmc.Text("Theme", size="sm", c="dimmed"),
+                        ],
+                        gap="xs",
                     ),
-                    dmc.NavLink(
-                        label="Docs",
-                        leftSection=DashIconify(icon="tabler:book-2", width=16),
-                        variant="subtle",
-                        href="#",
-                        c='dimmed',
-                        target="_blank",
-                    ),
-                    dmc.NavLink(
-                        label="Theme",
-                        leftSection=DashIconify(icon="tabler:sun-moon", width=16),
-                        rightSection=theme_toggle,
-                        c='dimmed',
-                        variant="subtle",
-                    ),
-                    accent_picker,
-                    dmc.Divider(),
-                    dmc.NavLink(
-                        label="Settings",
-                        leftSection=DashIconify(icon="tabler:settings", width=16),
-                        variant="subtle",
-                        c='dimmed',
-                    ),
-                    dmc.Divider(),
-                    dmc.NavLink(
-                        label="Sign out",
-                        id="sign-out-btn",
-                        leftSection=DashIconify(icon="tabler:logout", width=16),
-                        color="red",
-                        variant="subtle",
-                        c='dimmed',
-                    ),
+                    theme_toggle,
                 ],
-                gap=1,
+                justify="space-between",
+                align="center",
+                px="xs",
+                py=6,
             ),
-            p="xs",
-        ),
-    ],
-    # TODO: opooer glitches out on small screens
-    position="left",
-    withArrow=False,
-    trapFocus=True,
-    shadow="sm",
-    width=240,
-    keepMounted=True,
-    withinPortal=True,
-    # offset=4,
+            accent_picker,
+            dmc.Divider(),
+            dmc.NavLink(
+                label="Settings",
+                leftSection=DashIconify(icon="tabler:settings", width=16),
+                variant="subtle",
+                href="/settings",
+                c='dimmed',
+            ),
+            dmc.Divider(),
+            dmc.NavLink(
+                label="Sign out",
+                id="sign-out-btn",
+                leftSection=DashIconify(icon="tabler:logout", width=16),
+                color="red",
+                variant="subtle",
+                c='dimmed',
+            ),
+        ],
+        gap=1,
+    ),
+    p="xs",
 )
+
+
+def build_settings_popover(target, *, position="top", popover_id=None):
+    """Wrap a target element in the shared settings popover.
+
+    The dropdown content (profile, theme, accent, settings, sign-out) is the
+    same regardless of where it is triggered from.
+    """
+    kwargs = {}
+    if popover_id is not None:
+        kwargs["id"] = popover_id
+    return dmc.Popover(
+        [
+            dmc.PopoverTarget(target),
+            settings_dropdown,
+        ],
+        position=position,
+        withArrow=False,
+        trapFocus=True,
+        shadow="sm",
+        width=240,
+        keepMounted=True,
+        withinPortal=True,
+        **kwargs,
+    )

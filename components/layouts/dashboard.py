@@ -1,18 +1,10 @@
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
-from components.ui.settings_popover import settings_popover
+from components.ui.settings_popover import build_settings_popover
 from components.ui.nav_links import nav_links
 
 # Nav items are configured in components/ui/nav_links.py
-
-settings_link = dmc.NavLink(
-    label="Settings",
-    leftSection=DashIconify(icon="tabler:adjustments-horizontal", width=20),
-    variant="subtle",
-    active="exact",
-    href="/settings",
-)
 
 nav_bar = dmc.AppShellHeader(
     dmc.Group(
@@ -23,16 +15,14 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:cpu-2", width=24, color="color-mix(in srgb, var(--brand) 88%, black)"),
-                    dmc.Title("Rig Tools", c="color-mix(in srgb, var(--brand) 88%, black)", order=3, lh=1),
+                    DashIconify(icon="tabler:cpu-2", width=24, color="hsl(var(--foreground))"),
+                    dmc.Title("Rig Tools", c="hsl(var(--foreground))", order=3, lh=1),
                 ],
                 gap=6,
                 ml="7px",
                 align="center",
             ),
             dmc.Space(style={"flex": 1}),
-            # Todo: Add user avatar icon for logged in user with dropdown for profile/settings/logout instead of linking to settings page here.
-            settings_popover,
         ],
         h="100%",
         px="md",
@@ -42,12 +32,80 @@ nav_bar = dmc.AppShellHeader(
     id="app-header",
 )
 
+# Sidebar footer — user avatar + name open the settings popover; the
+# preferences icon on the right navigates to the Settings page.
+footer_profile = dmc.Group(
+    [
+        dmc.Avatar(
+            "··",
+            id="footer-user-avatar",
+            radius="md",
+            size="sm",
+            color="blue",
+        ),
+        dmc.Text(
+            "User",
+            id="footer-user-name",
+            fw=500,
+            size="sm",
+            ml="8px",
+            truncate=True,
+        ),
+    ],
+    gap="xs",
+    align="center",
+    wrap="nowrap",
+    style={"flex": 1, "cursor": "pointer", "minWidth": 0},
+)
+
+sidebar_footer = dmc.Group(
+    [
+        build_settings_popover(footer_profile, position="top"),
+        dmc.Tooltip(
+            label="Preferences",
+            withArrow=True,
+            children=dmc.Anchor(
+                dmc.ActionIcon(
+                    DashIconify(icon="tabler:settings", width=18),
+                    id="footer-settings-link",
+                    variant="subtle",
+                    color="gray",
+                    size="lg",
+                ),
+                href="/settings",
+            ),
+        ),
+    ],
+    justify="space-between",
+    align="center",
+    wrap="nowrap",
+    px="sm",
+    py="xs",
+    className="rail-hide",
+)
+
+# Admin entry — gated to admin users via callback (callbacks/theme.py);
+# hidden by default and shown just above the settings footer.
+admin_link = dmc.Box(
+    dmc.NavLink(
+        label="Admin",
+        leftSection=DashIconify(icon="tabler:shield-check", width=20),
+        variant="subtle",
+        active="exact",
+        href="/admin",
+    ),
+    id="admin-nav-link",
+    px="sm",
+    display="none",
+)
+
 sidebar = dmc.AppShellNavbar(
     id="navbar",
     children=dmc.Flex([
             nav_links,
+            admin_link,
             dmc.Divider(),
-            settings_link,
+            sidebar_footer,
         ],
         direction="column",
         style={"height": "100%"},

@@ -58,6 +58,10 @@ def register_theme_callbacks(app):
         if pathname == "/login":
             return BASE_NAVBAR, "", dash.page_container, None, "/home"
 
+        # Admin pages are restricted to users with the admin role.
+        if pathname and pathname.startswith("/admin") and auth.get("role") != "admin":
+            return BASE_NAVBAR, "", dash.page_container, None, "/home"
+
         if pathname in (None, "", "/"):
             return LANDING_NAVBAR, "", landing_content("/home"), None, no_update
 

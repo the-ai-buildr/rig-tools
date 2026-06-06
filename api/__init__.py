@@ -11,7 +11,7 @@ def register_api(app) -> None:
 
     from data.db import init_db
     from data.seed import seed_default_users
-    from api.routes import projects, users, wells
+    from api.routes import projects, settings, users, wells
 
     init_db()
     seed_default_users()
@@ -20,6 +20,7 @@ def register_api(app) -> None:
     server.include_router(users.router)
     server.include_router(projects.router)
     server.include_router(wells.router)
+    server.include_router(settings.router)
 
     # Dash's FastAPI backend only serves the index at "/", so deep links and
     # browser refreshes on client-side routes (e.g. /login, /home) 404. Add a
