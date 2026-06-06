@@ -3,6 +3,7 @@ from dash_iconify import DashIconify
 
 from components.ui.settings_popover import build_settings_popover
 from components.ui.nav_links import nav_links
+from components.ui.chat_drawer import chat_toggle
 
 # Nav items are configured in components/ui/nav_links.py
 
@@ -23,6 +24,14 @@ nav_bar = dmc.AppShellHeader(
                 align="center",
             ),
             dmc.Space(style={"flex": 1}),
+            dmc.Group([
+                    DashIconify(icon="tabler:brand-twitch", width=24, color="hsl(var(--foreground))", flip="horizontal"),
+                    chat_toggle,
+                ],
+                gap=6,
+                ml="7px",
+                align="center",
+            ),
         ],
         h="100%",
         px="md",
@@ -96,6 +105,7 @@ admin_link = dmc.Box(
     ),
     id="admin-nav-link",
     px="sm",
+    pb="sm",
     display="none",
 )
 

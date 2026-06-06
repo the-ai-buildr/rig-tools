@@ -2,6 +2,7 @@ import dash
 import dash_mantine_components as dmc
 from dash import Dash, dcc
 from components.layouts.dashboard import nav_bar, sidebar
+from components.ui.chat_drawer import chat_aside, chat_drawer, CHAT_WIDTH
 from callbacks.register import register_callbacks
 from api import register_api
 from styles.flowtides_theme import dmc_theme
@@ -25,6 +26,7 @@ body = dmc.AppShellMain(dmc.Box(), id="main-content")
 layout = dmc.AppShell([
         nav_bar,
         sidebar,
+        chat_aside,
         body,
     ],
     header={"height": 42},
@@ -32,6 +34,11 @@ layout = dmc.AppShell([
         "width": {"base": 225, "md": 225, "lg": 225},
         "breakpoint": "sm",
         "collapsed": {"mobile": True, "desktop": False},
+    },
+    aside={
+        "width": CHAT_WIDTH,
+        "breakpoint": "md",
+        "collapsed": {"mobile": True, "desktop": True},
     },
     padding="sm",
     id="appshell",
@@ -43,6 +50,8 @@ app.layout = dmc.MantineProvider([
     dcc.Store(id="auth-store", storage_type="session"),
     dcc.Store(id="accent-store", storage_type="local", data="blue"),
     dcc.Store(id="accent-dummy"),
+    dcc.Store(id="chat-state-store", storage_type="local", data="closed"),
+    chat_drawer,
     layout,
 ], id="theme-provider", theme=dmc_theme, forceColorScheme="light")
 

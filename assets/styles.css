@@ -234,8 +234,21 @@ body,
 }
 
 
-/* ── Metric card (dmc.Paper) ─────────────────────────────────── */
+/* ── Chat aside / drawer ─────────────────────────────────────── */
 
+.mantine-AppShell-aside {
+    transition: transform 300ms ease, width 300ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mantine-AppShell-aside,
+    .mantine-Drawer-content {
+        transition: none !important;
+    }
+}
+
+
+/* ── Metric card (dmc.Paper) ─────────────────────────────────── */
 .metric-card {
     background-color: hsl(var(--card));
     border: 1px solid hsl(var(--border));

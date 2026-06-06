@@ -27,8 +27,18 @@ class UserRead(BaseModel):
     email: str
     role: str
     is_active: bool
+    preferences: dict = {}
     created_at: datetime
     updated_at: datetime
+
+
+class UserPreferences(BaseModel):
+    """Partial per-user preferences payload (all fields optional for PATCH)."""
+
+    color_scheme: Optional[str] = None  # dark | light
+    accent: Optional[str] = None
+    sidebar_collapsed: Optional[bool] = None
+    units: Optional[str] = None  # imperial | metric
 
 
 # ---------------------------------------------------------------------------

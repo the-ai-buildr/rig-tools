@@ -52,48 +52,32 @@ def create_user(
     return user
 
 
-def authenticate(session: Session, email: str, password: str) -> Optional[User]:
-    user = get_user_by_email(session, email)
-    if user and user.is_active and verify_password(password, user.hashed_password):
-        return user
-    return None
-
-
-def update_user(
-    session: Session,
-    user_id: str,
-    *,
-    username: Optional[str] = None,
-    full_name: Optional[str] = None,
-    email: Optional[str] = None,
-    role: Optional[str] = None,
-    is_active: Optional[bool] = None,
-    password: Optional[str] = None,
+def update_user_preferences(
+    session: Session, user_id: str, prefs: dict
 ) -> Optional[User]:
-    """Update mutable fields on a user. Only non-None values are applied.
+    """Merge ``prefs`` into the user's stored preferences and persist.
 
-    Passing a non-empty ``password`` re-hashes and replaces the stored hash.
+    Only non-``None`` values are applied so partial updates leave other
+    preferences untouched.
     """
     user = session.get(User, user_id)
     if not user:
         return None
-    if username is not None:
-        user.username = username
-    if full_name is not None:
-        user.full_name = full_name
-    if email is not None:
-        user.email = email
-    if role is not None:
-        user.role = role
-    if is_active is not None:
-        user.is_active = is_active
-    if password:
-        user.hashed_password = hash_password(password)
+    merged = dict(user.preferences or {})
+    merged.update({k: v for k, v in prefs.items() if v is not None})
+    user.preferences = merged
     user.updated_at = _now()
     session.add(user)
     session.commit()
     session.refresh(user)
     return user
+
+
+def authenticate(session: Session, email: str, password: str) -> Optional[User]:
+    user = get_user_by_email(session, email)
+    if user and user.is_active and verify_password(password, user.hashed_password):
+        return user
+    return None
 
 
 def delete_user(session: Session, user_id: str) -> bool:

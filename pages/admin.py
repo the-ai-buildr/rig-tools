@@ -9,5 +9,7 @@ dash.register_page(__name__, path="/admin")
 
 layout = page_body(
     page_header("Admin"),
-    dmc.Card(user_table, withBorder=True, radius="md", p="lg"),
+    # Todo: add user and team metric cards from db
+    dmc.Card(user_table, withBorder=True, radius="md", p="md", pt="10px"),
+    # Todo: add team config table
 )
