@@ -164,7 +164,12 @@ chat_toggle = dmc.Tooltip(
     label="Chat",
     withArrow=True,
     children=dmc.ActionIcon(
-        DashIconify(icon="tabler:message-circle", width=20),
+        DashIconify(
+            icon="tabler:brand-twitch",
+            width=24,
+            color="hsl(var(--foreground))",
+            flip="horizontal",
+        ),
         id="chat-toggle",
         variant="subtle",
         color="gray",

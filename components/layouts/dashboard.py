@@ -25,7 +25,6 @@ nav_bar = dmc.AppShellHeader(
             ),
             dmc.Space(style={"flex": 1}),
             dmc.Group([
-                    DashIconify(icon="tabler:brand-twitch", width=24, color="hsl(var(--foreground))", flip="horizontal"),
                     chat_toggle,
                 ],
                 gap=6,
