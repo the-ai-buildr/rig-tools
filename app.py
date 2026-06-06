@@ -15,10 +15,8 @@ app = Dash(
     suppress_callback_exceptions=True,
 )
 
-# Register callbacks
+# Register callbacks & init db
 register_callbacks(app)
-
-# Initialize SQLite database + mount REST API routers on the FastAPI backend
 register_api(app)
 
 # Layout
@@ -39,7 +37,6 @@ layout = dmc.AppShell([
     id="appshell",
     className="dmc",
 )
-
 
 app.layout = dmc.MantineProvider([
     dcc.Location(id="route-location", refresh=False),

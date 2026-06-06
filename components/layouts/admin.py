@@ -23,15 +23,14 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:cpu-2", width=24, color="color-mix(in srgb, var(--brand) 88%, black)"),
-                    dmc.Title("Rig Tools", c="color-mix(in srgb, var(--brand) 88%, black)", order=3, lh=1),
+                    DashIconify(icon="tabler:shield-checkered", width=24, color="color-mix(in srgb, var(--brand) 88%, black)"),
+                    dmc.Title("Rig Tools - Admin", c="color-mix(in srgb, var(--brand) 88%, black)", order=3, lh=1),
                 ],
                 gap=6,
                 ml="7px",
                 align="center",
             ),
             dmc.Space(style={"flex": 1}),
-            # Todo: Add user avatar icon for logged in user with dropdown for profile/settings/logout instead of linking to settings page here.
             settings_popover,
         ],
         h="100%",
@@ -46,6 +45,8 @@ sidebar = dmc.AppShellNavbar(
     id="navbar",
     children=dmc.Flex([
             nav_links,
+            # Todo: Add back to dashboard sidebar link and make dynamic based on user role
+            # only admin allowed to view this page.
             dmc.Divider(),
             settings_link,
         ],
