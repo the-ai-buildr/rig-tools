@@ -10,9 +10,14 @@ dash.register_page(__name__, path="/calculators")
 
 CALCULATORS = [
     {
-        "label": "FIT / LOT ",
+        "label": "FIT / LOT",
         "description": "Calculate FIT / LOT values.",
         "icon": "tabler:wave-sine",
+        "href": "/calculators/#",
+    },{
+        "label": "MPD",
+        "description": "Pressure management, MPD and related calculators.",
+        "icon": "tabler:ripple-up",
         "href": "/calculators/#",
     },
    
