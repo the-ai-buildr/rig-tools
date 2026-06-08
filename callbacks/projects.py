@@ -9,9 +9,7 @@ from datetime import datetime
 import dash_mantine_components as dmc
 from dash import ALL, Input, Output, State, ctx, no_update
 from dash_iconify import DashIconify
-from sqlmodel import Session
 
-from data.db import engine
 from data.repositories import projects as project_repo
 from styles.flowtides_theme import SPAN_THIRD
 
@@ -165,14 +163,12 @@ def register_project_callbacks(app):
             )
             return no_update, no_update, alert, no_update, no_update
         owner_id = auth.get("user_id") if auth else None
-        with Session(engine) as session:
-            project_repo.create_project(
-                session,
-                name=name.strip(),
-                project_type=ptype or "single",
-                description=(description or None),
-                owner_id=owner_id,
-            )
+        project_repo.create_project(
+            name=name.strip(),
+            project_type=ptype or "single",
+            description=(description or None),
+            owner_id=owner_id,
+        )
         return (refresh or 0) + 1, False, None, "", ""
 
     @app.callback(
@@ -187,8 +183,7 @@ def register_project_callbacks(app):
         target = ctx.triggered_id
         if not target:
             return no_update
-        with Session(engine) as session:
-            project_repo.delete_project(session, target["index"])
+        project_repo.delete_project(target["index"])
         return (refresh or 0) + 1
 
     @app.callback(
@@ -198,8 +193,7 @@ def register_project_callbacks(app):
     )
     def render_projects(_refresh, auth):
         owner_id = auth.get("user_id") if auth else None
-        with Session(engine) as session:
-            projects = project_repo.list_projects(session, owner_id=owner_id)
+        projects = project_repo.list_projects(owner_id=owner_id)
         if not projects:
             return _empty_state()
         projects.sort(key=lambda p: p.created_at, reverse=True)

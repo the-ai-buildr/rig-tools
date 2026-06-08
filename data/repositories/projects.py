@@ -1,31 +1,29 @@
-"""Project CRUD."""
+"""Project CRUD via the Supabase ``projects`` table (service-role client)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Optional
 
-from sqlmodel import Session, select
-
-from data.tables import Project
-
-
-def _now() -> datetime:
-    return datetime.now(timezone.utc)
+from data.entities import Project
+from data.supabase_client import get_service_client
 
 
-def list_projects(session: Session, owner_id: Optional[str] = None) -> list[Project]:
-    stmt = select(Project)
+def list_projects(owner_id: Optional[str] = None) -> list[Project]:
+    client = get_service_client()
+    query = client.table("projects").select("*")
     if owner_id:
-        stmt = stmt.where(Project.owner_id == owner_id)
-    return list(session.exec(stmt).all())
+        query = query.eq("owner_id", owner_id)
+    return [Project.model_validate(row) for row in (query.execute().data or [])]
 
 
-def get_project(session: Session, project_id: str) -> Optional[Project]:
-    return session.get(Project, project_id)
+def get_project(project_id: str) -> Optional[Project]:
+    client = get_service_client()
+    rows = (
+        client.table("projects").select("*").eq("id", project_id).limit(1).execute().data
+    )
+    return Project.model_validate(rows[0]) if rows else None
 
 
 def create_project(
-    session: Session,
     *,
     name: str,
     project_type: str = "single",
@@ -33,37 +31,28 @@ def create_project(
     status: str = "planned",
     owner_id: Optional[str] = None,
 ) -> Project:
-    project = Project(
-        name=name,
-        project_type=project_type,
-        description=description,
-        status=status,
-        owner_id=owner_id,
-    )
-    session.add(project)
-    session.commit()
-    session.refresh(project)
-    return project
+    client = get_service_client()
+    row = {
+        "name": name,
+        "project_type": project_type,
+        "description": description,
+        "status": status,
+        "owner_id": owner_id,
+    }
+    res = client.table("projects").insert(row).execute().data
+    return Project.model_validate(res[0])
 
 
-def update_project(session: Session, project_id: str, **fields) -> Optional[Project]:
-    project = session.get(Project, project_id)
-    if not project:
-        return None
-    for key, value in fields.items():
-        if hasattr(project, key):
-            setattr(project, key, value)
-    project.updated_at = _now()
-    session.add(project)
-    session.commit()
-    session.refresh(project)
-    return project
+def update_project(project_id: str, **fields) -> Optional[Project]:
+    fields = {k: v for k, v in fields.items() if k in Project.model_fields and k != "id"}
+    if not fields:
+        return get_project(project_id)
+    client = get_service_client()
+    res = client.table("projects").update(fields).eq("id", project_id).execute().data
+    return Project.model_validate(res[0]) if res else None
 
 
-def delete_project(session: Session, project_id: str) -> bool:
-    project = session.get(Project, project_id)
-    if not project:
-        return False
-    session.delete(project)
-    session.commit()
-    return True
+def delete_project(project_id: str) -> bool:
+    client = get_service_client()
+    res = client.table("projects").delete().eq("id", project_id).execute().data
+    return bool(res)

@@ -1,6 +1,8 @@
 import dash
 import dash_mantine_components as dmc
 from dash import Dash, dcc
+
+import data.config  # noqa: F401  — loads .env before any Supabase client is created
 from components.layouts.dashboard import nav_bar, sidebar
 from components.ui.chat_drawer import chat_aside, chat_drawer, CHAT_WIDTH
 from callbacks.register import register_callbacks

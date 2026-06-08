@@ -1,17 +1,12 @@
-"""Well CRUD. Bridges the rich ``Well`` pydantic model and the JSON document column."""
+"""Well CRUD via Supabase. Bridges the rich ``Well`` pydantic model and the
+JSON ``document`` column on the ``wells`` table (service-role client)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Optional
 
-from sqlmodel import Session, select
-
-from data.models import Well
-from data.tables import WellRecord
-
-
-def _now() -> datetime:
-    return datetime.now(timezone.utc)
+from data.entities import WellRecord
+from tmp.models import Well
+from data.supabase_client import get_service_client
 
 
 def _enum_value(value) -> str:
@@ -28,57 +23,48 @@ def _index_fields(well: Well) -> dict:
     }
 
 
-def list_wells(session: Session, project_id: Optional[str] = None) -> list[WellRecord]:
-    stmt = select(WellRecord)
+def list_wells(project_id: Optional[str] = None) -> list[WellRecord]:
+    client = get_service_client()
+    query = client.table("wells").select("*")
     if project_id:
-        stmt = stmt.where(WellRecord.project_id == project_id)
-    return list(session.exec(stmt).all())
+        query = query.eq("project_id", project_id)
+    return [WellRecord.model_validate(row) for row in (query.execute().data or [])]
 
 
-def get_well(session: Session, well_id: str) -> Optional[WellRecord]:
-    return session.get(WellRecord, well_id)
+def get_well(well_id: str) -> Optional[WellRecord]:
+    client = get_service_client()
+    rows = client.table("wells").select("*").eq("id", well_id).limit(1).execute().data
+    return WellRecord.model_validate(rows[0]) if rows else None
 
 
 def create_well(
-    session: Session,
     well: Well,
     *,
     project_id: Optional[str] = None,
     api_number: Optional[str] = None,
 ) -> WellRecord:
-    record = WellRecord(
-        project_id=project_id,
-        api_number=api_number,
-        document=well.model_dump(mode="json"),
+    client = get_service_client()
+    row = {
+        "project_id": project_id,
+        "api_number": api_number,
+        "document": well.model_dump(mode="json"),
         **_index_fields(well),
-    )
-    session.add(record)
-    session.commit()
-    session.refresh(record)
-    return record
+    }
+    res = client.table("wells").insert(row).execute().data
+    return WellRecord.model_validate(res[0])
 
 
-def update_well(session: Session, well_id: str, well: Well) -> Optional[WellRecord]:
-    record = session.get(WellRecord, well_id)
-    if not record:
-        return None
-    record.document = well.model_dump(mode="json")
-    for key, value in _index_fields(well).items():
-        setattr(record, key, value)
-    record.updated_at = _now()
-    session.add(record)
-    session.commit()
-    session.refresh(record)
-    return record
+def update_well(well_id: str, well: Well) -> Optional[WellRecord]:
+    client = get_service_client()
+    row = {"document": well.model_dump(mode="json"), **_index_fields(well)}
+    res = client.table("wells").update(row).eq("id", well_id).execute().data
+    return WellRecord.model_validate(res[0]) if res else None
 
 
-def delete_well(session: Session, well_id: str) -> bool:
-    record = session.get(WellRecord, well_id)
-    if not record:
-        return False
-    session.delete(record)
-    session.commit()
-    return True
+def delete_well(well_id: str) -> bool:
+    client = get_service_client()
+    res = client.table("wells").delete().eq("id", well_id).execute().data
+    return bool(res)
 
 
 def to_well_model(record: WellRecord) -> Well:

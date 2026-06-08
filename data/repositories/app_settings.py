@@ -1,38 +1,40 @@
 """Global application settings repository (single-row ``app_settings`` table)."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
-
-from sqlmodel import Session
-
-from data.tables import AppSettings
+from data.entities import AppSettings
+from data.supabase_client import get_service_client
 
 GLOBAL_ID = "global"
 
 
-def _now() -> datetime:
-    return datetime.now(timezone.utc)
-
-
-def get_app_settings(session: Session) -> AppSettings:
+def get_app_settings() -> AppSettings:
     """Return the global settings row, creating it with defaults if absent."""
-    settings = session.get(AppSettings, GLOBAL_ID)
-    if settings is None:
-        settings = AppSettings(id=GLOBAL_ID)
-        session.add(settings)
-        session.commit()
-        session.refresh(settings)
-    return settings
+    client = get_service_client()
+    rows = (
+        client.table("app_settings").select("*").eq("id", GLOBAL_ID).limit(1).execute().data
+    )
+    if not rows:
+        client.table("app_settings").insert({"id": GLOBAL_ID}).execute()
+        rows = (
+            client.table("app_settings")
+            .select("*")
+            .eq("id", GLOBAL_ID)
+            .limit(1)
+            .execute()
+            .data
+        )
+    return AppSettings.model_validate(rows[0])
 
 
-def update_app_settings(session: Session, **fields) -> AppSettings:
+def update_app_settings(**fields) -> AppSettings:
     """Apply the provided fields to the global settings row and persist."""
-    settings = get_app_settings(session)
-    for key, value in fields.items():
-        if value is not None and hasattr(settings, key):
-            setattr(settings, key, value)
-    settings.updated_at = _now()
-    session.add(settings)
-    session.commit()
-    session.refresh(settings)
-    return settings
+    get_app_settings()  # ensure the row exists
+    fields = {
+        k: v
+        for k, v in fields.items()
+        if v is not None and k in AppSettings.model_fields and k != "id"
+    }
+    if fields:
+        client = get_service_client()
+        client.table("app_settings").update(fields).eq("id", GLOBAL_ID).execute()
+    return get_app_settings()

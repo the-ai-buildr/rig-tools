@@ -6,7 +6,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from data.models import Well
+from tmp.models import Well
 
 
 # ---------------------------------------------------------------------------

@@ -1,17 +1,17 @@
 """Authentication callbacks: login, logout, and profile display.
 
-Auth is validated server-side against the SQLite users table via the
-repository layer (same data layer the REST API uses). The signed-in user
-is held in a session-scoped ``dcc.Store`` (``auth-store``); route gating
-lives in ``callbacks/theme.py``.
+Auth is validated against Supabase Auth (GoTrue) via ``sign_in_with_password``;
+the app-specific role/flags come from the ``profiles`` table (loaded through the
+user repository). The signed-in user — plus the Supabase access/refresh tokens —
+is held in a session-scoped ``dcc.Store`` (``auth-store``); route gating lives in
+``callbacks/theme.py``.
 """
 import dash_mantine_components as dmc
 from dash import Input, Output, State, no_update
 from dash_iconify import DashIconify
-from sqlmodel import Session
 
-from data.db import engine
 from data.repositories import users as user_repo
+from data.supabase_client import get_auth_client
 
 
 def _error_alert(message: str):
@@ -37,16 +37,36 @@ def register_auth_callbacks(app):
     def do_login(_clicks, email, password):
         if not email or not password:
             return no_update, _error_alert("Enter both email and password."), no_update
-        with Session(engine) as session:
-            user = user_repo.authenticate(session, email.strip().lower(), password)
-            if user is None:
-                return no_update, _error_alert("Invalid email or password."), no_update
-            data = {
-                "user_id": user.id,
-                "email": user.email,
-                "full_name": user.full_name,
-                "role": user.role,
-            }
+
+        email = email.strip().lower()
+        try:
+            res = get_auth_client().auth.sign_in_with_password(
+                {"email": email, "password": password}
+            )
+        except Exception:
+            return no_update, _error_alert("Invalid email or password."), no_update
+
+        session = getattr(res, "session", None)
+        user = getattr(res, "user", None)
+        if not session or not user:
+            return no_update, _error_alert("Invalid email or password."), no_update
+
+        profile = user_repo.get_user(user.id)
+        if profile is None or not profile.is_active:
+            return (
+                no_update,
+                _error_alert("This account is inactive. Contact an administrator."),
+                no_update,
+            )
+
+        data = {
+            "user_id": user.id,
+            "email": user.email or email,
+            "full_name": profile.full_name,
+            "role": profile.role,
+            "access_token": session.access_token,
+            "refresh_token": session.refresh_token,
+        }
         return data, None, "/home"
 
     @app.callback(

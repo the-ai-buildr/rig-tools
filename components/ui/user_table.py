@@ -22,9 +22,7 @@ from datetime import datetime
 import dash_mantine_components as dmc
 from dash import ALL, Input, Output, State, ctx, dcc, no_update
 from dash_iconify import DashIconify
-from sqlmodel import Session
 
-from data.db import engine
 from data.repositories import users as user_repo
 
 # ---------------------------------------------------------------------------
@@ -149,9 +147,8 @@ def _edit_row(u, *, deletable: bool) -> dmc.TableTr:
 
 
 def _render_table(edit: bool, current_user_id: str | None):
-    with Session(engine) as session:
-        users = user_repo.list_users(session)
-    users.sort(key=lambda u: (u.role != "admin", u.username.lower()))
+    users = user_repo.list_users()
+    users.sort(key=lambda u: (u.role != "admin", (u.username or "").lower()))
 
     if not users:
         return dmc.Stack(
@@ -372,17 +369,15 @@ def register_user_table_callbacks(app):
             if not (fields.get("email") or "").strip():
                 return no_update, no_update, _alert("Email is required for every row.")
 
-        with Session(engine) as session:
-            for user_id, fields in edited.items():
-                user_repo.update_user(
-                    session,
-                    user_id,
-                    username=fields["username"].strip(),
-                    full_name=(fields.get("full_name") or "").strip(),
-                    email=fields["email"].strip().lower(),
-                    role=fields.get("role"),
-                    is_active=(fields.get("is_active") == "active"),
-                )
+        for user_id, fields in edited.items():
+            user_repo.update_user(
+                user_id,
+                username=fields["username"].strip(),
+                full_name=(fields.get("full_name") or "").strip(),
+                email=fields["email"].strip().lower(),
+                role=fields.get("role"),
+                is_active=(fields.get("is_active") == "active"),
+            )
         return False, (refresh or 0) + 1, None
 
     # ── Add-user modal open / close ──────────────────────────────
@@ -422,27 +417,25 @@ def register_user_table_callbacks(app):
                 _alert("Username, email, and password are required."),
                 no_update, no_update, no_update, no_update,
             )
-        with Session(engine) as session:
-            if user_repo.get_user_by_email(session, email):
-                return (
-                    no_update, no_update,
-                    _alert("Email already registered."),
-                    no_update, no_update, no_update, no_update,
-                )
-            if user_repo.get_user_by_username(session, username):
-                return (
-                    no_update, no_update,
-                    _alert("Username already taken."),
-                    no_update, no_update, no_update, no_update,
-                )
-            user_repo.create_user(
-                session,
-                username=username,
-                full_name=(full_name or "").strip(),
-                email=email,
-                role=role or "viewer",
-                password=password,
+        if user_repo.get_user_by_email(email):
+            return (
+                no_update, no_update,
+                _alert("Email already registered."),
+                no_update, no_update, no_update, no_update,
             )
+        if user_repo.get_user_by_username(username):
+            return (
+                no_update, no_update,
+                _alert("Username already taken."),
+                no_update, no_update, no_update, no_update,
+            )
+        user_repo.create_user(
+            username=username,
+            full_name=(full_name or "").strip(),
+            email=email,
+            role=role or "viewer",
+            password=password,
+        )
         return False, (refresh or 0) + 1, None, "", "", "", ""
 
     # ── Delete user ──────────────────────────────────────────────
@@ -462,6 +455,5 @@ def register_user_table_callbacks(app):
         current_id = auth.get("user_id") if auth else None
         if target["index"] == current_id:
             return no_update
-        with Session(engine) as session:
-            user_repo.delete_user(session, target["index"])
+        user_repo.delete_user(target["index"])
         return (refresh or 0) + 1

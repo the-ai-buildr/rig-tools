@@ -9,9 +9,7 @@ from __future__ import annotations
 import dash_mantine_components as dmc
 from dash import Input, Output, State, no_update
 from dash_iconify import DashIconify
-from sqlmodel import Session
 
-from data.db import engine
 from data.repositories import app_settings as app_settings_repo
 from data.repositories import users as user_repo
 
@@ -69,8 +67,7 @@ def register_settings_callbacks(app):
         if pathname != "/settings" or not auth:
             return [no_update] * 17
 
-        with Session(engine) as session:
-            app_settings = app_settings_repo.get_app_settings(session)
+        app_settings = app_settings_repo.get_app_settings()
 
         eff = _effective(auth.get("preferences"), app_settings)
         is_admin = (auth.get("role") or "").lower() == "admin"
@@ -129,11 +126,10 @@ def register_settings_callbacks(app):
             "sidebar_collapsed": bool(sidebar_collapsed),
             "units": units,
         }
-        with Session(engine) as session:
-            user = user_repo.update_user_preferences(session, auth["user_id"], prefs)
-            if user is None:
-                return _status("Could not save — user not found.", ok=False), no_update, no_update, no_update
-            stored = dict(user.preferences or {})
+        user = user_repo.update_user_preferences(auth["user_id"], prefs)
+        if user is None:
+            return _status("Could not save — user not found.", ok=False), no_update, no_update, no_update
+        stored = dict(user.preferences or {})
 
         new_auth = dict(auth)
         new_auth["preferences"] = stored
@@ -159,12 +155,10 @@ def register_settings_callbacks(app):
         if not auth or (auth.get("role") or "").lower() != "admin":
             return _status("Administrator access required.", ok=False)
 
-        with Session(engine) as session:
-            app_settings_repo.update_app_settings(
-                session,
-                app_name=app_name,
-                default_color_scheme=default_scheme,
-                default_accent=default_accent,
-                default_units=default_units,
-            )
+        app_settings_repo.update_app_settings(
+            app_name=app_name,
+            default_color_scheme=default_scheme,
+            default_accent=default_accent,
+            default_units=default_units,
+        )
         return _status("App settings saved.")
