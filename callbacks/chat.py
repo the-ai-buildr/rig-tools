@@ -62,13 +62,14 @@ def register_chat_callbacks(app):
         Output("chat-drawer", "opened"),
         Output("chat-aside", "children"),
         Output("chat-drawer", "children"),
+        Output("chat-toggle", "style"),
         Input("chat-state-store", "data"),
     )
     def render_chat(state):
         state = state or "closed"
 
         if state == "pinned":
-            return ASIDE_SHOWN, False, build_chat_panel(pinned=True), None
+            return ASIDE_SHOWN, False, build_chat_panel(pinned=True), None, {"display": "none"}
         if state == "overlay":
-            return ASIDE_HIDDEN, True, None, build_chat_panel(pinned=False)
-        return ASIDE_HIDDEN, False, None, None
+            return ASIDE_HIDDEN, True, None, build_chat_panel(pinned=False), {"display": "none"}
+        return ASIDE_HIDDEN, False, None, None, {}

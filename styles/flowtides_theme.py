@@ -509,7 +509,7 @@ APPSHELL_CONFIG = {
                 "collapsed": {"mobile": True, "desktop": False},
                 "font": {"family": FONT_BODY, "color": [1, BLUE[6]], "size": 16},
                 },
-    "padding": "md",
+    "padding": "sm",
 }
 
 # Responsive GridCol spans — pass as span=SPAN_THIRD etc.

@@ -16,18 +16,29 @@ def page_header(title, action=None, order=3, divider=True):
         order:   dmc.Title order.
         divider: append a bottom Divider when True.
     """
-    header = dmc.Flex(
-        [
-            dmc.Title(title, order=order),
-            action if action is not None else None,
-        ],
-        direction={"base": "column", "xs": "row"},
-        justify="space-between",
-        align={"base": "stretch", "xs": "center"},
-        gap={"base": "xs", "xs": "sm"},
-        px="5px",
-        mb="5px",
-    )
+    title_node = dmc.Title(title, order=order, ta="center")
+
+    if action is None:
+        header = dmc.Flex(
+            [title_node],
+            justify="center",
+            align="center",
+            px="5px",
+            mb="0px",
+        )
+    else:
+        header = dmc.Flex(
+            [
+                title_node,
+                action,
+            ],
+            direction={"base": "column", "xs": "row"},
+            justify="space-between",
+            align={"base": "stretch", "xs": "center"},
+            gap={"base": "xs", "xs": "sm"},
+            px="5px",
+            mb="0px",
+        )
     if divider:
         return dmc.Box([header, dmc.Divider(mb="md")])
     return header

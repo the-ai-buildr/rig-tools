@@ -58,7 +58,7 @@ def build_chat_panel(pinned: bool = False):
         [
             dmc.Group(
                 [
-                    DashIconify(icon="tabler:message-circle", width=20),
+                    DashIconify(icon="tabler:brand-twitch", width=20, flip="horizontal"),
                     dmc.Title("Chat", order=4, lh=1),
                 ],
                 gap=8,
@@ -91,8 +91,9 @@ def build_chat_panel(pinned: bool = False):
         justify="space-between",
         align="center",
         px="md",
-        py="xs",
+        py="sm",
         wrap="nowrap",
+        style={"minHeight": "44px"},
     )
 
     messages = dmc.ScrollArea(
