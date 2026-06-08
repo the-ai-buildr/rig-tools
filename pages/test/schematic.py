@@ -9,6 +9,7 @@ dash.register_page(__name__, path="/test/schematic")
 
 
 layout = page_body(
-    page_header("Test Components"),
-    schematic_card("Schematic Title", "Value", "tabler:device-laptop", color="gray")
+    schematic_card("Benedum 3J 10H", "Active", "tabler:device-laptop", color="blue"),
+    p=0,
+    style={"height": "calc(100dvh - 42px - 2rem)"},
 )

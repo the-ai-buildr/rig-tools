@@ -1,38 +1,50 @@
 import dash_mantine_components as dmc
+from dash import dcc
 from dash_iconify import DashIconify
-
+from components.visuals.shematic import get_schematic_figure
 
 def schematic_card(title, value, icon, color="gray"):
     return dmc.Paper(
-        dmc.Flex(
+        dmc.Stack(
             [
-                dmc.Stack(
+                dmc.Flex(
                     [
-                        dmc.Text(title, size="xs", c="dimmed", tt="uppercase", fw=600),
-                        dmc.Text(value, size="xl", fw=700),
+                        dmc.Stack(
+                            [
+                                dmc.Text(title, size="sm", c="dimmed", tt="uppercase", fw=600),
+                                dmc.Text(value, size="xs", fw=700),
+                            ],
+                            gap=2,
+                            style={"flex": 1},
+                        ),
+                        dmc.ThemeIcon(
+                            DashIconify(icon=icon, width=20),
+                            size="lg",
+                            radius="md",
+                            color=color,
+                            variant="light",
+                        ),
                     ],
-                    gap=2,
-                    style={"flex": 1},
+                    align="center",
+                    justify="space-between",
                 ),
-                dmc.ThemeIcon(
-                    DashIconify(icon=icon, width=20),
-                    size="lg",
-                    radius="md",
-                    color=color,
-                    variant="light",
+                dcc.Graph(
+                    figure=get_schematic_figure(),
+                    config={"displayModeBar": False, "responsive": True},
+                    style={"height": "100%", "width": "100%", "flex": 1, "minHeight": 0},
                 ),
             ],
-            align="center",
-            justify="space-between",
-            
+            gap="xs",
             h="100%",
+            style={"flex": 1, "minHeight": 0},
             px="md",
-            py="xs",
+            py="sm",
         ),
-        h=75,
-        mt=2,
+        h="100%",
+        w="25%",
+        mt=0,
         radius="md",
         withBorder=True,
         className="schematic-card",
-        style={"flex": "1 1 160px"},
+        style={"flex": "1 1 160px", "display": "flex", "minHeight": 0, "height": "100%"},
     )
