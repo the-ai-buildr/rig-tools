@@ -13,12 +13,16 @@ from data.entities import User
 from data.supabase_client import get_service_client
 
 
-def _emails_by_id() -> dict[str, str]:
-    """Map auth user id → email across all users (admin listing)."""
+def _auth_users():
+    """Return all auth users from GoTrue admin API."""
     client = get_service_client()
     resp = client.auth.admin.list_users(per_page=1000)
-    users = resp if isinstance(resp, list) else getattr(resp, "users", []) or []
-    return {u.id: (u.email or "") for u in users}
+    return resp if isinstance(resp, list) else getattr(resp, "users", []) or []
+
+
+def _emails_by_id() -> dict[str, str]:
+    """Map auth user id → email across all users (admin listing)."""
+    return {u.id: (u.email or "") for u in _auth_users()}
 
 
 def _build_user(profile: dict, email: Optional[str]) -> User:
@@ -35,11 +39,42 @@ def _build_user(profile: dict, email: Optional[str]) -> User:
     )
 
 
+def _build_auth_only_user(auth_user) -> User:
+    """Fallback model when an auth user exists but no profile row is present."""
+    metadata = getattr(auth_user, "user_metadata", None) or {}
+    email = getattr(auth_user, "email", None)
+    email_local = (email or "").split("@")[0] if email else ""
+    return User(
+        id=getattr(auth_user, "id"),
+        username=metadata.get("username") or email_local or None,
+        full_name=metadata.get("full_name") or "",
+        email=email,
+        role=metadata.get("role") or "viewer",
+        is_active=True,
+        preferences={},
+        created_at=getattr(auth_user, "created_at", None),
+        updated_at=getattr(auth_user, "updated_at", None),
+    )
+
+
 def list_users() -> list[User]:
     client = get_service_client()
     profiles = client.table("profiles").select("*").execute().data or []
-    emails = _emails_by_id()
-    return [_build_user(p, emails.get(p["id"])) for p in profiles]
+    auth_users = _auth_users()
+
+    users_by_id: dict[str, User] = {}
+    emails_by_id = {u.id: (u.email or "") for u in auth_users}
+
+    for profile in profiles:
+        users_by_id[profile["id"]] = _build_user(profile, emails_by_id.get(profile["id"]))
+
+    # Include auth users missing a profile row so they appear in admin UI.
+    for auth_user in auth_users:
+        uid = getattr(auth_user, "id", None)
+        if uid and uid not in users_by_id:
+            users_by_id[uid] = _build_auth_only_user(auth_user)
+
+    return list(users_by_id.values())
 
 
 def get_user(user_id: str) -> Optional[User]:
@@ -47,15 +82,22 @@ def get_user(user_id: str) -> Optional[User]:
     rows = (
         client.table("profiles").select("*").eq("id", user_id).limit(1).execute().data
     )
-    if not rows:
-        return None
-    email = None
+
+    auth_user = None
     try:
         au = client.auth.admin.get_user_by_id(user_id)
-        email = getattr(getattr(au, "user", None), "email", None)
+        auth_user = getattr(au, "user", None)
     except Exception:
-        email = _emails_by_id().get(user_id)
-    return _build_user(rows[0], email)
+        auth_user = None
+
+    if rows:
+        email = getattr(auth_user, "email", None) if auth_user else _emails_by_id().get(user_id)
+        return _build_user(rows[0], email)
+
+    if auth_user:
+        return _build_auth_only_user(auth_user)
+
+    return None
 
 
 def get_user_by_email(email: str) -> Optional[User]:

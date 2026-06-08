@@ -81,6 +81,45 @@ def register_auth_callbacks(app):
         return None
 
     @app.callback(
+        Output("auth-store", "data", allow_duplicate=True),
+        Input("route-location", "pathname"),
+        State("auth-store", "data"),
+        prevent_initial_call=True,
+    )
+    def sync_auth_from_profile(_pathname, auth):
+        """Refresh name/role from Supabase profiles so UI stays in sync with DB changes."""
+        if not auth:
+            return no_update
+
+        user_id = auth.get("user_id")
+        if not user_id:
+            return no_update
+
+        profile = user_repo.get_user(user_id)
+        if profile is None or not profile.is_active:
+            # User removed/deactivated in DB: clear session.
+            return None
+
+        merged = {
+            **auth,
+            "email": profile.email or auth.get("email"),
+            "username": profile.username,
+            "full_name": profile.full_name,
+            "role": profile.role,
+        }
+
+        # Avoid unnecessary store writes.
+        if (
+            merged.get("email") == auth.get("email")
+            and merged.get("username") == auth.get("username")
+            and merged.get("full_name") == auth.get("full_name")
+            and merged.get("role") == auth.get("role")
+        ):
+            return no_update
+
+        return merged
+
+    @app.callback(
         Output("profile-link", "label"),
         Output("profile-link", "description"),
         Input("auth-store", "data"),
