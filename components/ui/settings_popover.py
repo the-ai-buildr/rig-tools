@@ -2,20 +2,7 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
 from components.ui.theme_toggle import theme_toggle
-
-# Curated accent swatches — value drives the live --brand CSS var (clientside).
-ACCENT_SWATCHES = [
-    ("neutral", "#71717a"),
-    ("blue",    "#3b82f6"),
-    ("violet",  "#8b5cf6"),
-    ("green",   "#22c55e"),
-    ("amber",   "#f59e0b"),
-    ("orange",  "#f97316"),
-    ("red",     "#ef4444"),
-    ("rose",    "#f43f5e"),
-    ("cyan",    "#06b6d4"),
-]
-
+from styles.flowtides_theme import ACCENT_SWATCHES
 
 def _accent_swatch(key: str, color: str) -> dmc.Tooltip:
     return dmc.Tooltip(

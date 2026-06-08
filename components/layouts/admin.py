@@ -23,8 +23,8 @@ nav_bar = dmc.AppShellHeader(
                 opened=False,
             ),
             dmc.Group([
-                    DashIconify(icon="tabler:shield-checkered", width=24, color="hsl(var(--foreground))"),
-                    dmc.Title("Rig Tools - Admin", c="hsl(var(--foreground))", order=3, lh=1),
+                    DashIconify(icon="tabler:shield-checkered", width=24),
+                    dmc.Title("Rig Tools - Admin", order=3, lh=1),
                 ],
                 gap=6,
                 ml="7px",

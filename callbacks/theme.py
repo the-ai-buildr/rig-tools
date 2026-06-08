@@ -1,8 +1,11 @@
 
+import json
+
 import dash
 
 from dash import Input, Output, State, ALL, ctx, no_update
 
+from styles.flowtides_theme import ACCENT_HEX_BY_KEY, DEFAULT_ACCENT_KEY
 from utils import landing_content
 
 
@@ -25,6 +28,25 @@ LANDING_NAVBAR = {
     "breakpoint": "sm",
     "collapsed": {"mobile": True, "desktop": True},
 }
+
+ACCENT_COLOR_MAP_JSON = json.dumps(ACCENT_HEX_BY_KEY, separators=(",", ":"))
+ACCENT_CLIENT_CALLBACK = """
+        function(accent) {
+            var map = __MAP__;
+            var root = document.documentElement;
+            if (!accent || accent === "neutral") {
+                root.style.setProperty("--brand", "hsl(var(--foreground))");
+                root.style.setProperty("--brand-foreground", "hsl(var(--background))");
+                root.style.setProperty("--brand-contrast", "hsl(var(--background))");
+            } else {
+                var c = map[accent] || map["__DEFAULT__"];
+                root.style.setProperty("--brand", c);
+                root.style.setProperty("--brand-foreground", "#ffffff");
+                root.style.setProperty("--brand-contrast", "#ffffff");
+            }
+            return "";
+        }
+        """.replace("__MAP__", ACCENT_COLOR_MAP_JSON).replace("__DEFAULT__", DEFAULT_ACCENT_KEY)
 
 
 def register_theme_callbacks(app):
@@ -85,27 +107,7 @@ def register_theme_callbacks(app):
     # Apply the chosen accent to --brand on :root (runs on load with the
     # persisted value, and on every swatch click).
     app.clientside_callback(
-        """
-        function(accent) {
-            var map = {
-                blue:   "#3b82f6", violet: "#8b5cf6", green:  "#22c55e",
-                amber:  "#f59e0b", orange: "#f97316", red:    "#ef4444",
-                rose:   "#f43f5e", cyan:   "#06b6d4"
-            };
-            var root = document.documentElement;
-            if (!accent || accent === "neutral") {
-                root.style.setProperty("--brand", "hsl(var(--foreground))");
-                root.style.setProperty("--brand-foreground", "hsl(var(--background))");
-                root.style.setProperty("--brand-contrast", "hsl(var(--background))");
-            } else {
-                var c = map[accent] || map.blue;
-                root.style.setProperty("--brand", c);
-                root.style.setProperty("--brand-foreground", "#ffffff");
-                root.style.setProperty("--brand-contrast", "#ffffff");
-            }
-            return "";
-        }
-        """,
+        ACCENT_CLIENT_CALLBACK,
         Output("accent-dummy", "data"),
         Input("accent-store", "data"),
     )

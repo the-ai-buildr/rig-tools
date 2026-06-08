@@ -38,6 +38,16 @@
     --brand:             #3b82f6;
     --brand-foreground:  #ffffff;
     --brand-contrast:    #ffffff;
+
+    /* Shared UI utility tokens */
+    --surface-sidebar: hsl(0 0% 98%);
+    --brand-soft-12: color-mix(in srgb, var(--brand) 12%, transparent);
+    --brand-soft-18: color-mix(in srgb, var(--brand) 18%, transparent);
+    --brand-soft-40-border: color-mix(in srgb, var(--brand) 40%, hsl(var(--border)));
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --transition-fast: 120ms ease;
+    --transition-base: 200ms ease;
+    --transition-panel: 300ms ease;
 }
 
 [data-mantine-color-scheme="dark"] {
@@ -60,6 +70,7 @@
     --border:                0 0% 14.9%;
     --input:                 0 0% 14.9%;
     --ring:                  0 0% 83.1%;
+    --surface-sidebar:       hsl(0 0% 8%);
 }
 
 
@@ -82,8 +93,8 @@
     --mantine-primary-color-filled:        var(--brand);
     --mantine-primary-color-filled-hover:  color-mix(in srgb, var(--brand) 88%, black);
     --mantine-primary-color-contrast:      var(--brand-contrast);
-    --mantine-primary-color-light:         color-mix(in srgb, var(--brand) 12%, transparent);
-    --mantine-primary-color-light-hover:   color-mix(in srgb, var(--brand) 18%, transparent);
+    --mantine-primary-color-light:         var(--brand-soft-12);
+    --mantine-primary-color-light-hover:   var(--brand-soft-18);
     --mantine-primary-color-light-color:   var(--brand);
 
     /* Accent color = "blue" — remap the whole blue scale to the live --brand
@@ -103,11 +114,11 @@
     /* Variant tokens consumed by Button/Badge/ThemeIcon/etc. for color="blue" */
     --mantine-color-blue-filled:        var(--brand);
     --mantine-color-blue-filled-hover:  color-mix(in srgb, var(--brand) 88%, black);
-    --mantine-color-blue-light:         color-mix(in srgb, var(--brand) 12%, transparent);
-    --mantine-color-blue-light-hover:   color-mix(in srgb, var(--brand) 18%, transparent);
+    --mantine-color-blue-light:         var(--brand-soft-12);
+    --mantine-color-blue-light-hover:   var(--brand-soft-18);
     --mantine-color-blue-light-color:   var(--brand);
     --mantine-color-blue-outline:       var(--brand);
-    --mantine-color-blue-outline-hover: color-mix(in srgb, var(--brand) 12%, transparent);
+    --mantine-color-blue-outline-hover: var(--brand-soft-12);
     --mantine-color-blue-text:          var(--brand);
 }
 
@@ -128,13 +139,8 @@ body,
     border-color: hsl(var(--border));
 }
 
-/* Sidebar — super light gray surface to set it apart from the canvas. */
 .mantine-AppShell-navbar {
-    background-color: hsl(0 0% 98%);
-}
-
-[data-mantine-color-scheme="dark"] .mantine-AppShell-navbar {
-    background-color: hsl(0 0% 8%);
+    background-color: var(--surface-sidebar);
 }
 
 .mantine-Popover-dropdown,
@@ -150,6 +156,12 @@ body,
 
 /* Ensure full-height layout for AppShell wrapper */
 .dmc {
+    height: 100%;
+}
+
+html,
+body,
+#_dash-app-content {
     height: 100%;
 }
 
@@ -184,7 +196,7 @@ body,
    currentColor from the link, so the chosen accent drives the icon too. */
 .mantine-AppShell-navbar .mantine-NavLink-root[data-active],
 .mantine-AppShell-navbar .mantine-NavLink-root[data-active]:hover {
-    background-color: color-mix(in srgb, var(--brand) 12%, transparent);
+    background-color: var(--brand-soft-12);
     color: var(--brand);
     font-weight: 600;
 }
@@ -237,7 +249,7 @@ body,
 /* ── Chat aside / drawer ─────────────────────────────────────── */
 
 .mantine-AppShell-aside {
-    transition: transform 300ms ease, width 300ms ease;
+    transition: transform var(--transition-panel), width var(--transition-panel);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -252,18 +264,18 @@ body,
 .metric-card {
     background-color: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    transition: border-color 200ms ease, box-shadow 200ms ease;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .metric-card:hover {
-    border-color: color-mix(in srgb, var(--brand) 40%, hsl(var(--border)));
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    border-color: var(--brand-soft-40-border);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Card delete action — muted by default, red on hover (consistent across cards) */
 .card-delete {
     color: hsl(var(--muted-foreground));
-    transition: color 150ms ease, background-color 150ms ease;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .card-delete:hover {
@@ -277,7 +289,7 @@ body,
 .accent-swatch {
     cursor: pointer;
     border: 2px solid transparent;
-    transition: transform 120ms ease, border-color 120ms ease;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .accent-swatch:hover {

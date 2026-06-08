@@ -8,6 +8,6 @@ theme_toggle = dmc.Switch(
     onLabel=DashIconify(icon="tabler:moon", width=15, color="var(--mantine-color-blue-6)"),
     id="color-scheme-switch",
     persistence=True,
-    color="grey",
+    color="gray",
     size="md",
 )

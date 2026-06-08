@@ -29,6 +29,7 @@ NAV_ITEMS = [
     {"label": "Files", "icon": "tabler:folder-open", "href": "/files",},
     {"label": "Tools", "icon": "tabler:tools", "href": "/tools",},
     {"label": "Calculators", "icon": "tabler:calculator", "href": "/calculators",},
+    {"label": "Test Components", "icon": "tabler:flask", "href": "/test/schematic",},
 ]
 
 # ---------------------------------------------------------------------------

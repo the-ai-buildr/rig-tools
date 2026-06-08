@@ -53,6 +53,21 @@ RED    = {4: "#F87171", 5: "#EF4444", 6: "#DC2626", 7: "#B91C1C"}
 PURPLE = {4: "#C084FC", 5: "#A855F7", 6: "#9333EA", 7: "#7C3AED"}
 CYAN   = {4: "#22D3EE", 5: "#06B6D4", 6: "#0891B2", 7: "#0E7490"}
 
+# Shared accent palette used by settings UI and theme callback.
+ACCENT_SWATCHES = [
+    ("neutral", "#71717a"),
+    ("blue",    "#3b82f6"),
+    ("violet",  "#8b5cf6"),
+    ("green",   "#22c55e"),
+    ("amber",   "#f59e0b"),
+    ("orange",  "#f97316"),
+    ("red",     "#ef4444"),
+    ("rose",    "#f43f5e"),
+    ("cyan",    "#06b6d4"),
+]
+ACCENT_HEX_BY_KEY = {k: v for k, v in ACCENT_SWATCHES if k != "neutral"}
+DEFAULT_ACCENT_KEY = "blue"
+
 # ─────────────────────────────────────────────────────────────────
 # 2. TYPOGRAPHY
 # ─────────────────────────────────────────────────────────────────
@@ -584,6 +599,9 @@ __all__ = [
     "style_section_header",
     "style_divider_dark",
     "style_divider_light",
+    "ACCENT_SWATCHES",
+    "ACCENT_HEX_BY_KEY",
+    "DEFAULT_ACCENT_KEY",
     "BLUE", "SLATE", "GREEN", "YELLOW", "RED", "PURPLE", "CYAN",
     "FONT_DISPLAY", "FONT_BODY", "FONT_MONO",
 ]

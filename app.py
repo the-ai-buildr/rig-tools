@@ -7,7 +7,7 @@ from components.layouts.dashboard import nav_bar, sidebar
 from components.ui.chat_drawer import chat_aside, chat_drawer, CHAT_WIDTH
 from callbacks.register import register_callbacks
 from api import register_api
-from styles.flowtides_theme import dmc_theme
+from styles.flowtides_theme import dmc_theme, APPSHELL_CONFIG
 
 # App Setup
 app = Dash(
@@ -31,18 +31,14 @@ layout = dmc.AppShell([
         chat_aside,
         body,
     ],
-    header={"height": 42},
-    navbar={
-        "width": {"base": 225, "md": 225, "lg": 225},
-        "breakpoint": "sm",
-        "collapsed": {"mobile": True, "desktop": False},
-    },
+    header=APPSHELL_CONFIG["header"],
+    navbar=APPSHELL_CONFIG["navbar"],
     aside={
         "width": CHAT_WIDTH,
         "breakpoint": "md",
         "collapsed": {"mobile": True, "desktop": True},
     },
-    padding="sm",
+    padding=APPSHELL_CONFIG["padding"],
     id="appshell",
     className="dmc",
 )
