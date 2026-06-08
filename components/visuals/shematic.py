@@ -50,6 +50,7 @@ def get_schematic_figure(data=None):
         line=dict(color="black", width=2)
     )
 
+    # Wellbore Lines
     fig.add_trace(
         go.Scatter(
             x=fill_x,
@@ -76,6 +77,8 @@ def get_schematic_figure(data=None):
             hoverinfo="skip",
         )
     )
+    
+    # Right Wellbore
     fig.add_trace(
         go.Scatter(
             x=right_x,
@@ -87,19 +90,35 @@ def get_schematic_figure(data=None):
             hoverinfo="skip",
         )
     )
+    
+    # Bottom Wellbore
     fig.add_trace(
         go.Scatter(
             x=[left_x[-1], right_x[-1]],
             y=[y[-1], y[-1]],
             mode="lines",
-            line=dict(color=wellbore_color, width=3),
+            line=dict(color=wellbore_color, width=2),
             name="Bottom wellbore",
             showlegend=False,
             hoverinfo="skip",
         )
     )
     
-    fig.update_yaxes(autorange="reversed")
+    # Y-axis updates
+    fig.update_yaxes(                                       # set y-axis range to show full depth with some padding
+        title_text="Depth (ft)",
+        ticks="outside",
+        nticks=12,
+        # dtick=1000,
+        # range=[0, None],                                    # No ticks less than 0
+        title_font=dict(size=10, color="rgba(120,120,120,1)"),
+        tickfont=dict(size=9, color="rgba(120,120,120,1)"),
+        tickformat=",.0f",
+        title_standoff=4
+    )
+    fig.update_yaxes(autorange="reversed")                  # reverse y-axis to have depth increasing downwards
+   
+    # X-axis updates
     fig.update_xaxes(range=[-20, 20], fixedrange=True)
 
     # Set a compact layout for embedding inside card-like UI.
