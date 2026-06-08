@@ -49,6 +49,22 @@ ACCENT_CLIENT_CALLBACK = """
         """.replace("__MAP__", ACCENT_COLOR_MAP_JSON).replace("__DEFAULT__", DEFAULT_ACCENT_KEY)
 
 
+def _name_initials(value: str) -> str:
+    if not value:
+        return "U"
+    cleaned = value.strip()
+    if not cleaned:
+        return "U"
+    if "@" in cleaned:
+        return cleaned[0].upper()
+    parts = [p for p in cleaned.split() if p]
+    if not parts:
+        return "U"
+    if len(parts) == 1:
+        return parts[0][0].upper()
+    return (parts[0][0] + parts[-1][0]).upper()
+
+
 def register_theme_callbacks(app):
     @app.callback(
         Output("theme-provider", "forceColorScheme"),
@@ -56,6 +72,21 @@ def register_theme_callbacks(app):
     )
     def set_theme_color_scheme(switch_on):
         return "dark" if switch_on else "light"
+
+    @app.callback(
+        Output("footer-user-name", "children"),
+        Output("footer-user-avatar", "children"),
+        Output("admin-nav-link", "display"),
+        Input("auth-store", "data"),
+    )
+    def sync_sidebar_user_state(auth):
+        if not auth:
+            return "User", "U", "none"
+
+        name = auth.get("full_name") or auth.get("username") or auth.get("email") or "User"
+        role = (auth.get("role") or "").strip().lower()
+        is_admin = role in {"admin", "administrator"}
+        return name, _name_initials(name), ("block" if is_admin else "none")
 
     @app.callback(
         Output("appshell", "navbar"),

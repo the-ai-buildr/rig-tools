@@ -62,6 +62,7 @@ def register_auth_callbacks(app):
         data = {
             "user_id": user.id,
             "email": user.email or email,
+            "username": profile.username,
             "full_name": profile.full_name,
             "role": profile.role,
             "access_token": session.access_token,
@@ -87,4 +88,7 @@ def register_auth_callbacks(app):
     def show_profile(auth):
         if not auth:
             return "Profile", None
-        return auth.get("full_name") or auth.get("email"), auth.get("role")
+        return (
+            auth.get("full_name") or auth.get("username") or auth.get("email"),
+            auth.get("role"),
+        )
