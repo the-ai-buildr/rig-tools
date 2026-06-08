@@ -35,8 +35,10 @@ def _message_bubble(role: str, text: str):
             p="sm",
             radius="md",
             withBorder=not is_user,
-            bg="var(--mantine-color-blue-light)" if is_user else None,
-            style={"maxWidth": "85%"},
+            style={
+                "maxWidth": "85%",
+                "backgroundColor": "var(--mantine-color-blue-light)" if is_user else None,
+            },
         ),
         justify="flex-end" if is_user else "flex-start",
         w="100%",
